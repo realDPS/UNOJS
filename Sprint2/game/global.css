@@ -6,7 +6,7 @@
 html,
 body {
   height: 100vh;
-  background-image: url("../space-vacuum.webp");
+  background-image: url("space-vacuum.webp");
   background-size: cover;
   background-position: bottom center;
 }
