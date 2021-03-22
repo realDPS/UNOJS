@@ -40,7 +40,7 @@ for (let col = 0; col < colors.length; col++)
 	// deck.push([colors[i], specialCards[j]]);
 	
 }
-console.log(deck);
+
 
 //add wildcards
 for (let i = 0; i < 2; i++) {
@@ -52,7 +52,8 @@ for (let i = 0; i < 2; i++) {
 }
 
 //Randomize array using Durstenfeld
-function shuffle(array) {
+const shuffle =(array)=> {
+
 	for (var i = array.length - 1; i > 0; i--) {
 		var j = Math.floor(Math.random() * (i + 1));
 		var temp = array[i];
@@ -60,6 +61,9 @@ function shuffle(array) {
 		array[j] = temp;
 	}
 }
+
+const dealCard =()=> deck.shift();
+
 
 shuffle(deck);
 console.log(deck);
