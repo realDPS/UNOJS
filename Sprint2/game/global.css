@@ -3,7 +3,7 @@
   padding: 0;
 }
 
-html,
+/* html,
 body {
   height: 100vh;
   background-image: url("space-vacuum.webp");
@@ -24,4 +24,11 @@ img {
   position: absolute;
   top: 100px;
   left: 100px;
+} */
+
+.playerDeck {
+  height: 150px;
+  position: absolute;
+  color: black;
+  background-color: red;
 }
