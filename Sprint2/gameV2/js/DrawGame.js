@@ -10,7 +10,8 @@ window.addEventListener("load", ()=>{
     canvas = document.querySelector("#canvas");
     canvasHeight = canvas.height;
     canvasWidth = canvas.width;
-    
+    console.log(canvasWidth);
+    console.log(canvasHeight);
     ctx = canvas.getContext("2d");//like graphics java
     
     
@@ -47,7 +48,7 @@ const drawEnDeck=()=>{
     for (let nbPlayer = 1; nbPlayer <= currentPlayers; nbPlayer++) {
 
         if(nbPlayer==1){
-            deckX = canvasWidth-nbOfCard*cardSizeX/2*hideAportion;
+            deckX =(canvasWidth/2)-nbOfCard*cardSizeX/2;
             deckY = 0;//border
             color = "black";
         }
@@ -71,17 +72,17 @@ const drawEnDeck=()=>{
             }
             // ctx.fillStyle = cardMainColor;
             
-            if(nbPlayer==1){
+            if(nbPlayer==1){//arrange cards horizontally
                 cardPosition = deckX+cardSizeX*hideAportion*index;
                 ctx.fillRect(cardPosition,deckY,cardSizeX,cardSizeY);//Inside
                 ctx.fillStyle = color;
                 ctx.strokeRect(cardPosition,deckY,cardSizeX,cardSizeY);//contour
             }
-            else{
+            else{//arrange cards vertically
                 cardPosition = deckY+cardSizeX*hideAportion*index;
-                ctx.fillRect(deckX,cardPosition,cardSizeX,cardSizeY);//Inside
+                ctx.fillRect(deckX,cardPosition,cardSizeY,cardSizeX);//Inside
                 ctx.fillStyle = color;
-                ctx.strokeRect(cardPosition,deckY,cardSizeX,cardSizeY);//contour
+                ctx.strokeRect(deckX,cardPosition,cardSizeY,cardSizeX);//contour
             }
             
             
@@ -107,13 +108,15 @@ const drawPlayerDeck=()=>{
     let nbCards=5;
     //decky = canvasHeight
     let deckY = 1;//size vertical - cardSizeY
-    let deckX = 1;//mid horizontal - nbOfCard*sizeCardY/2
+    let deckX =(canvasWidth/2)-nbCards*cardSizeX/2;
+    
 
+    console.log(deckX);
     for (let index = 0; index < nbCards; index++) {
         
         cardPositionX = deckX+cardSizeX*hideAportion*index;
         ctx.fillStyle = "yellow";
-        console.log(cardPositionX);
+        // console.log(cardPositionX);
         ctx.fillRect(cardPositionX,deckY,cardSizeX,cardSizeY);//Inside
         ctx.fillStyle = color;
         ctx.strokeRect(cardPositionX,deckY,cardSizeX,cardSizeY);//contour
