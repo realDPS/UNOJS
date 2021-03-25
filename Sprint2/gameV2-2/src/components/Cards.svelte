@@ -3,6 +3,10 @@
   export let value: Value | Number;
 
   let isSpecial = color ? false : true;
+
+  function clickAction() {
+    console.log(`You clicked the card ${value}`);
+  }
 </script>
 
 <style>
@@ -17,4 +21,5 @@
   src={`../assets/Cards/${color}_${value}.png`}
   alt={`${color} - ${value}`}
   draggable={false}
+  on:click={clickAction}
 />

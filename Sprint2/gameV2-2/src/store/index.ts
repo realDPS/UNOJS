@@ -1,3 +1,9 @@
-import {writable} from "svelte/store"
+import {writable, Writable} from "svelte/store"
 
-export let number = writable(0)
+let state : GameState = {
+    order:"clockwise",
+    turn: "Player 1",
+    uno: null 
+}
+
+export let GameState: Writable<GameState> = writable(state)

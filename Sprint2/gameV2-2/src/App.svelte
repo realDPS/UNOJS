@@ -1,11 +1,11 @@
 <script lang="ts">
-  import Add from "./components/Add.svelte";
+  import Card from "./components/Cards.svelte";
+  import { GameState } from "./store";
 </script>
 
 <style>
 </style>
 
 <main>
-  <Add />
-  <Add />
+  <Card color="Blue" value={8} />
 </main>
