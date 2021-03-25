@@ -3,6 +3,7 @@ let cardSizeX = 120, cardSizeY=200;
 let border = 20;
 let cardMainColor = "blue";
 let canvasWidth=1,canvasHeight=1;
+let hideAportion = 3/4;
 
 window.addEventListener("load", ()=>{
 
@@ -12,13 +13,11 @@ window.addEventListener("load", ()=>{
     
     ctx = canvas.getContext("2d");//like graphics java
     
-    ctx.fillStyle = "black";
-    ctx.fillRect(150,200,120,200);//Inside
-    ctx.fillStyle = "rgba(200,0,0,0.5)";
-    ctx.strokeRect(150,200,120,200);//contour
+    
 
     //with this one, spam rect on mouse pos
     // canvas.onmousemove 
+    tick();
 
     canvas.onclick = e=>{
         let x = e.pageX-canvas.offsetLeft;
@@ -35,8 +34,12 @@ window.addEventListener("load", ()=>{
 
 });
 
+
+
+
 //check if ctx work. Use drawBoard as param
 const drawEnDeck=()=>{
+    
     let currentPlayers = 3;//temp
     let deckX, deckY,color;
     let nbOfCard=5;//temp
@@ -44,34 +47,38 @@ const drawEnDeck=()=>{
     for (let nbPlayer = 1; nbPlayer <= currentPlayers; nbPlayer++) {
 
         if(nbPlayer==1){
-            deckX = canvasWidth-nbOfCard*cardSizeX/2/2;
+            deckX = canvasWidth-nbOfCard*cardSizeX/2*hideAportion;
             deckY = 0;//border
             color = "black";
         }
         else{
             deckX = 0;//border
             if(nbPlayer==3)
-                deckX = canvasWidth - (cardSizeY/2)/2;
+                deckX = canvasWidth - (cardSizeY/2)*hideAportion;
 
-            deckY = canvasHeight - (nbOfCard*cardSizeX/2)/2;
-            color = "rgba(200,0,0,0.5)";
+            deckY = canvasHeight - (nbOfCard*cardSizeX/2)*hideAportion;
+            color = "black";//rgba(200,0,0,0.5)
         }
 
         //draw all cards of player X
         let cardPosition;
         let nbCards = 5;
         for (let index = 0; index < nbCards; index++) {
-            
-            ctx.fillStyle = cardMainColor;
+            switch(nbPlayer){
+                case 1: ctx.fillStyle = "red";break;
+                case 2: ctx.fillStyle = "green";break;
+                case 3: ctx.fillStyle = "blue";break;
+            }
+            // ctx.fillStyle = cardMainColor;
             
             if(nbPlayer==1){
-                cardPosition = deckX+cardSizeX/2*index;
+                cardPosition = deckX+cardSizeX*hideAportion*index;
                 ctx.fillRect(cardPosition,deckY,cardSizeX,cardSizeY);//Inside
                 ctx.fillStyle = color;
                 ctx.strokeRect(cardPosition,deckY,cardSizeX,cardSizeY);//contour
             }
             else{
-                cardPosition = deckY+cardSizeX/2*index;
+                cardPosition = deckY+cardSizeX*hideAportion*index;
                 ctx.fillRect(deckX,cardPosition,cardSizeX,cardSizeY);//Inside
                 ctx.fillStyle = color;
                 ctx.strokeRect(cardPosition,deckY,cardSizeX,cardSizeY);//contour
@@ -95,21 +102,21 @@ const drawEnDeck=()=>{
 // for loop of nbCard: if Mouse >=baseX+i*cardSizeX/2 and mouse<=cardbaseX+(i+1)*cardSizeX/2 return i
 
 const drawPlayerDeck=()=>{
-    let color;
+    let color="black";
     let cardPositionX,cardPositionY;
     let nbCards=5;
-
+    //decky = canvasHeight
     let deckY = 1;//size vertical - cardSizeY
     let deckX = 1;//mid horizontal - nbOfCard*sizeCardY/2
 
     for (let index = 0; index < nbCards; index++) {
         
-        cardPositionX = deckX+cardSizeX/2*index;
-        ctx.fillStyle = cardMainColor;
-        
-        ctx.fillRect(deckX,deckY,cardSizeX,cardSizeY);//Inside
+        cardPositionX = deckX+cardSizeX*hideAportion*index;
+        ctx.fillStyle = "yellow";
+        console.log(cardPositionX);
+        ctx.fillRect(cardPositionX,deckY,cardSizeX,cardSizeY);//Inside
         ctx.fillStyle = color;
-        ctx.strokeRect(150,200,cardSizeX,cardSizeY);//contour
+        ctx.strokeRect(cardPositionX,deckY,cardSizeX,cardSizeY);//contour
         
     }
 }
@@ -121,4 +128,28 @@ document.onkeyup=e=>{
         ctx.fillStyle="white";
         ctx.clearRect(0,0,canvas.width,canvas.height);
     }
+}
+
+const tick = () => {
+
+    ctx.fillStyle = "black";
+    ctx.fillRect(150,200,120,200);//Inside
+    ctx.fillStyle = "rgba(200,0,0,0.5)";
+    ctx.strokeRect(150,200,120,200);//contour
+
+	// ctx.fillStyle = "white";
+	// ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+	// for (let i = 0; i < spriteList.length; i++) {
+	// 	let alive = spriteList[i].tick();
+
+	// 	if (!alive) {
+	// 		spriteList.splice(i, 1);
+	// 		i--;
+	// 	}
+	// }
+    
+    drawEnDeck();
+    drawPlayerDeck();
+	window.requestAnimationFrame(tick);
 }
