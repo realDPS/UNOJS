@@ -46,16 +46,16 @@ const drawEnDeck=()=>{
     for (let nbPlayer = 1; nbPlayer <= currentPlayers; nbPlayer++) {
 
         if(nbPlayer==1){
-            deckX =(canvasWidth/2)-nbOfCard*cardSizeX/2;
-            deckY = 0;//border
+            deckX =(canvasWidth/2)-nbOfCard*cardSizeX/2*hideAportion;
+            deckY = 0;
             color = "black";
         }
         else{
-            deckX = 0;//border
+            deckX = 0;//player 2
             if(nbPlayer==3)
-                deckX = canvasWidth - (cardSizeY/2)*hideAportion;
+                deckX = canvasWidth - cardSizeY;
 
-            deckY = canvasHeight - (nbOfCard*cardSizeX/2)*hideAportion;
+            deckY = canvasHeight/2 - (nbOfCard*cardSizeX/2)*hideAportion;
             color = "black";//rgba(200,0,0,0.5)
         }
 
@@ -106,7 +106,7 @@ const drawPlayerDeck=()=>{
     let nbCards=5;
     //decky = canvasHeight
     let deckY = canvasHeight-cardSizeY;//size vertical - cardSizeY
-    let deckX =(canvasWidth/2)-nbCards*cardSizeX/2;
+    let deckX =(canvasWidth/2)-nbCards*cardSizeX/2*hideAportion;
     
 
     console.log(deckY);
