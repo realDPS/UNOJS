@@ -8,9 +8,10 @@ html {
 }
 
 #canvas-container {
-  width: 800px;
-  height: 800px;
+  width: 1000px;
+  height: 950px;
   margin: 25px auto;
+  padding: 10px;
   border: 1px solid black;
   /* overflow: hidden; */
 }

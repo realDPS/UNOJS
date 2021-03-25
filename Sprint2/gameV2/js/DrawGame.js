@@ -13,9 +13,7 @@ window.addEventListener("load", ()=>{
     console.log(canvasWidth);
     console.log(canvasHeight);
     ctx = canvas.getContext("2d");//like graphics java
-    
-    
-
+  
     //with this one, spam rect on mouse pos
     // canvas.onmousemove 
     tick();
@@ -107,11 +105,11 @@ const drawPlayerDeck=()=>{
     let cardPositionX,cardPositionY;
     let nbCards=5;
     //decky = canvasHeight
-    let deckY = 1;//size vertical - cardSizeY
+    let deckY = canvasHeight-cardSizeY;//size vertical - cardSizeY
     let deckX =(canvasWidth/2)-nbCards*cardSizeX/2;
     
 
-    console.log(deckX);
+    console.log(deckY);
     for (let index = 0; index < nbCards; index++) {
         
         cardPositionX = deckX+cardSizeX*hideAportion*index;
