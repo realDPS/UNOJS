@@ -10,5 +10,4 @@ interface GameState {
     turn : Player,
     order: Order,
     uno: Player | null,
-    
 }

@@ -67,7 +67,8 @@ export default {
 			inlineSources: !production
 		}),
 		copy({
-			targets:[{src:"src/assets",dest:"public"}]
+			targets:[{src:"src/assets",dest:"public"}],
+			copyOnce: true
 		}),
 
 		// In dev mode, call `npm run start` once
