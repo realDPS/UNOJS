@@ -1,35 +1,43 @@
 <script lang="ts">
   import Table from "./components/Table.svelte";
   import Player from "./components/Player.svelte";
+  import Card from "./components/Cards.svelte";
   import { GameState } from "./store";
+  import PlayingField from "./components/PlayingField.svelte";
 </script>
 
 <style>
-  main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
+  /* .Animation {
+    position: absolute;
+    animation: slide;
+    animation-timing-function: ease-in-out;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
   }
 
-  .test {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  @keyframes slide {
+    from {
+      top: -150px;
+    }
+    to {
+      top: 0px;
+    }
+  } */
+
+  .center {
+    /* Found centering in https://www.w3schools.com/css/css_align.asp */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>
 
 <main>
-  <div>
-    <Player numOfCards={3} />
-  </div>
-  <div class="test">
-    <Player numOfCards={5} />
-    <Table />
-    <Player numOfCards={7} />
-  </div>
-  <div>
-    <Player numOfCards={10} />
+  <div class="Animation">
+    <Card animation={true} />
+    <div class="center">
+      <PlayingField />
+    </div>
   </div>
 </main>
