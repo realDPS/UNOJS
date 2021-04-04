@@ -31,13 +31,79 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    /* overflow: visible; */
+  }
+
+  .Row {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    border-color: black;
+    border-style: solid;
+  }
+
+  .Column {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-color: brown;
+    border-color: black;
+    border-style: solid;
+    overflow: visible;
+    padding: 50px;
+  }
+
+  #player {
+    display: flex;
+  }
+
+  .Player2 {
+    color: blue;
+    transform: rotate(-90deg);
+  }
+  #player4 {
+    color: blue;
+    transform: rotate(220deg);
+  }
 </style>
 
 <main>
-  <div class="Animation">
+  {#each Array(3) as _, i}
+    <!-- Row Flex Container x3 -->
+    <div class="Row {i + 1}">
+      {#each Array(3) as _, j}
+        <!-- Column Flex Container x3 -->
+        <div class="Column {j + 1}">
+          {#if i == 2 && j == 1}
+            <!-- Flex Child Element -->
+            <Player numOfCards={5} />
+          {:else if i == 1 && j == 0}
+            <div id="player2">
+              <!-- Flex Child Element -->
+              <h1 class="Player2">Player 2</h1>
+            </div>
+          {:else if i == 0 && j == 1}
+            <!-- Flex Child Element -->
+            <div id="player3">Player 3</div>
+          {:else if i == 1 && j == 2}
+            <!-- Flex Child Element -->
+            <div id="player4">Player 4</div>
+          {/if}
+        </div>
+      {/each}
+    </div>
+  {/each}
+
+  <!-- <div class="Animation">
     <Card animation={true} />
     <div class="center">
       <PlayingField />
     </div>
-  </div>
+  </div> -->
 </main>

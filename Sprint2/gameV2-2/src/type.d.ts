@@ -13,3 +13,5 @@ interface GameState {
     order: Order,
     uno: Player | null,
 }
+
+type AnimationType = "Pulse" | "Peek" | "None"

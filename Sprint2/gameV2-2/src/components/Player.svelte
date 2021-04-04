@@ -27,10 +27,14 @@
 </script>
 
 <style>
+  .Player {
+    display: flex;
+    flex-wrap: nowrap;
+  }
 </style>
 
 <div class="Player">
   {#each cardArray as nb, i}
-    <Cards value={i} color="Red" />
+    <Cards value={i} color="Red" animation="Pulse" />
   {/each}
 </div>
