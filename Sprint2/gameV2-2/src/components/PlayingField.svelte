@@ -25,6 +25,6 @@
     <Cards faceDown={true} />
   </div>
   <div id="discardPile">
-    <Cards value={"CC"} color="Wild" />
+    <Cards color="Wild" value="" />
   </div>
 </div>
