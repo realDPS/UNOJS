@@ -1,9 +1,17 @@
-import {writable, Writable} from "svelte/store"
+import { writable, Writable } from "svelte/store"
 
-let state : GameState = {
-    order:"clockwise",
-    turn: "Player 1",
-    uno: null 
-}
+export const GameState: Writable<GameState> = writable({
+    order: "clockwise",
+    turn: "one",
+    uno: false,
+    players: [
+        {
+            numOfCards: 7,
+            turnToPlay: true,
+            uno: false,
+            drewCard: false
+        }
+    ],
+    topCard: {}
+})
 
-export let GameState: Writable<GameState> = writable(state)

@@ -14,7 +14,7 @@
 
 ### Export in Svelte:
 
-Exposes the Components props (Properties). Works a lot like
+Exposes the **Components** props (Properties). Works a lot like
 a paramater in a constructor in OOP.
 
 ===========================================================

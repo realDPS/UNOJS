@@ -3,7 +3,7 @@
 
   export let username: string;
   export let numOfCards: number;
-  export let player: PlayerType;
+  export let player: Player;
 
   let playerNumber = 0;
   let cardArray = Array(numOfCards);
@@ -29,12 +29,12 @@
 <style>
   .Player {
     display: flex;
-    flex-wrap: nowrap;
+    z-index: 2;
   }
 </style>
 
 <div class="Player">
   {#each cardArray as nb, i}
-    <Cards value={i} color="Red" animation="Pulse" />
+    <Cards value={i} color="Red" animation="Peek" />
   {/each}
 </div>

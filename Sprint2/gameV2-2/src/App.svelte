@@ -82,12 +82,14 @@
         <div class="Column {j + 1}">
           {#if i == 2 && j == 1}
             <!-- Flex Child Element -->
-            <Player numOfCards={5} />
+            <Player numOfCards={10} />
           {:else if i == 1 && j == 0}
             <div id="player2">
               <!-- Flex Child Element -->
               <h1 class="Player2">Player 2</h1>
             </div>
+          {:else if i === 1 && j === 1}
+            <PlayingField />
           {:else if i == 0 && j == 1}
             <!-- Flex Child Element -->
             <div id="player3">Player 3</div>

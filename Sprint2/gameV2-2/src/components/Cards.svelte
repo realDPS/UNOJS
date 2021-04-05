@@ -7,8 +7,12 @@
 
   let isSpecial = color ? false : true;
 
+  export function getCard() {
+    return [color, value];
+  }
   function clickAction() {
-    console.log(`You clicked the card ${value}`);
+    console.log(`You clicked the card ${color} ${value}`);
+    //Send card to rulesEnforcer
   }
 </script>
 
@@ -43,7 +47,8 @@
   .Peek:hover {
     position: relative;
     /* z-index: 2; */
-    top: -20px;
+    top: -30px;
+    padding-bottom: 30px;
   }
 </style>
 
@@ -53,6 +58,14 @@
     src="../assets/Cards/Deck.png"
     alt="Face Down UNO card"
     draggable={false}
+  />
+{:else if value === "CC"}
+  <img
+    class={`Cards ${animation}`}
+    src={`../assets/Cards/${color}.png`}
+    alt={`${color} - ${value}`}
+    draggable={false}
+    on:click={clickAction}
   />
 {:else}
   <img
