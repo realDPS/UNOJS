@@ -1,29 +1,40 @@
 <script lang="ts">
+  import { setContext } from "svelte";
+
+  import { GameState } from "../store";
+  import { getCard } from "../utilities/function";
   import Cards from "./Cards.svelte";
 
-  export let username: string;
+  // export let username: string;
   export let numOfCards: number;
   export let player: Player;
 
   let playerNumber = 0;
-  let cardArray = Array(numOfCards);
+
+  let playerCards = $GameState.players[playerNumber].cardArray;
+
+  for (let i = 0; i < numOfCards; ++i) {
+    playerCards[i] = getCard();
+  }
 
   switch (player) {
-    case "one":
+    case "One":
+      playerNumber = 0;
+      break;
+    case "Two":
       playerNumber = 1;
       break;
-    case "two":
+    case "Three":
       playerNumber = 2;
       break;
-    case "three":
+    case "Four":
       playerNumber = 3;
-      break;
-    case "four":
-      playerNumber = 4;
       break;
   }
 
   let yourTurn = false;
+
+  setContext("Player", playerNumber);
 </script>
 
 <style>
@@ -34,7 +45,7 @@
 </style>
 
 <div class="Player">
-  {#each cardArray as nb, i}
-    <Cards value={i} color="Red" animation="Peek" />
+  {#each playerCards as { color, value }, i}
+    <Cards {color} {value} animation="Peek" />
   {/each}
 </div>

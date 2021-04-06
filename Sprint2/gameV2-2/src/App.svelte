@@ -4,6 +4,12 @@
   import Card from "./components/Cards.svelte";
   import { GameState } from "./store";
   import PlayingField from "./components/PlayingField.svelte";
+
+  let value = $GameState.players[0].cardArray;
+
+  setTimeout(() => {
+    console.log(value[0]);
+  }, 0);
 </script>
 
 <style>
@@ -59,9 +65,9 @@
     padding: 50px;
   }
 
-  #player {
+  /* #player {
     display: flex;
-  }
+  } */
 
   .Player2 {
     color: blue;
@@ -82,17 +88,16 @@
         <div class="Column {j + 1}">
           {#if i == 2 && j == 1}
             <!-- Flex Child Element -->
-            <Player numOfCards={10} />
+            <Player numOfCards={7} />
           {:else if i == 1 && j == 0}
             <div id="player2">
               <!-- Flex Child Element -->
-              <h1 class="Player2">Player 2</h1>
             </div>
           {:else if i === 1 && j === 1}
             <PlayingField />
           {:else if i == 0 && j == 1}
             <!-- Flex Child Element -->
-            <div id="player3">Player 3</div>
+            <input type="text" />
           {:else if i == 1 && j == 2}
             <!-- Flex Child Element -->
             <div id="player4">Player 4</div>

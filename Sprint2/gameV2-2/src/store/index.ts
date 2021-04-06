@@ -2,16 +2,16 @@ import { writable, Writable } from "svelte/store"
 
 export const GameState: Writable<GameState> = writable({
     order: "clockwise",
-    turn: "one",
+    playerTurn: "One",
     uno: false,
     players: [
         {
-            numOfCards: 7,
+            cardArray: [],
             turnToPlay: true,
             uno: false,
             drewCard: false
         }
     ],
-    topCard: {}
+    topCard: {},
 })
 

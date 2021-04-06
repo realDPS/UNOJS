@@ -1,18 +1,31 @@
 <script lang="ts">
+  import { getContext } from "svelte";
+  import { GameState } from "../store";
+  import { CardGenerator } from "../utilities/function";
+
   // Check notes for export functionality in Svelte
   export let color: Color = "Blue";
   export let value: Value | Number = 1;
   export let faceDown = false;
   export let animation: AnimationType = "None";
+  export let random: boolean = false;
+  export let playerCard: boolean = false;
 
-  let isSpecial = color ? false : true;
-
-  export function getCard() {
-    return [color, value];
+  if (random) {
+    let { colorGen, valueGen } = CardGenerator();
+    color = colorGen;
+    value = valueGen;
   }
+
+  if (playerCard) {
+    $GameState.players[getContext("Player") as number].cardArray.push({
+      color,
+      value,
+    });
+  }
+
   function clickAction() {
     console.log(`You clicked the card ${color} ${value}`);
-    //Send card to rulesEnforcer
   }
 </script>
 

@@ -2,21 +2,21 @@ type Color = "Blue" | "Red" | "Green" | "Yellow" | "Wild"
 
 type Value = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | "Reverse" | "Draw" | "Skip" | "CC"
 
-type Card = {
-    value?: Value
+interface Card {
+    value?: Value | Number
     color?: Color
 }
 
-type Player = "one" | "two" | "three" | "four"
+type Player = "One" | "Two" | "Three" | "Four"
 
-type PlayerData = { numOfCards: number, turnToPlay: boolean, uno: boolean, drewCard: boolean }
+interface PlayerData { cardArray: Array<Card>, turnToPlay: boolean, uno: boolean, drewCard: boolean }
 
 type Position = "Top" | "Right" | "Left" | "User"
 
 type Order = "clockwise" | "anti-clockwise"
 
 interface GameState {
-    turn: Player,
+    playerTurn: Player,
     order: Order,
     uno: boolean,
     players: Array<PlayerData>

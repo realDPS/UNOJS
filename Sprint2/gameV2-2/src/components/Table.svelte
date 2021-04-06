@@ -1,6 +1,8 @@
 <script lang="ts">
   import Card from "./Cards.svelte";
   import PlayingField from "./PlayingField.svelte";
+
+  // function setGame
 </script>
 
 <style>
@@ -10,9 +12,9 @@
     padding: 20px;
   }
 
-  .Separator {
+  /* .Separator {
     width: 10px;
-  }
+  } */
 
   .PlayingField {
     position: absolute;

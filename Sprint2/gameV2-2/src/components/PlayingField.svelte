@@ -11,13 +11,11 @@
 
     return isValid;
   }
+
+  function getRandCard() {}
 </script>
 
 <style>
-  #discardPile {
-  }
-  #pickPile {
-  }
 </style>
 
 <div>
@@ -25,6 +23,6 @@
     <Cards faceDown={true} />
   </div>
   <div id="discardPile">
-    <Cards color="Wild" value="" />
+    <Cards random={true} />
   </div>
 </div>
