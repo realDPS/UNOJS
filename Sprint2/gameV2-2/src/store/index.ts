@@ -12,6 +12,7 @@ export const GameState: Writable<GameState> = writable({
             drewCard: false
         }
     ],
-    topCard: {},
+    drawDeck: [],
+    discardPile: []
 })
 
