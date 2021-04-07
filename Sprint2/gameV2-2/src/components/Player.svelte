@@ -2,7 +2,7 @@
   import { setContext } from "svelte";
 
   import { GameState } from "../store";
-  import { getCard } from "../utilities/function";
+  import { getRandomCard } from "./Game.svelte";
   import Cards from "./Cards.svelte";
 
   // export let username: string;
@@ -10,11 +10,11 @@
   export let player: Player;
 
   let playerNumber = 0;
+  $: PlayerCards = $GameState.players[playerNumber].cardArray;
 
-  let playerCards = $GameState.players[playerNumber].cardArray;
-
+  //Setting up player's hand
   for (let i = 0; i < numOfCards; ++i) {
-    playerCards[i] = getCard();
+    $GameState.players[playerNumber].cardArray[i] = $GameState.drawDeck.shift();
   }
 
   switch (player) {
@@ -45,7 +45,7 @@
 </style>
 
 <div class="Player">
-  {#each playerCards as { color, value }, i}
-    <Cards {color} {value} animation="Peek" />
+  {#each PlayerCards as { color, value }, i}
+    <Cards {color} {value} animation="Peek" index={i} />
   {/each}
 </div>

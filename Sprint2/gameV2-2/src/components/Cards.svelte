@@ -1,30 +1,50 @@
 <script lang="ts">
   import { getContext } from "svelte";
   import { GameState } from "../store";
-  import { CardGenerator } from "../utilities/function";
+  import { getRandomColor, getRandomValue } from "./Game.svelte";
 
   // Check notes for export functionality in Svelte
-  export let color: Color = "Blue";
-  export let value: Value | Number = 1;
+  export let color: Color = getRandomColor();
+  export let value: Value = getRandomValue(color === "Wild" ? true : false);
+  export let index: number;
   export let faceDown = false;
   export let animation: AnimationType = "None";
-  export let random: boolean = false;
-  export let playerCard: boolean = false;
 
-  if (random) {
-    let { colorGen, valueGen } = CardGenerator();
-    color = colorGen;
-    value = valueGen;
-  }
-
-  if (playerCard) {
-    $GameState.players[getContext("Player") as number].cardArray.push({
-      color,
-      value,
-    });
-  }
+  let hidden = false;
+  $: hiddenClass = hidden ? "hidden" : "";
 
   function clickAction() {
+    let Card;
+    switch ($GameState.playerTurn) {
+      case "One":
+        Card = $GameState.players[0].cardArray[index];
+        $GameState.players[0].cardArray.splice(index, 1); // Original array is mutated
+        //This is to circumvent Svelte limitation:
+        $GameState.players[0].cardArray = [...$GameState.players[0].cardArray]; // Re-assign cardArray with a new Array with it's old content.
+        $GameState.discardPile.push(Card);
+        // console.log($GameState.players[0].cardArray);
+        break;
+      case "Two":
+        Card = $GameState.players[1].cardArray[index];
+        $GameState.players[1].cardArray.splice(index, 1);
+        $GameState.discardPile.push(Card);
+        break;
+
+      case "Three":
+        Card = $GameState.players[2].cardArray[index];
+        $GameState.players[2].cardArray.splice(index, 1);
+        $GameState.discardPile.push(Card);
+        break;
+
+      case "Four":
+        Card = $GameState.players[3].cardArray[index];
+        $GameState.players[3].cardArray.splice(index, 1);
+        $GameState.discardPile.push(Card);
+        break;
+    }
+
+    hidden = !hidden;
+
     console.log(`You clicked the card ${color} ${value}`);
   }
 </script>
@@ -33,6 +53,8 @@
   .Cards {
     height: 150px;
     cursor: pointer;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
   }
 
   .Pulse:hover {
@@ -52,8 +74,6 @@
 
   .Peek {
     position: relative;
-    transition-duration: 150ms;
-    transition-timing-function: ease-in-out;
     top: 0px;
   }
 
@@ -64,7 +84,7 @@
     padding-bottom: 30px;
   }
 </style>
-
+ 
 {#if faceDown}
   <img
     class="Cards"
@@ -74,7 +94,7 @@
   />
 {:else if value === "CC"}
   <img
-    class={`Cards ${animation}`}
+    class={`Cards ${animation} ${hiddenClass}`}
     src={`../assets/Cards/${color}.png`}
     alt={`${color} - ${value}`}
     draggable={false}
@@ -82,7 +102,7 @@
   />
 {:else}
   <img
-    class={`Cards ${animation}`}
+    class={`Cards ${animation} ${hiddenClass}`}
     src={`../assets/Cards/${color}_${value}.png`}
     alt={`${color} - ${value}`}
     draggable={false}
