@@ -6,16 +6,10 @@
   import Cards from "./Cards.svelte";
 
   // export let username: string;
-  export let numOfCards: number;
   export let player: Player;
 
   let playerNumber = 0;
   $: PlayerCards = $GameState.players[playerNumber].cardArray;
-
-  //Setting up player's hand
-  for (let i = 0; i < numOfCards; ++i) {
-    $GameState.players[playerNumber].cardArray[i] = $GameState.drawDeck.shift();
-  }
 
   switch (player) {
     case "One":
@@ -45,7 +39,7 @@
 </style>
 
 <div class="Player">
-  {#each PlayerCards as { color, value }, i}
-    <Cards {color} {value} animation="Peek" index={i} />
+  {#each PlayerCards as { id, color, value }, i (id)}
+    <Cards {color} {value} animation="Peek" index={i} {playerNumber} />
   {/each}
 </div>

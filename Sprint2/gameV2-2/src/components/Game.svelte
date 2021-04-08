@@ -50,6 +50,7 @@
         for (const value of wildValueArray) {
           for (let i = 0; i < 4; ++i) {
             Deck.push({
+              id: Deck.length,
               color,
               value,
             });
@@ -59,9 +60,9 @@
       }
 
       for (const value of valueArray) {
-        Deck.push({ color, value });
+        Deck.push({ id: Deck.length, color, value });
         if (value !== 0) {
-          Deck.push({ color, value });
+          Deck.push({ id: Deck.length, color, value });
         }
       }
     }
@@ -100,7 +101,13 @@
   }
 
   $GameState.drawDeck = generateDeck();
-  console.log($GameState.drawDeck);
+  $: console.log($GameState.drawDeck);
+
+  for (let i = 0; i < numOfPlayer; ++i) {
+    for (let j = 0; j < 7; ++j) {
+      $GameState.players[i].cardArray[j] = $GameState.drawDeck.shift();
+    }
+  }
 </script>
 
 <style>
@@ -159,7 +166,7 @@
       {#each Array(3) as _, j}
         <div class="Column {j + 1}">
           {#if i == 2 && j == 1}
-            <Player player="One" numOfCards={7} />
+            <Player player="One" />
           {:else if i == 1 && j == 0}
             <div id="player2" />
           {:else if i === 1 && j === 1}

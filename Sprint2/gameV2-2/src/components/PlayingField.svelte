@@ -26,6 +26,8 @@
     ] = Card;
     console.log($GameState.players[0].cardArray);
   }
+
+  $GameState.discardPile[0] = $GameState.drawDeck.shift();
 </script>
 
 <style>
@@ -39,7 +41,7 @@
   {/if}
   <div id="discardPile">
     {#if DiscardPile.length > 0}
-      <Cards value={topCard.value} color={topCard.color} />
+      <Cards value={topCard.value} color={topCard.color} discardPile={true} />
     {/if}
   </div>
 </div>

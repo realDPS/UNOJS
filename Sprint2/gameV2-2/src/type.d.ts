@@ -3,6 +3,7 @@ type Color = "Blue" | "Red" | "Green" | "Yellow" | "Wild"
 type Value = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | "Reverse" | "Draw" | "Skip" | "CC"
 
 interface CardType {
+    id: number
     value?: Value
     color?: Color
 }

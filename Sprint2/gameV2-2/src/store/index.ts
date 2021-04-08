@@ -10,6 +10,12 @@ export const GameState: Writable<GameState> = writable({
             turnToPlay: true,
             uno: false,
             drewCard: false
+        },
+        {
+            cardArray: [],
+            turnToPlay: true,
+            uno: false,
+            drewCard: false
         }
     ],
     drawDeck: [],

@@ -2,13 +2,18 @@
   import { getContext } from "svelte";
   import { GameState } from "../store";
   import { getRandomColor, getRandomValue } from "./Game.svelte";
+  import { slide } from "svelte/transition";
 
   // Check notes for export functionality in Svelte
-  export let color: Color = getRandomColor();
-  export let value: Value = getRandomValue(color === "Wild" ? true : false);
+  export let faceDown: boolean = false;
+  export let color: Color = !faceDown ? getRandomColor() : null;
+  export let value: Value = !faceDown
+    ? getRandomValue(color === "Wild" ? true : false)
+    : null;
   export let index: number;
-  export let faceDown = false;
   export let animation: AnimationType = "None";
+  export let playerNumber: number;
+  export let discardPile: boolean = false;
 
   let hidden = false;
   $: hiddenClass = hidden ? "hidden" : "";
@@ -30,6 +35,7 @@
         playerIndex = 3;
         break;
     }
+
     const card = $GameState.players[playerIndex].cardArray[index];
     $GameState.players[playerIndex].cardArray.splice(index, 1); // Original array is mutated
     //This is to circumvent Svelte limitation:
@@ -50,6 +56,7 @@
     cursor: pointer;
     transition-duration: 150ms;
     transition-timing-function: ease-in-out;
+    user-select: none;
   }
 
   .Pulse:hover {
@@ -87,20 +94,15 @@
     alt="Face Down UNO card"
     draggable={false}
   />
-{:else if value === "CC"}
-  <img
-    class={`Cards ${animation} ${hiddenClass}`}
-    src={`../assets/Cards/${color}.png`}
-    alt={`${color} - ${value}`}
-    draggable={false}
-    on:click={clickAction}
-  />
 {:else}
   <img
     class={`Cards ${animation} ${hiddenClass}`}
-    src={`../assets/Cards/${color}_${value}.png`}
+    src={value === "CC"
+      ? "../assets/Cards/Wild.png"
+      : `../assets/Cards/${color}_${value}.png`}
     alt={`${color} - ${value}`}
     draggable={false}
-    on:click={clickAction}
+    on:click={!discardPile ? clickAction : null}
+    transition:slide
   />
 {/if}
