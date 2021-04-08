@@ -14,35 +14,30 @@
   $: hiddenClass = hidden ? "hidden" : "";
 
   function clickAction() {
-    let Card;
+    let playerIndex;
+
     switch ($GameState.playerTurn) {
       case "One":
-        Card = $GameState.players[0].cardArray[index];
-        $GameState.players[0].cardArray.splice(index, 1); // Original array is mutated
-        //This is to circumvent Svelte limitation:
-        $GameState.players[0].cardArray = [...$GameState.players[0].cardArray]; // Re-assign cardArray with a new Array with it's old content.
-        $GameState.discardPile.push(Card);
-        // console.log($GameState.players[0].cardArray);
+        playerIndex = 0;
         break;
       case "Two":
-        Card = $GameState.players[1].cardArray[index];
-        $GameState.players[1].cardArray.splice(index, 1);
-        $GameState.discardPile.push(Card);
+        playerIndex = 1;
         break;
-
       case "Three":
-        Card = $GameState.players[2].cardArray[index];
-        $GameState.players[2].cardArray.splice(index, 1);
-        $GameState.discardPile.push(Card);
+        playerIndex = 2;
         break;
-
       case "Four":
-        Card = $GameState.players[3].cardArray[index];
-        $GameState.players[3].cardArray.splice(index, 1);
-        $GameState.discardPile.push(Card);
+        playerIndex = 3;
         break;
     }
-
+    const card = $GameState.players[playerIndex].cardArray[index];
+    $GameState.players[playerIndex].cardArray.splice(index, 1); // Original array is mutated
+    //This is to circumvent Svelte limitation:
+    $GameState.players[playerIndex].cardArray = [
+      ...$GameState.players[playerIndex].cardArray,
+    ]; // Re-assign cardArray with an array of itself.
+    $GameState.discardPile.push(card);
+    // console.log($GameState.players[0].cardArray);
     hidden = !hidden;
 
     console.log(`You clicked the card ${color} ${value}`);
@@ -84,7 +79,7 @@
     padding-bottom: 30px;
   }
 </style>
- 
+
 {#if faceDown}
   <img
     class="Cards"
