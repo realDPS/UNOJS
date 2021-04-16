@@ -65,11 +65,14 @@
     z-index: 0;
     box-shadow: 0 25px 15px rgba(0, 0, 0, 0.5);
   }
+  .facedown {
+    height: 100px;
+  }
 </style>
 
 {#if faceDown}
   <img
-    class="Cards"
+    class="Cards facedown"
     src="../assets/Cards/Deck.png"
     alt="Face Down UNO card"
     draggable={false}

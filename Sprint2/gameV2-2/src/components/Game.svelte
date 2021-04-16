@@ -115,17 +115,50 @@
 </script>
 
 <style>
-  .Table {
+  .table {
     /* display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%; */
+    flex-direction: column; */
     background-color: #75737b;
+    width: 100%;
+    height: 100%;
+    /* overflow-x: scroll; */
+    /* overflow-x: visible; */
+  }
+  .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    overflow-x: visible;
-    z-index: 0;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 1px 1px;
+    grid-template-areas:
+      "Left Top Top Top Right"
+      "Left Center Center Center Right"
+      "Left Center Center Center Right"
+      "Player Player Player Player Player";
+  }
+
+  .Top {
+    grid-area: Top;
+  }
+
+  .Player {
+    grid-area: Player;
+    max-width: 100%;
+    justify-self: center;
+    align-self: center;
+  }
+  /* .Player > * {
+  } */
+
+  .Left {
+    grid-area: Left;
+  }
+
+  .Center {
+    grid-area: Center;
+  }
+
+  .Right {
+    grid-area: Right;
   }
 
   div {
@@ -133,23 +166,12 @@
     overflow-x: clip;
   }
 
-  .PlayerContainer {
+  /* .PlayerContainer {
     display: contents;
     z-index: 2;
-  }
+  } */
 
-  .bottom {
-  }
-
-  .center {
-    /* Found centering in https://www.w3schools.com/css/css_align.asp */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .Row {
+  /* .Row {
     display: flex;
     flex-direction: row;
     height: 100%;
@@ -165,7 +187,7 @@
     border-style: solid;
     overflow: visible;
     padding: 50px;
-  }
+  } */
 
   /* #player {
     display: flex;
@@ -181,16 +203,14 @@
   }
 </style>
 
-<div class="Table">
-  <div>Box</div>
-  <div>Box</div>
-  <div>Box</div>
-  <div>Box</div>
-  <PlayingField />
-  <div>Box</div>
-  <div class="bottom left">Box</div>
-  <div class="PlayerContainer">
+<div class="table grid">
+  <div class="Top" />
+  <div class="Player">
     <Player player={0} />
   </div>
-  <div class="bottom right">Box</div>
+  <div class="Left" />
+  <div class="Center">
+    <PlayingField />
+  </div>
+  <div class="Right" />
 </div>
