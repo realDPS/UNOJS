@@ -19,6 +19,7 @@ export const GameState: Writable<GameState> = writable({
         }
     ],
     drawDeck: [],
-    discardPile: []
+    topCard: null,
+    drawCard: false
 });
 
