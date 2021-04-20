@@ -40,18 +40,29 @@
   .Player {
     display: flex;
     z-index: 2;
+    padding-left: 50px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .CardDiv {
   }
 </style>
 
 <div class="Player">
   {#each PlayerCards as { id, color, value }, index (id)}
-    <Cards
-      {color}
-      {value}
-      animation="Peek"
-      {index}
-      on:discard={discardCard}
-      hand={true}
-    />
+    <div
+      class="CardDiv"
+      style="z-index: {index}; position: relative; right: {25 * index}px;"
+    >
+      <Cards
+        {color}
+        {value}
+        animation="Peek"
+        {index}
+        on:discard={discardCard}
+        hand={true}
+      />
+    </div>
   {/each}
 </div>

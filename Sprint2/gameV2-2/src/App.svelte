@@ -12,6 +12,10 @@
 </script>
 
 <style>
+  :global(body) {
+    overflow: hidden;
+  }
+
   .LobbyModal {
     position: absolute;
     z-index: 3;
@@ -25,7 +29,7 @@
   }
 </style>
 
-<!-- <div class="LobbyModal">
+<div class="LobbyModal">
   <LobbySetup />
-</div> -->
+</div>
 <Game />

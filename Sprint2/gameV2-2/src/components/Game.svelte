@@ -42,18 +42,6 @@
     return { color, value } as CardType;
   }
 
-  export function randomize(Deck: Array<CardType>) {
-    //Randomize array using Durstenfeld
-    for (var i = Deck.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = Deck[i];
-      Deck[i] = Deck[j];
-      Deck[j] = temp;
-    }
-
-    return Deck;
-  }
-
   function generateDeck() {
     let Deck: Array<CardType> = [];
 
@@ -79,7 +67,15 @@
       }
     }
 
-    return randomize(Deck);
+    //Randomize array using Durstenfeld
+    for (var i = Deck.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = Deck[i];
+      Deck[i] = Deck[j];
+      Deck[j] = temp;
+    }
+
+    return Deck;
   }
 </script>
 
@@ -105,7 +101,7 @@
   }
 
   $GameState.drawDeck = generateDeck();
-  $: console.log($GameState.drawDeck);
+  // $: console.log($GameState.drawDeck);
 
   for (let i = 0; i < numOfPlayer; ++i) {
     for (let j = 0; j < 7; ++j) {

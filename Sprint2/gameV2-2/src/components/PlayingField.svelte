@@ -38,7 +38,16 @@
 </script>
 
 <style>
-  #drawDeck {
+  .playField {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .playField div {
+    margin: 10px;
+  }
+  /* #drawDeck {
     position: absolute;
     top: 50%;
     transform: translate(300%, -50%);
@@ -48,10 +57,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
+  } */
 </style>
 
-<div>
+<div class="playField">
   <div id="drawDeck" on:click={drawCard}>
     <Cards faceDown={true} />
   </div>
