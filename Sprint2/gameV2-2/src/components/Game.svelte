@@ -42,6 +42,18 @@
     return { color, value } as CardType;
   }
 
+  export function randomize(Deck: Array<CardType>) {
+    //Randomize array using Durstenfeld
+    for (var i = Deck.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = Deck[i];
+      Deck[i] = Deck[j];
+      Deck[j] = temp;
+    }
+
+    return Deck;
+  }
+
   function generateDeck() {
     let Deck: Array<CardType> = [];
 
@@ -67,15 +79,7 @@
       }
     }
 
-    //Randomize array using Durstenfeld
-    for (var i = Deck.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = Deck[i];
-      Deck[i] = Deck[j];
-      Deck[j] = temp;
-    }
-
-    return Deck;
+    return randomize(Deck);
   }
 </script>
 
@@ -101,7 +105,7 @@
   }
 
   $GameState.drawDeck = generateDeck();
-  // $: console.log($GameState.drawDeck);
+  $: console.log($GameState.drawDeck);
 
   for (let i = 0; i < numOfPlayer; ++i) {
     for (let j = 0; j < 7; ++j) {
@@ -111,70 +115,37 @@
 </script>
 
 <style>
-  .table {
-    /* display: flex;
-    flex-direction: column; */
-    background-color: #75737b;
+  .Table {
     width: 100%;
     height: 100%;
-    /* overflow-x: scroll; */
-    /* overflow-x: visible; */
-  }
-  .grid {
+    background-color: #75737b;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    gap: 1px 1px;
-    grid-template-areas:
-      "Left Top Top Top Right"
-      "Left Center Center Center Right"
-      "Left Center Center Center Right"
-      "Player Player Player Player Player";
+    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-rows: repeat(3, 1fr); */
   }
-
-  .Top {
-    grid-area: Top;
-  }
-
-  .Player {
-    grid-area: Player;
-    max-width: 100%;
-    justify-self: center;
-    align-self: center;
-  }
-  /* .Player > * {
-  } */
-
-  .Left {
-    grid-area: Left;
-  }
-
-  .Center {
-    grid-area: Center;
-  }
-
-  .Right {
-    grid-area: Right;
-  }
-
   div {
     border: 1px solid black;
-    overflow-x: clip;
   }
-
-  /* .PlayerContainer {
+  .PlayerContainer {
     display: contents;
     z-index: 2;
-  } */
-
-  /* .Row {
+  }
+  .bottom {
+  }
+  .center {
+    /* Found centering in https://www.w3schools.com/css/css_align.asp */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .Row {
     display: flex;
     flex-direction: row;
     height: 100%;
     border-color: black;
     border-style: solid;
   }
-
   .Column {
     display: flex;
     height: 100%;
@@ -183,30 +154,32 @@
     border-style: solid;
     overflow: visible;
     padding: 50px;
-  } */
+  }
 
-  /* #player {
-    display: flex;
-  } */
-
-  .Player2 {
+  /* .Player2 {
     color: blue;
     transform: rotate(-90deg);
   }
   #player4 {
     color: blue;
     transform: rotate(220deg);
-  }
+  } */
 </style>
 
-<div class="table grid">
-  <div class="Top" />
-  <div class="Player">
-    <Player player={0} />
+<div class="Table">
+  <div class="Row">
+    <div />
+    <div class="playerTop" />
+    <div />
   </div>
-  <div class="Left" />
-  <div class="Center">
+  <div class="Row">
+    <div class="PlayerLeft" />
     <PlayingField />
+    <div class="PlayerRight" />
   </div>
-  <div class="Right" />
+  <div class="Row">
+    <div />
+    <Player player={0} />
+    <div />
+  </div>
 </div>

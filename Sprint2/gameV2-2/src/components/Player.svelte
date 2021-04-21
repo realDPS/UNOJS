@@ -53,7 +53,7 @@
   {#each PlayerCards as { id, color, value }, index (id)}
     <div
       class="CardDiv"
-      style="z-index: {index}; position: relative; right: {25 * index}px;"
+      style="z-index: {index}; position: relative; right: {15 * index}px;"
     >
       <Cards
         {color}

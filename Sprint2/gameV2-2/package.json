@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "server": "nodemon ./server/index.js",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
@@ -13,6 +14,8 @@
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-typescript": "^8.2.1",
     "@tsconfig/svelte": "^1.0.0",
+    "@types/socket.io": "^2.1.13",
+    "nodemon": "^2.0.7",
     "rollup": "^2.3.4",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-css-only": "^3.1.0",
@@ -26,7 +29,11 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "sirv-cli": "^1.0.0",
-    "smelte": "^1.1.5"
+    "smelte": "^1.1.5",
+    "socket.io": "^4.0.1",
+    "socket.io-client": "^4.0.1"
   }
 }

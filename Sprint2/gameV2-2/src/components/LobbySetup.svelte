@@ -58,19 +58,21 @@
     color: #f3f3f7;
   }
 
+  select:required:invalid {
+    color: gray;
+  }
+
   .Username,
   .Select {
     width: 200px;
   }
 
-  select,
-  select option {
-    color: #000000;
+  option[value=""][disabled] {
+    display: none;
   }
 
-  select:invalid,
-  select option[value=""] {
-    color: #999999;
+  option {
+    color: black;
   }
 </style>
 
@@ -80,8 +82,8 @@
       <InputField />
     </div>
     <div class="Top-Container">
-      <select name="Player Numbers" class="Select " required>
-        <option value="" disabled selected hidden>Number of Players</option>
+      <select name="Player Numbers" class="Select ">
+        <option value="" disabled selected>Number of Players</option>
         <option value="2">Two</option>
         <option value="3">Three</option>
         <option value="4">Four</option>

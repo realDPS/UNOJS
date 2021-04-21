@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { socket } from "../App.svelte";
   import { GameState } from "../store";
   import Cards from "./Cards.svelte";
 
@@ -32,22 +33,14 @@
       $GameState.players[$GameState.currentPlayer].cardArray.length
     ] = Card;
     console.log($GameState.players[$GameState.currentPlayer].cardArray);
+    socket.emit("test", $GameState.players[$GameState.currentPlayer].cardArray);
   }
 
   $GameState.topCard = $GameState.drawDeck.shift();
 </script>
 
 <style>
-  .playField {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-  .playField div {
-    margin: 10px;
-  }
-  /* #drawDeck {
+  #drawDeck {
     position: absolute;
     top: 50%;
     transform: translate(300%, -50%);
@@ -57,10 +50,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  } */
+  }
 </style>
 
-<div class="playField">
+<div>
   <div id="drawDeck" on:click={drawCard}>
     <Cards faceDown={true} />
   </div>
