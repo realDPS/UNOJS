@@ -120,8 +120,7 @@
     height: 100%;
     background-color: #75737b;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* grid-template-rows: repeat(3, 1fr); */
+    grid-template-rows: repeat(3, 1fr);
   }
   div {
     border: 1px solid black;
@@ -132,20 +131,14 @@
   }
   .bottom {
   }
-  .center {
-    /* Found centering in https://www.w3schools.com/css/css_align.asp */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+
   .Row {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     border-color: black;
     border-style: solid;
   }
+
   .Column {
     display: flex;
     height: 100%;
@@ -155,15 +148,6 @@
     overflow: visible;
     padding: 50px;
   }
-
-  /* .Player2 {
-    color: blue;
-    transform: rotate(-90deg);
-  }
-  #player4 {
-    color: blue;
-    transform: rotate(220deg);
-  } */
 </style>
 
 <div class="Table">
