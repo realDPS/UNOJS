@@ -123,14 +123,12 @@
     grid-template-rows: repeat(3, 1fr);
   }
   div {
-    border: 2px solid black;
+    border: 1px solid black;
   }
 
   .Row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    border-color: black;
-    border-style: solid;
   }
 </style>
 
