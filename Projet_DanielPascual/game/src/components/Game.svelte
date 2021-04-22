@@ -123,13 +123,7 @@
     grid-template-rows: repeat(3, 1fr);
   }
   div {
-    border: 1px solid black;
-  }
-  .PlayerContainer {
-    display: contents;
-    z-index: 2;
-  }
-  .bottom {
+    border: 2px solid black;
   }
 
   .Row {
@@ -138,28 +132,18 @@
     border-color: black;
     border-style: solid;
   }
-
-  .Column {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    border-color: black;
-    border-style: solid;
-    overflow: visible;
-    padding: 50px;
-  }
 </style>
 
 <div class="Table">
   <div class="Row">
     <div />
-    <div class="playerTop" />
+    <div class="top" />
     <div />
   </div>
   <div class="Row">
-    <div class="PlayerLeft" />
+    <div class="left" />
     <PlayingField />
-    <div class="PlayerRight" />
+    <div class="right" />
   </div>
   <div class="Row">
     <div />
