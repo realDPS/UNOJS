@@ -46,6 +46,8 @@
   }
 
   .CardDiv {
+    width: min-content;
+    height: min-content;
   }
 </style>
 

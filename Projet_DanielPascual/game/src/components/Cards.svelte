@@ -63,7 +63,8 @@
   .Hand {
     overflow-x: hidden;
     z-index: 0;
-    box-shadow: 0 25px 15px rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0);
+    filter: drop-shadow(-15px 15px 10px rgba(0, 0, 0, 0.5));
   }
 </style>
 
