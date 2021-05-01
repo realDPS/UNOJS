@@ -18,10 +18,7 @@
   const wildValueArray: Array<Value> = ["Draw", "CC"];
 
   export function getRandomColor() {
-    let color: Color;
-
-    color = colorArray[Math.floor(Math.random() * colorArray.length)];
-    return color;
+    return colorArray[Math.floor(Math.random() * colorArray.length)];
   }
 
   export function getRandomValue(isWild: boolean) {

@@ -33,7 +33,7 @@
       $GameState.players[$GameState.currentPlayer].cardArray.length
     ] = Card;
     console.log($GameState.players[$GameState.currentPlayer].cardArray);
-    socket.emit("test", $GameState.players[$GameState.currentPlayer].cardArray);
+    socket.emit("Draw", $GameState.players[$GameState.currentPlayer].cardArray);
   }
 
   $GameState.topCard = $GameState.drawDeck.shift();
