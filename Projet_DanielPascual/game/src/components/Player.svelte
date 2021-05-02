@@ -33,8 +33,8 @@
       const numOfCards = $GameState.players[player].cardArray.length;
       socket.emit("newHand", { player, numOfCards });
 
-      const sendDeck = $GameState.drawDeck;
-      socket.emit("updateDeck", sendDeck);
+      // const sendDeck = $GameState.drawDeck;
+      // socket.emit("updateDeck", sendDeck);
 
       // $GameState.topCard = clickedCard;
       // socket.emit("topCard", clickedCard);

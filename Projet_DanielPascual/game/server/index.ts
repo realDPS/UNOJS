@@ -1,9 +1,10 @@
-const express = require("express");
-var cors = require("cors");
-const path = require("path");
+import express from "express";
+import { v4 as uuidv4 } from "uuid";
+import cors from "cors";
+import { Server } from "socket.io"
 const app = express();
 const httpServer = require("http").createServer(app);
-const io = require("socket.io")(httpServer, {
+const io = new Server(httpServer, {
   cors: {
     origin: "*",
     methods: "*"
@@ -11,7 +12,7 @@ const io = require("socket.io")(httpServer, {
 });
 
 const PORT = 3000;
-const games = [];
+const room = [];
 
 app.use(
   cors({
@@ -32,8 +33,17 @@ app.post("/gamestate", (req, res) => {
   });
 });
 
+app.get("/:penis", (req, res) => {
+  console.log();
+
+})
+
 io.on("connection", (socket) => {
   console.log("Connected");
+  const id = uuidv4();
+  room.push(id)
+  socket.emit("newRoom", id);
+
 
   socket.on("newHand", (info) => {
     console.log(info);
@@ -54,3 +64,5 @@ io.on("connection", (socket) => {
 httpServer.listen(PORT, () => {
   console.log(`listening on: ${PORT}`);
 });
+
+console.log(uuidv4());

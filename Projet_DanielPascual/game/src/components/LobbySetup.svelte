@@ -1,5 +1,13 @@
 <script lang="ts">
   import InputField from "./InputField.svelte";
+  import { socket } from "../App.svelte";
+  import { GameState } from "../store/store";
+
+  function createRoom() {
+    socket.on("newRoom", (room) => {
+      $GameState.roomId = room;
+    });
+  }
 </script>
 
 <style>
@@ -91,6 +99,6 @@
     </div>
   </div>
   <div class="Button">
-    <button class="Create-btn">Create Game</button>
+    <button class="Create-btn" on:click={createRoom}>Create Game</button>
   </div>
 </div>

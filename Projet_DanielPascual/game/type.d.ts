@@ -17,6 +17,7 @@ type Position = "Top" | "Right" | "Left" | "User";
 type Order = "clockwise" | "anti-clockwise";
 
 interface GameState {
+    roomId: string,
     currentPlayer: PlayerType,
     order: Order,
     uno: boolean,
@@ -28,5 +29,5 @@ interface GameState {
 
 type AnimationType = "Pulse" | "Peek" | "None";
 
-type DataPlayer = { playerNumber: PlayerType, numOfCards: number }
+type DataPlayer = { player: PlayerType, numOfCards: number }
 type DataDeck = Array<CardType>

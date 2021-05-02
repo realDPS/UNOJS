@@ -31,17 +31,17 @@
       $GameState.players[$GameState.currentPlayer].cardArray.length
     ] = Card;
     // console.log($GameState.players[$GameState.currentPlayer].cardArray);
-    const playerNb = $GameState.currentPlayer;
-    const hand = $GameState.players[playerNb].cardArray;
+    const player = $GameState.currentPlayer;
+    const numOfCards = $GameState.players[player].cardArray;
 
-    console.log("info to send:", { playerNb, hand });
+    console.log("info to send:", { player, numOfCards });
 
-    socket.emit("newHand", { playerNb, hand });
+    socket.emit("newHand", { player, numOfCards });
   }
 
-  socket.on("enemyHandSize", ({ numOfCards, playerNumber }: DataPlayer) => {
-    $GameState.players[playerNumber].handLength = numOfCards;
-    console.log("enemyHandSize ", { numOfCards, playerNumber });
+  socket.on("enemyHandSize", ({ numOfCards, player }: DataPlayer) => {
+    console.log("enemyHandSize ", { numOfCards, player });
+    $GameState.players[player].handLength = numOfCards;
   });
 
   // socket.on("playCard", ({ numOfCards, playerNumber }: DataPlayer) => {
