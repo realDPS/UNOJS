@@ -3,8 +3,6 @@
   import { GameState } from "../store";
   import Cards from "./Cards.svelte";
 
-  $: DrawDeck = $GameState.drawDeck;
-
   //Draw +4 or +2 on next player
   $: if ($GameState.topCard.value === "Draw" && $GameState.drawCard === true) {
     switch ($GameState.topCard.color) {
@@ -27,15 +25,21 @@
   }
 
   function drawCard() {
-    const Card = DrawDeck.shift();
+    const Card = $GameState.drawDeck.shift();
 
     $GameState.players[$GameState.currentPlayer].cardArray[
       $GameState.players[$GameState.currentPlayer].cardArray.length
     ] = Card;
-    console.log($GameState.players[$GameState.currentPlayer].cardArray);
+    // console.log($GameState.players[$GameState.currentPlayer].cardArray);
+    //CHECK:MAYBE ADD A SECOND VAR THAT SEND WHO'S DECK IS SENT
+    //+ HOW TO SEND INFORMATION TO ALL EXCEPT HIMSELF
     socket.emit("Draw", $GameState.players[$GameState.currentPlayer].cardArray);
+    socket.on("Draw", (data) => {
+      console.log(data);
+    });
   }
 
+  //Set top card in discard pile on game launch
   $GameState.topCard = $GameState.drawDeck.shift();
 </script>
 
@@ -53,11 +57,6 @@
   </div>
 
   <div id="discardPile">
-    {#if $GameState.topCard !== null}
-      <Cards
-        value={$GameState.topCard.value}
-        color={$GameState.topCard.color}
-      />
-    {/if}
+    <Cards value={$GameState.topCard.value} color={$GameState.topCard.color} />
   </div>
 </div>
