@@ -44,10 +44,10 @@
     console.log("enemyHandSize ", { numOfCards, playerNumber });
   });
 
-  socket.on("playCard", ({ numOfCards, playerNumber }: DataPlayer) => {
-    $GameState.players[playerNumber].handLength = numOfCards;
-    console.log("lastPlayedCard ", { numOfCards, playerNumber });
-  });
+  // socket.on("playCard", ({ numOfCards, playerNumber }: DataPlayer) => {
+  //   $GameState.players[playerNumber].handLength = numOfCards;
+  //   console.log("lastPlayedCard ", { numOfCards, playerNumber });
+  // });
 
   socket.on("updateDeck", (deck: DataDeck) => {
     console.log(deck);

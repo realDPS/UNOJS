@@ -37,18 +37,16 @@ io.on("connection", (socket) => {
 
   socket.on("newHand", (info) => {
     console.log(info);
-    //GameState.players[data.playerNumber].cardArray = data.hand;
+
     socket.emit("enemyHandSize", info);
   });
 
   socket.on("topCard", (card) => {
     console.log(card);
-    //GameState.topCard = card;
     socket.emit("topCard", card);
   });
   socket.on("updateDeck", (deck) => {
     console.log(deck);
-    //GameState.drawDeck = deck;
     socket.emit("updateDeck", deck);
   });
 });

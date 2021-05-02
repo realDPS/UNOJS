@@ -26,20 +26,17 @@ app.post("/gamestate", function (req, res) {
 });
 io.on("connection", function (socket) {
     console.log("Connected");
-    socket.on("Draw", function (info) {
+    socket.on("newHand", function (info) {
         console.log(info);
-        //GameState.players[data.playerNumber].cardArray = data.hand;
         socket.emit("enemyHandSize", info);
     });
     socket.on("topCard", function (card) {
         console.log(card);
-        //GameState.topCard = card;
-        socket.emit("enemyHandSize", card);
+        socket.emit("topCard", card);
     });
     socket.on("updateDeck", function (deck) {
         console.log(deck);
-        //GameState.drawDeck = deck;
-        socket.emit("enemyHandSize", deck);
+        socket.emit("updateDeck", deck);
     });
 });
 httpServer.listen(PORT, function () {
