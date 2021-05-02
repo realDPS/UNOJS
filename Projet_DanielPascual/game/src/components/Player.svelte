@@ -1,18 +1,21 @@
 <script lang="ts">
   import { randomize } from "./Game.svelte";
-  import { GameState } from "../store";
+  import { GameState } from "../store/store";
+  import { socket } from "../App.svelte";
   import Cards from "./Cards.svelte";
 
   // export let username: string;
   export let player: PlayerType;
 
-  // let playerNumber: number;
-  let yourTurn: boolean;
   $: PlayerCards = $GameState.players[player].cardArray;
 
   function discardCard({ detail: index }: { detail: number }) {
     const clickedCard = $GameState.players[player].cardArray[index];
     const { color, value } = clickedCard;
+
+    // if ($GameState.players[player].turnToPlay == false) {
+    //   return;
+    // }
 
     if (
       color === "Wild" ||
@@ -26,13 +29,16 @@
       ];
       $GameState.drawDeck.push($GameState.topCard);
       $GameState.drawDeck = randomize($GameState.drawDeck);
-      $GameState.topCard = clickedCard;
-    }
 
-    // $GameState.currentPlayer =
-    // 	$GameState.currentPlayer === 3
-    // 		? 0
-    // 		: (($GameState.currentPlayer + 1) as PlayerType);
+      const numOfCards = $GameState.players[player].cardArray.length;
+      socket.emit("newHand", { player, numOfCards });
+
+      const sendDeck = $GameState.drawDeck;
+      socket.emit("updateDeck", sendDeck);
+
+      // $GameState.topCard = clickedCard;
+      // socket.emit("topCard", clickedCard);
+    }
   }
 </script>
 

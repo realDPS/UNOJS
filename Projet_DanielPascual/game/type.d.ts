@@ -28,4 +28,5 @@ interface GameState {
 
 type AnimationType = "Pulse" | "Peek" | "None";
 
-type Data = { playerNumber: PlayerType, hand: CardType[] }
+type DataPlayer = { playerNumber: PlayerType, numOfCards: number }
+type DataDeck = Array<CardType>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { socket } from "../App.svelte";
-  import { GameState } from "../store";
+  import { GameState } from "../store/store";
   import Cards from "./Cards.svelte";
 
   //Draw +4 or +2 on next player
@@ -31,13 +31,33 @@
       $GameState.players[$GameState.currentPlayer].cardArray.length
     ] = Card;
     // console.log($GameState.players[$GameState.currentPlayer].cardArray);
-    //CHECK:MAYBE ADD A SECOND VAR THAT SEND WHO'S DECK IS SENT
-    //+ HOW TO SEND INFORMATION TO ALL EXCEPT HIMSELF
-    socket.emit("Draw", $GameState.players[$GameState.currentPlayer].cardArray);
-    socket.on("Draw", (data) => {
-      console.log(data);
-    });
+    const playerNb = $GameState.currentPlayer;
+    const hand = $GameState.players[playerNb].cardArray;
+
+    console.log("info to send:", { playerNb, hand });
+
+    socket.emit("newHand", { playerNb, hand });
   }
+
+  socket.on("enemyHandSize", ({ numOfCards, playerNumber }: DataPlayer) => {
+    $GameState.players[playerNumber].handLength = numOfCards;
+    console.log("enemyHandSize ", { numOfCards, playerNumber });
+  });
+
+  socket.on("playCard", ({ numOfCards, playerNumber }: DataPlayer) => {
+    $GameState.players[playerNumber].handLength = numOfCards;
+    console.log("lastPlayedCard ", { numOfCards, playerNumber });
+  });
+
+  socket.on("updateDeck", (deck: DataDeck) => {
+    console.log(deck);
+    $GameState.drawDeck = deck;
+  });
+
+  socket.on("topCard", (topCard: CardType) => {
+    console.log(topCard);
+    $GameState.topCard = topCard;
+  });
 
   //Set top card in discard pile on game launch
   $GameState.topCard = $GameState.drawDeck.shift();

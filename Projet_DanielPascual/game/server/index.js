@@ -26,10 +26,10 @@ app.post("/gamestate", function (req, res) {
 });
 io.on("connection", function (socket) {
     console.log("Connected");
-    socket.on("Draw", function (data) {
-        console.log(data);
+    socket.on("Draw", function (info) {
+        console.log(info);
         //GameState.players[data.playerNumber].cardArray = data.hand;
-        socket.emit("enemyHandSize", data);
+        socket.emit("enemyHandSize", info);
     });
     socket.on("topCard", function (card) {
         console.log(card);
