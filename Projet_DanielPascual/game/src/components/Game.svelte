@@ -81,7 +81,7 @@
 </script>
 
 <script lang="ts">
-  import { GameState } from "../store";
+  import { GameState } from "../store/store";
   import Cards from "./Cards.svelte";
   import Player from "./Player.svelte";
   import PlayingField from "./PlayingField.svelte";
@@ -132,7 +132,7 @@
 <div class="Table">
   <div class="Row">
     <div />
-    <div class="top" />
+    <!-- <Player player={1} /> -->
     <div />
   </div>
   <div class="Row">

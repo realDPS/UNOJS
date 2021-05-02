@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
-  import { GameState } from "../store";
+  import { GameState } from "../store/store";
 
   // Check notes for export functionality in Svelte
   export let faceDown: boolean = false;
@@ -55,7 +55,6 @@
 
   .Peek:hover {
     position: relative;
-    /* z-index: 2; */
     top: -30px;
     /* padding-bottom: 30px; */
   }

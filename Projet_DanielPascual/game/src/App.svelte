@@ -9,7 +9,7 @@
   import Player from "./components/Player.svelte";
   import Card from "./components/Cards.svelte";
   import Game from "./components/Game.svelte";
-  import { GameState } from "./store";
+  import { GameState } from "./store/store";
   import PlayingField from "./components/PlayingField.svelte";
   import LobbySetup from "./components/LobbySetup.svelte";
   import { onMount } from "svelte";
