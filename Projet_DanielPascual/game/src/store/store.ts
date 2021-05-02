@@ -6,13 +6,17 @@ export const GameState: Writable<GameState> = writable({
     uno: false,
     players: [
         {
+            username: "",
             cardArray: [],
+            HandLength: 0,
             turnToPlay: true,
             uno: false,
             drewCard: false
         },
         {
+            username: "",
             cardArray: [],
+            HandLength: 0,
             turnToPlay: true,
             uno: false,
             drewCard: false
