@@ -8,9 +8,9 @@ interface CardType {
     color?: Color;
 }
 
-type PlayerType = 0 | 1 | 3 | 4;
+type PlayerType = 0 | 1 | 2 | 3;
 
-interface PlayerData { cardArray: Array<CardType>, turnToPlay: boolean, uno: boolean, drewCard: boolean }
+interface PlayerData { username: String, cardArray: Array<CardType>, handLength: number, turnToPlay: boolean, uno: boolean, drewCard: boolean }
 
 type Position = "Top" | "Right" | "Left" | "User";
 
@@ -22,9 +22,10 @@ interface GameState {
     uno: boolean,
     players: Array<PlayerData>;
     drawDeck: Array<CardType>;
-    topCard: Card;
+    topCard: CardType;
     drawCard: boolean
 }
 
 type AnimationType = "Pulse" | "Peek" | "None";
 
+type Data = { playerNumber: PlayerType, hand: CardType[] }
