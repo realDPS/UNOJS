@@ -81,7 +81,7 @@
 </script>
 
 <script lang="ts">
-  import { GameState } from "../store/store";
+  import { GameState } from "../store";
   import Cards from "./Cards.svelte";
   import Player from "./Player.svelte";
   import PlayingField from "./PlayingField.svelte";

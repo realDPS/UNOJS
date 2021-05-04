@@ -1,10 +1,10 @@
 <script lang="ts">
   import InputField from "./InputField.svelte";
   import { socket } from "../App.svelte";
-  import { GameState } from "../store/store";
+  import { GameState } from "../store";
 
   function createRoom() {
-    socket.on("newRoom", (room) => {
+    socket.emit("newRoom", () => {
       $GameState.roomId = room;
     });
   }

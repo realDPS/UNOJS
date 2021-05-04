@@ -16,38 +16,44 @@ var io = new socket_io_1.Server(httpServer, {
     }
 });
 var PORT = 3000;
-var room = [];
+var room = {};
 app.use(cors_1["default"]({
     origin: "localhost"
 }));
 app.use(express_1["default"].json());
 app.use(express_1["default"].urlencoded({ extended: true }));
-// express.static(path.join(__dirname, "..", "public/"));
-// app.use(express.static("public"));
 app.post("/gamestate", function (req, res) {
     console.log(req.body);
     res.send({
         message: "Received JSON"
     });
 });
-app.get("/:penis", function (req, res) {
-    console.log();
-});
+// app.get("/:test", (req, res) => {
+//   console.log();
+// })
 io.on("connection", function (socket) {
     console.log("Connected");
-    var id = uuid_1.v4();
-    room.push(id);
-    socket.emit("newRoom", id);
-    socket.on("newHand", function (info) {
-        console.log(info);
-        socket.emit("enemyHandSize", info);
+    socket.on("newRoom", function () {
+        var roomID = uuid_1.v4();
+        socket.join(roomID);
+        room.push(roomID);
+        socket.emit("newRoom", roomID);
+    });
+    socket.on("join", function (id) {
+        socket.join(id);
+        var gameState = null;
+        room[id];
+        //need to defined user nb and gameState
+        socket.emit("joined", gameState);
+    });
+    socket.on("newHand", function (hand) {
+        socket.emit("enemyHandSize", hand);
+        console.log(socket.rooms);
     });
     socket.on("topCard", function (card) {
-        console.log(card);
         socket.emit("topCard", card);
     });
     socket.on("updateDeck", function (deck) {
-        console.log(deck);
         socket.emit("updateDeck", deck);
     });
 });

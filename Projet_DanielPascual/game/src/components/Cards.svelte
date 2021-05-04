@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
-  import { GameState } from "../store/store";
+  import { GameState } from "../store";
 
   // Check notes for export functionality in Svelte
   export let faceDown: boolean = false;

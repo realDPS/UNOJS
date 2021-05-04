@@ -1,6 +1,6 @@
 <script lang="ts">
   import { socket } from "../App.svelte";
-  import { GameState } from "../store/store";
+  import { GameState } from "../store";
   import Cards from "./Cards.svelte";
 
   //Draw +4 or +2 on next player
@@ -30,24 +30,18 @@
     $GameState.players[$GameState.currentPlayer].cardArray[
       $GameState.players[$GameState.currentPlayer].cardArray.length
     ] = Card;
-    // console.log($GameState.players[$GameState.currentPlayer].cardArray);
+
     const player = $GameState.currentPlayer;
     const numOfCards = $GameState.players[player].cardArray;
-
-    console.log("info to send:", { player, numOfCards });
 
     socket.emit("newHand", { player, numOfCards });
   }
 
+  //Server call functions:
   socket.on("enemyHandSize", ({ numOfCards, player }: DataPlayer) => {
     console.log("enemyHandSize ", { numOfCards, player });
     $GameState.players[player].handLength = numOfCards;
   });
-
-  // socket.on("playCard", ({ numOfCards, playerNumber }: DataPlayer) => {
-  //   $GameState.players[playerNumber].handLength = numOfCards;
-  //   console.log("lastPlayedCard ", { numOfCards, playerNumber });
-  // });
 
   socket.on("updateDeck", (deck: DataDeck) => {
     console.log(deck);
@@ -55,7 +49,6 @@
   });
 
   socket.on("topCard", (topCard: CardType) => {
-    console.log(topCard);
     $GameState.topCard = topCard;
   });
 
