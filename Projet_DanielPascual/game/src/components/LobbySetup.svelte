@@ -2,10 +2,25 @@
   import InputField from "./InputField.svelte";
   import { socket } from "../App.svelte";
   import { GameState } from "../store";
+  let joinRoomID: string;
 
   function createRoom() {
-    socket.emit("newRoom", () => {
-      $GameState.roomId = room;
+    socket.emit("newRoom", $GameState);
+    socket.on("roomIdCreated", (id) => {
+      $GameState.roomId = id;
+    });
+  }
+
+  function setJoinRoom(event) {
+    joinRoomID = event.target.value;
+  }
+  function joinRoom() {
+    const username = $GameState.players[0].username;
+    const id = joinRoomID;
+    socket.emit("join", { id, username });
+
+    socket.on("joined", (state) => {
+      $GameState = state;
     });
   }
 </script>
@@ -97,6 +112,11 @@
         <option value="4">Four</option>
       </select>
     </div>
+  </div>
+  <div class="Join">
+    <span contentEditable="true" id="RoomID" />
+    <input type="text" on:keyup={setJoinRoom} />
+    <button class="Create-btn" on:click={joinRoom}>Join Game</button>
   </div>
   <div class="Button">
     <button class="Create-btn" on:click={createRoom}>Create Game</button>

@@ -16,7 +16,11 @@ var io = new socket_io_1.Server(httpServer, {
     }
 });
 var PORT = 3000;
-var room = {};
+// let room = {}
+var rooms = new Map();
+// let roomID = "room1", GameState = "stateTest";
+// rooms.set(roomID, GameState);
+// rooms.get(roomID);
 app.use(cors_1["default"]({
     origin: "localhost"
 }));
@@ -33,18 +37,22 @@ app.post("/gamestate", function (req, res) {
 // })
 io.on("connection", function (socket) {
     console.log("Connected");
-    socket.on("newRoom", function () {
+    socket.on("newRoom", function (GameState) {
         var roomID = uuid_1.v4();
         socket.join(roomID);
-        room.push(roomID);
-        socket.emit("newRoom", roomID);
+        rooms.set(roomID, GameState);
+        console.log("new room created!", roomID);
+        socket.emit("roomIdCreated", roomID);
     });
-    socket.on("join", function (id) {
+    socket.on("join", function (_a) {
+        var id = _a.id, username = _a.username;
         socket.join(id);
-        var gameState = null;
-        room[id];
-        //need to defined user nb and gameState
-        socket.emit("joined", gameState);
+        var player = {};
+        player.username = username;
+        rooms.get(id).players.push(player);
+        console.log(username, " joined ", rooms.get(id));
+        socket.emit("joined", rooms.get(id));
+        //todo: add an joined emit
     });
     socket.on("newHand", function (hand) {
         socket.emit("enemyHandSize", hand);

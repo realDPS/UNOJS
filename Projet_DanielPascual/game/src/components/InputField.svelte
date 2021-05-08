@@ -1,3 +1,13 @@
+<script lang="ts">
+  import { GameState } from "../store";
+
+  function onChange(event) {
+    //: KeyboardEventHandler<HTMLInputElement>
+    console.log(event.target.value);
+    $GameState.players[0].username = event.target.value;
+  }
+</script>
+
 <style>
   .form {
     width: 100%;
@@ -59,7 +69,13 @@
 </style>
 
 <div class="form">
-  <input type="text" name="name" placeholder=" " autocomplete="off" />
+  <input
+    type="text"
+    name="name"
+    placeholder=" "
+    autocomplete="off"
+    on:keyup={onChange}
+  />
   <!-- this above placeholder with just a space is necessary to trigger the input animation :not(:placeholder-shown) -->
   <label for="name" class="label-name">
     <span class="content-name">Username</span>

@@ -51,7 +51,7 @@
   }
 </style>
 
-<!-- <div class="LobbyModal">
+<div class="LobbyModal">
   <LobbySetup />
-</div> -->
+</div>
 <Game />
