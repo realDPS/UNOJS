@@ -15,11 +15,7 @@ const io = new Server(httpServer, {
 
 const PORT = 3000;
 
-// let room = {}
-let rooms = new Map();
-// let roomID = "room1", GameState = "stateTest";
-// rooms.set(roomID, GameState);
-// rooms.get(roomID);
+let rooms: Map<string, GameState> = new Map();
 
 app.use(
   cors({
@@ -80,5 +76,3 @@ io.on("connection", (socket) => {
 httpServer.listen(PORT, () => {
   console.log(`listening on: ${PORT}`);
 });
-
-console.log(uuidv4());
