@@ -15,6 +15,7 @@
     "Draw",
     "Skip"
   ];
+
   const wildValueArray: Array<Value> = ["Draw", "CC"];
 
   export function getRandomColor() {
@@ -81,7 +82,7 @@
 </script>
 
 <script lang="ts">
-  import { GameState } from "../store";
+  import { GameState, username } from "../store";
   import Cards from "./Cards.svelte";
   import Player from "./Player.svelte";
   import PlayingField from "./PlayingField.svelte";
@@ -100,6 +101,81 @@
       layout = "Four Players";
       break;
   }
+
+  const ENEMIES_POSITION = { right: null, top: null, left: null };
+  //Will check numbers of players and organize each client's enemies' position
+  function displaySetup() {
+    const players = $GameState.players;
+
+    switch (players.length) {
+      case 2:
+        mode2players($username, players);
+        break;
+      case 3:
+        mode3players($username, players);
+        break;
+      case 4:
+        mode4players($username, players);
+        break;
+    }
+  }
+
+  function mode2players(username, playerArray: Array<PlayerData>) {
+    let index = playerArray.indexOf(username);
+    let enemies = Object.assign({}, ENEMIES_POSITION);
+
+    enemies.top =
+      index === 0 ? playerArray[1].username : playerArray[0].username;
+  }
+
+  function mode3players(username, playerArray) {
+    let index = playerArray.indexOf(username);
+    let enemies = Object.assign({}, ENEMIES_POSITION);
+
+    switch (index) {
+      case 0:
+        enemies.right = playerArray[1].username;
+        enemies.left = playerArray[2].username;
+        break;
+      case 1:
+        enemies.right = playerArray[2].username;
+        enemies.left = playerArray[0].username;
+        break;
+      case 2:
+        enemies.right = playerArray[0].username;
+        enemies.left = playerArray[1].username;
+        break;
+    }
+  }
+
+  function mode4players(username, playerArray) {
+    let index = playerArray.indexOf(username);
+    let enemies = Object.assign({}, ENEMIES_POSITION);
+
+    switch (index) {
+      case 0:
+        enemies.right = playerArray[1].username;
+        enemies.top = playerArray[2].username;
+        enemies.left = playerArray[3].username;
+        break;
+      case 1:
+        enemies.right = playerArray[2].username;
+        enemies.top = playerArray[3].username;
+        enemies.left = playerArray[0].username;
+        break;
+      case 2:
+        enemies.right = playerArray[3].username;
+        enemies.top = playerArray[0].username;
+        enemies.left = playerArray[1].username;
+        break;
+      case 3:
+        enemies.right = playerArray[0].username;
+        enemies.top = playerArray[1].username;
+        enemies.left = playerArray[2].username;
+        break;
+    }
+  }
+  //end of positionning display
 
   $GameState.drawDeck = generateDeck();
   $: console.log($GameState.drawDeck);
