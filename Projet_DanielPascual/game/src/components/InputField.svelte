@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { GameState } from "../store";
+  import { username } from "../store";
 
   function onChange(event) {
     //: KeyboardEventHandler<HTMLInputElement>
     console.log(event.target.value);
-    $GameState.players[0].username = event.target.value;
+    $username = event.target.value;
   }
 </script>
 
