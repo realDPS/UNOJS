@@ -51,21 +51,7 @@
   }
 </style>
 
-<!-- <div class="LobbyModal">
+<div class="LobbyModal">
   <LobbySetup />
 </div>
-<Game /> -->
-
-<div class="input-field col s6">
-  <input id="last_name" type="text" class="validate" />
-  <label for="last_name">Username</label>
-</div>
-<div class="input-field col s12">
-  <select>
-    <option value="" disabled selected>Choose your option</option>
-    <option value="1">Option 1</option>
-    <option value="2">Option 2</option>
-    <option value="3">Option 3</option>
-  </select>
-  <label>Materialize Select</label>
-</div>
+<Game />

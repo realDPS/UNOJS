@@ -1,7 +1,7 @@
 <script lang="ts">
   import InputField from "./InputField.svelte";
   import { socket } from "../App.svelte";
-  import { GameState, username } from "../store";
+  import { GameState } from "../store";
   let joinRoomID: string;
 
   function createRoom() {
@@ -15,28 +15,12 @@
     joinRoomID = event.target.value;
   }
   function joinRoom() {
-    const user = $username;
-    let isReady = true;
-
-    if (user === null) {
-      isReady = false;
-      //todo
-      //red highlight username
-    }
-    if (joinRoomID === null) {
-      isReady = false;
-      //red highlight lobby
-    }
-
-    if (isReady) {
-      socket.emit("join", { joinRoomID, user });
-    }
-    //todo: add an error on join
+    const username = $GameState.players[0].username;
+    const id = joinRoomID;
+    socket.emit("join", { id, username });
 
     socket.on("joined", (state) => {
       $GameState = state;
-      //todo:
-      //if state.usernaem(length-1)==$username: pick 5 cards and update server
     });
   }
 </script>
