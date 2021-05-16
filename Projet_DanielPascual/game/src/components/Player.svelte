@@ -79,6 +79,7 @@
         on:discard={discardCard}
         hand={true}
         faceDown={!isMyHand}
+        isHighlighted={true}
       />
     </div>
   {/each}

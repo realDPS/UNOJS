@@ -11,7 +11,11 @@
   export let index: number = null;
   export let hand = false;
 
+  export let isHighlighted: boolean = false;
+  let noHighlight: string = "";
+
   $: handClass = hand ? "Hand" : null;
+  $: noHighlight = isHighlighted ? "" : "noLight";
 
   const dispatch = createEventDispatcher();
 
@@ -72,11 +76,15 @@
     background-color: rgba(0, 0, 0, 0);
     filter: drop-shadow(-15px 15px 10px rgba(0, 0, 0, 0.5));
   }
+  #noLight {
+    filter: brightness(50%) drop-shadow(-15px 15px 10px rgba(0, 0, 0, 0.5));
+  }
 </style>
 
 {#if faceDown}
   <img
     class="Cards"
+    id={`${noHighlight}`}
     src="../assets/Cards/Deck.png"
     alt="Face Down UNO card"
     draggable={false}
@@ -84,6 +92,7 @@
 {:else}
   <img
     class={`Cards ${animation} ${handClass}`}
+    id={`${noHighlight}`}
     src={value === "CC"
       ? "../assets/Cards/Wild.png"
       : `../assets/Cards/${color}_${value}.png`}
