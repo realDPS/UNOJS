@@ -86,23 +86,14 @@
   import Cards from "./Cards.svelte";
   import Player from "./Player.svelte";
   import PlayingField from "./PlayingField.svelte";
-
-  export let numOfPlayer: number = 2;
-  let layout;
-
-  switch (numOfPlayer) {
-    case 2:
-      layout = "Two Players";
-      break;
-    case 3:
-      layout = "Three Players";
-      break;
-    case 4:
-      layout = "Four Players";
-      break;
-  }
+  import { socket } from "../App.svelte";
 
   const enemies_position = { right: null, top: null, left: null };
+
+  socket.on("gameStart", () => {
+    displaySetup();
+  });
+
   //Will check numbers of players and organize each client's enemies' position
   function displaySetup() {
     const players = $GameState.players;
@@ -183,7 +174,8 @@
   $GameState.drawDeck = generateDeck();
   $: console.log($GameState.drawDeck);
 
-  for (let i = 0; i < numOfPlayer; ++i) {
+  //Initial hand for each player
+  for (let i = 0; i < $GameState.numOfPlayers; ++i) {
     for (let j = 0; j < 7; ++j) {
       $GameState.players[i].cardArray[j] = $GameState.drawDeck.shift();
     }

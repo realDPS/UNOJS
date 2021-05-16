@@ -42,7 +42,7 @@ interface GameState {
   currentPlayer: PlayerType;
   order: Order;
   uno: boolean;
-  nbOfPlayers: number;
+  numOfPlayers: number;
   players: Array<PlayerData>;
   drawDeck: Array<CardType>;
   topCard: CardType;
