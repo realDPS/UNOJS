@@ -242,6 +242,7 @@
     <div />
     <div class="down">
       <Player
+        isMyHand={true}
         player={$GameState.players.findIndex((playerData) => {
           return playerData.username === $username;
         })}

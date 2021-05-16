@@ -4,9 +4,8 @@
   import { socket } from "../App.svelte";
   import Cards from "./Cards.svelte";
 
-  // export let username: string;
   export let player: number;
-
+  export let isMyHand: boolean = false;
   $: PlayerCards = $GameState.players[player].cardArray;
 
   function discardCard({ detail: index }: { detail: number }) {
@@ -70,6 +69,7 @@
         {index}
         on:discard={discardCard}
         hand={true}
+        faceDown={!isMyHand}
       />
     </div>
   {/each}
