@@ -82,7 +82,7 @@
 </script>
 
 <script lang="ts">
-  import { GameState, username } from "../store";
+  import { GameState, username, getPlayerIndex } from "../store";
   import Cards from "./Cards.svelte";
   import Player from "./Player.svelte";
   import PlayingField from "./PlayingField.svelte";
@@ -208,11 +208,7 @@
     <div />
     <div class="top">
       {#if enemies_position.top}
-        <Player
-          player={$GameState.players.findIndex((playerData) => {
-            return playerData.username === enemies_position.top;
-          })}
-        />
+        <Player player={getPlayerIndex($GameState, enemies_position.top)} />
       {/if}
     </div>
     <div />
@@ -220,33 +216,20 @@
   <div class="Row">
     <div class="left">
       {#if enemies_position.left}
-        <Player
-          player={$GameState.players.findIndex((playerData) => {
-            return playerData.username === enemies_position.left;
-          })}
-        />
+        <Player player={getPlayerIndex($GameState, enemies_position.left)} />
       {/if}
     </div>
     <PlayingField />
     <div class="right">
       {#if enemies_position.right}
-        <Player
-          player={$GameState.players.findIndex((playerData) => {
-            return playerData.username === enemies_position.right;
-          })}
-        />
+        <Player player={getPlayerIndex($GameState, enemies_position.right)} />
       {/if}
     </div>
   </div>
   <div class="Row">
     <div />
     <div class="down">
-      <Player
-        isMyHand={true}
-        player={$GameState.players.findIndex((playerData) => {
-          return playerData.username === $username;
-        })}
-      />
+      <Player isMyHand={true} player={getPlayerIndex($GameState, $username)} />
     </div>
     <div>3</div>
   </div>

@@ -19,7 +19,7 @@ export const GameState: Writable<GameState> = writable({
       username: "",
       cardArray: [],
       handLength: 0,
-      turnToPlay: true,
+      turnToPlay: false,
       uno: false,
       drewCard: false
     }
@@ -30,3 +30,9 @@ export const GameState: Writable<GameState> = writable({
 });
 
 export const username = writable("");
+
+export const getPlayerIndex = (state: GameState, name: string) => {
+  return state.players.findIndex((playerData) => {
+    return playerData.username === name;
+  });
+};
