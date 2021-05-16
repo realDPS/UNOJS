@@ -214,29 +214,47 @@
 <div class="Table">
   <div class="Row">
     <div />
-
-    {#if enemies_position.top}
+    <div class="top">
+      {#if enemies_position.top}
+        <Player
+          player={$GameState.players.findIndex((playerData) => {
+            return playerData.username === enemies_position.top;
+          })}
+        />
+      {/if}
+    </div>
+    <div />
+  </div>
+  <div class="Row">
+    <div class="left">
+      {#if enemies_position.left}
+        <Player
+          player={$GameState.players.findIndex((playerData) => {
+            return playerData.username === enemies_position.left;
+          })}
+        />
+      {/if}
+    </div>
+    <PlayingField />
+    <div class="right">
+      {#if enemies_position.right}
+        <Player
+          player={$GameState.players.findIndex((playerData) => {
+            return playerData.username === enemies_position.right;
+          })}
+        />
+      {/if}
+    </div>
+  </div>
+  <div class="Row">
+    <div />
+    <div class="down">
       <Player
         player={$GameState.players.findIndex((playerData) => {
-          return playerData.username === enemies_position.top;
+          return playerData.username === $username;
         })}
       />
-    {/if}
-
-    <div />
-  </div>
-  <div class="Row">
-    <div class="left" />
-    <PlayingField />
-    <div class="right" />
-  </div>
-  <div class="Row">
-    <div />
-    <Player
-      player={$GameState.players.findIndex((playerData) => {
-        return playerData.username === $username;
-      })}
-    />
-    <div />
+    </div>
+    <div>3</div>
   </div>
 </div>
