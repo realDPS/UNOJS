@@ -1,12 +1,13 @@
 "use strict";
 exports.__esModule = true;
-exports.GameState = void 0;
+exports.username = exports.GameState = void 0;
 var store_1 = require("svelte/store");
 exports.GameState = store_1.writable({
     roomId: "",
     order: "clockwise",
     currentPlayer: 0,
     uno: false,
+    nbOfPlayers: 2,
     players: [
         {
             username: "",
@@ -29,3 +30,4 @@ exports.GameState = store_1.writable({
     topCard: null,
     drawCard: false
 });
+exports.username = store_1.writable("");

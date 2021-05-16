@@ -1,6 +1,8 @@
 <script lang="ts">
   import { GameState } from "../store";
 
+  export let text = "";
+
   function onChange(event) {
     //: KeyboardEventHandler<HTMLInputElement>
     console.log(event.target.value);
@@ -23,7 +25,6 @@
     border: none;
     background-color: rgba(0, 0, 0, 0);
     outline: none;
-    color: #326dbf;
   }
 
   .form label {
@@ -52,7 +53,7 @@
     position: absolute;
     bottom: 5px;
     left: 0;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
   }
 
   .form input:focus + .label-name .content-name,
@@ -78,6 +79,6 @@
   />
   <!-- this above placeholder with just a space is necessary to trigger the input animation :not(:placeholder-shown) -->
   <label for="name" class="label-name">
-    <span class="content-name">Username</span>
+    <span class="content-name">{text}</span>
   </label>
 </div>

@@ -11,8 +11,10 @@
   import Game from "./components/Game.svelte";
   import { GameState } from "./store";
   import PlayingField from "./components/PlayingField.svelte";
-  import LobbySetup from "./components/LobbySetup.svelte";
+  import Modal from "./components/Modal.svelte";
   import { onMount } from "svelte";
+  import Username from "./components/Username.svelte";
+  import GameSetup from "./components/GameSetup.svelte";
 
   let numOfPlayer;
   $: console.log($GameState.currentPlayer);
@@ -51,7 +53,8 @@
   }
 </style>
 
-<div class="LobbyModal">
-  <LobbySetup />
+<!-- <div class="LobbyModal">
+  <Modal />
 </div>
-<Game />
+<Game /> -->
+<GameSetup />

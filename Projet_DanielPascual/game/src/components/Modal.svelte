@@ -3,8 +3,16 @@
   import { socket } from "../App.svelte";
   import { GameState } from "../store";
   let joinRoomID: string;
+  let isSetupCompleted = false;
+
+  let choices = [
+    { id: 1, text: "2 Players" },
+    { id: 2, text: "3 Players" },
+    { id: 3, text: "4 Players" }
+  ];
 
   function createRoom() {
+    isSetupCompleted = !isSetupCompleted;
     socket.emit("newRoom", $GameState);
     socket.on("roomIdCreated", (id) => {
       $GameState.roomId = id;
@@ -99,26 +107,33 @@
   }
 </style>
 
-<div class="LobbyModal">
-  <div class="PlayerSetup">
-    <div class="Top-Container">
-      <InputField />
+{#if isSetupCompleted == false}
+  <div class="LobbyModal">
+    <div class="PlayerSetup">
+      <div class="Top-Container">
+        <InputField />
+      </div>
+      <div class="Top-Container">
+        <select name="Player Numbers" class="Select ">
+          <option value="" disabled selected>Number of Players</option>
+          {#each choices as choice}
+            <option value={choice}>{choice.text}</option>
+          {/each}
+        </select>
+      </div>
     </div>
-    <div class="Top-Container">
-      <select name="Player Numbers" class="Select ">
-        <option value="" disabled selected>Number of Players</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-        <option value="4">Four</option>
-      </select>
+    <div class="Join">
+      <span contentEditable="true" id="RoomID" />
+      <input type="text" on:keyup={setJoinRoom} />
+      <button class="Create-btn" on:click={joinRoom}>Join Game</button>
+    </div>
+    <div class="Button">
+      <button class="Create-btn" on:click={createRoom}>Create Game</button>
     </div>
   </div>
-  <div class="Join">
-    <span contentEditable="true" id="RoomID" />
-    <input type="text" on:keyup={setJoinRoom} />
-    <button class="Create-btn" on:click={joinRoom}>Join Game</button>
+{:else}
+  <div class="LobbyModal">
+    <h2>{$GameState.roomId}</h2>
+    <h3>Room size: {$GameState.nbOfPlayers}</h3>
   </div>
-  <div class="Button">
-    <button class="Create-btn" on:click={createRoom}>Create Game</button>
-  </div>
-</div>
+{/if}

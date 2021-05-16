@@ -32,7 +32,6 @@ label {
 }
 
 input,
-button,
 select,
 textarea {
   font-family: inherit;
@@ -47,22 +46,4 @@ textarea {
 
 input:disabled {
   color: #ccc;
-}
-
-button {
-  color: #333;
-  background-color: #f4f4f4;
-  outline: none;
-}
-
-button:disabled {
-  color: #999;
-}
-
-button:not(:disabled):active {
-  background-color: #ddd;
-}
-
-button:focus {
-  border-color: #666;
 }

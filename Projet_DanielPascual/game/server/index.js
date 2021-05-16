@@ -16,11 +16,7 @@ var io = new socket_io_1.Server(httpServer, {
     }
 });
 var PORT = 3000;
-// let room = {}
 var rooms = new Map();
-// let roomID = "room1", GameState = "stateTest";
-// rooms.set(roomID, GameState);
-// rooms.get(roomID);
 app.use(cors_1["default"]({
     origin: "localhost"
 }));
@@ -68,4 +64,3 @@ io.on("connection", function (socket) {
 httpServer.listen(PORT, function () {
     console.log("listening on: " + PORT);
 });
-console.log(uuid_1.v4());
