@@ -5,7 +5,7 @@ export const GameState: Writable<GameState> = writable({
   order: "clockwise",
   currentPlayer: 0,
   uno: false,
-  nbOfPlayers: 2,
+  numOfPlayers: 2,
   players: [
     {
       username: "",
