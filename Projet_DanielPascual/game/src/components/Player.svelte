@@ -5,7 +5,7 @@
   import Cards from "./Cards.svelte";
 
   // export let username: string;
-  export let player: PlayerType;
+  export let player: number;
 
   $: PlayerCards = $GameState.players[player].cardArray;
 

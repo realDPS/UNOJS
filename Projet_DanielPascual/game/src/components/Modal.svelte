@@ -107,33 +107,4 @@
   }
 </style>
 
-{#if isSetupCompleted == false}
-  <div class="LobbyModal">
-    <div class="PlayerSetup">
-      <div class="Top-Container">
-        <InputField />
-      </div>
-      <div class="Top-Container">
-        <select name="Player Numbers" class="Select ">
-          <option value="" disabled selected>Number of Players</option>
-          {#each choices as choice}
-            <option value={choice}>{choice.text}</option>
-          {/each}
-        </select>
-      </div>
-    </div>
-    <div class="Join">
-      <span contentEditable="true" id="RoomID" />
-      <input type="text" on:keyup={setJoinRoom} />
-      <button class="Create-btn" on:click={joinRoom}>Join Game</button>
-    </div>
-    <div class="Button">
-      <button class="Create-btn" on:click={createRoom}>Create Game</button>
-    </div>
-  </div>
-{:else}
-  <div class="LobbyModal">
-    <h2>{$GameState.roomId}</h2>
-    <h3>Room size: {$GameState.nbOfPlayers}</h3>
-  </div>
-{/if}
+<div class="Modal">if</div>

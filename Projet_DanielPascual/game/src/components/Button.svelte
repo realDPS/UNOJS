@@ -118,4 +118,4 @@
   }
 </style>
 
-<button class="pure-material-button-contained">{text}</button>
+<button class="pure-material-button-contained" on:click>{text}</button>

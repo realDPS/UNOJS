@@ -29,4 +29,4 @@ export const GameState: Writable<GameState> = writable({
   drawCard: false
 });
 
-export let username = writable("");
+export const username = writable("");

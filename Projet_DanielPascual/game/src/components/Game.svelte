@@ -102,7 +102,7 @@
       break;
   }
 
-  const ENEMIES_POSITION = { right: null, top: null, left: null };
+  const enemies_position = { right: null, top: null, left: null };
   //Will check numbers of players and organize each client's enemies' position
   function displaySetup() {
     const players = $GameState.players;
@@ -120,58 +120,61 @@
     }
   }
 
-  function mode2players(username, playerArray: Array<PlayerData>) {
-    let index = playerArray.indexOf(username);
-    let enemies = Object.assign({}, ENEMIES_POSITION);
+  function mode2players(username: string, playerArray: Array<PlayerData>) {
+    let index = playerArray.findIndex((playerData) => {
+      return playerData.username === username;
+    });
 
-    enemies.top =
+    enemies_position.top =
       index === 0 ? playerArray[1].username : playerArray[0].username;
   }
 
-  function mode3players(username, playerArray) {
-    let index = playerArray.indexOf(username);
-    let enemies = Object.assign({}, ENEMIES_POSITION);
+  function mode3players(username: string, playerArray: Array<PlayerData>) {
+    let index = playerArray.findIndex((playerData) => {
+      return playerData.username === username;
+    });
 
     switch (index) {
       case 0:
-        enemies.right = playerArray[1].username;
-        enemies.left = playerArray[2].username;
+        enemies_position.right = playerArray[1].username;
+        enemies_position.left = playerArray[2].username;
         break;
       case 1:
-        enemies.right = playerArray[2].username;
-        enemies.left = playerArray[0].username;
+        enemies_position.right = playerArray[2].username;
+        enemies_position.left = playerArray[0].username;
         break;
       case 2:
-        enemies.right = playerArray[0].username;
-        enemies.left = playerArray[1].username;
+        enemies_position.right = playerArray[0].username;
+        enemies_position.left = playerArray[1].username;
         break;
     }
   }
 
-  function mode4players(username, playerArray) {
-    let index = playerArray.indexOf(username);
-    let enemies = Object.assign({}, ENEMIES_POSITION);
+  function mode4players(username: string, playerArray: Array<PlayerData>) {
+    let index = playerArray.findIndex((playerData) => {
+      return playerData.username === username;
+    });
 
     switch (index) {
       case 0:
-        enemies.right = playerArray[1].username;
-        enemies.top = playerArray[2].username;
-        enemies.left = playerArray[3].username;
+        enemies_position.right = playerArray[1].username;
+        enemies_position.top = playerArray[2].username;
+        enemies_position.left = playerArray[3].username;
         break;
       case 1:
-        enemies.right = playerArray[2].username;
-        enemies.top = playerArray[3].username;
-        enemies.left = playerArray[0].username;
+        enemies_position.right = playerArray[2].username;
+        enemies_position.top = playerArray[3].username;
+        enemies_position.left = playerArray[0].username;
         break;
       case 2:
-        enemies.right = playerArray[3].username;
-        enemies.top = playerArray[0].username;
-        enemies.left = playerArray[1].username;
+        enemies_position.right = playerArray[3].username;
+        enemies_position.top = playerArray[0].username;
+        enemies_position.left = playerArray[1].username;
         break;
       case 3:
-        enemies.right = playerArray[0].username;
-        enemies.top = playerArray[1].username;
-        enemies.left = playerArray[2].username;
+        enemies_position.right = playerArray[0].username;
+        enemies_position.top = playerArray[1].username;
+        enemies_position.left = playerArray[2].username;
         break;
     }
   }
@@ -208,7 +211,7 @@
 <div class="Table">
   <div class="Row">
     <div />
-    <!-- <Player player={1} /> -->
+    <Player player={$GameState.players.findIndex(enemies_position.top)} />
     <div />
   </div>
   <div class="Row">
@@ -218,7 +221,7 @@
   </div>
   <div class="Row">
     <div />
-    <Player player={0} />
+    <Player player={$GameState.players.findIndex($username)} />
     <div />
   </div>
 </div>

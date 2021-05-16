@@ -1,5 +1,3 @@
-const test = {};
+const playerArr = [{ username: "Plokij" }, { username: "Blue" }];
 
-test.name = "Name";
-
-console.log(test);
+console.log(playerArr.findIndex(({ username }) => username === "Blue"));

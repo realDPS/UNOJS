@@ -55,6 +55,6 @@
 
 <!-- <div class="LobbyModal">
   <Modal />
-</div>
-<Game /> -->
-<GameSetup />
+</div> -->
+<Game />
+<!-- <GameSetup /> -->
