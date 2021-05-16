@@ -72,10 +72,14 @@
 
 <div id="playField">
   <div id="drawDeck" on:click={drawCard}>
-    <Cards faceDown={true} />
+    <Cards faceDown={true} isHighlighted={true} />
   </div>
 
   <div id="discardPile">
-    <Cards value={$GameState.topCard.value} color={$GameState.topCard.color} />
+    <Cards
+      value={$GameState.topCard.value}
+      color={$GameState.topCard.color}
+      isHighlighted={true}
+    />
   </div>
 </div>

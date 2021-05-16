@@ -79,7 +79,7 @@
         on:discard={discardCard}
         hand={true}
         faceDown={!isMyHand}
-        isHighlighted={true}
+        isHighlighted={$GameState.players[player].turnToPlay}
       />
     </div>
   {/each}
