@@ -188,6 +188,9 @@
       $GameState.players[i].cardArray[j] = $GameState.drawDeck.shift();
     }
   }
+  //test player 2
+  $GameState.players[1].username = "testy";
+  enemies_position.top = "testy";
 </script>
 
 <style>
@@ -211,7 +214,15 @@
 <div class="Table">
   <div class="Row">
     <div />
-    <Player player={$GameState.players.findIndex(enemies_position.top)} />
+
+    {#if enemies_position.top}
+      <Player
+        player={$GameState.players.findIndex((playerData) => {
+          return playerData.username === enemies_position.top;
+        })}
+      />
+    {/if}
+
     <div />
   </div>
   <div class="Row">
@@ -221,7 +232,11 @@
   </div>
   <div class="Row">
     <div />
-    <Player player={$GameState.players.findIndex($username)} />
+    <Player
+      player={$GameState.players.findIndex((playerData) => {
+        return playerData.username === $username;
+      })}
+    />
     <div />
   </div>
 </div>
