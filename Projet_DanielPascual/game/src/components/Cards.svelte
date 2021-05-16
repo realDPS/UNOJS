@@ -20,6 +20,7 @@
   const dispatch = createEventDispatcher();
 
   function clickAction() {
+    //refuse click if not player's turn
     if (!$GameState.players[getPlayerIndex($GameState, $username)].turnToPlay) {
       return;
     }

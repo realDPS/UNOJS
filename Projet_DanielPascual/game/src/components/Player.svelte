@@ -12,10 +12,6 @@
     const clickedCard = $GameState.players[player].cardArray[index];
     const { color, value } = clickedCard;
 
-    // if ($GameState.players[player].turnToPlay == false) {
-    //   return;
-    // }
-
     if (
       color === "Wild" ||
       $GameState.topCard.color === "Wild" ||
@@ -38,6 +34,10 @@
       $GameState.topCard = clickedCard;
       socket.emit("topCard", clickedCard);
 
+      //Unchecked
+      if ($GameState.players[player].cardArray.length == 0) {
+        socket.emit("playerWin", player);
+      }
       //TODO:UNCHECKED
       let turnIndex = getPlayerIndex($GameState, $username);
 
