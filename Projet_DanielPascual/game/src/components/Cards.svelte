@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
-  import { GameState } from "../store";
+  import { GameState, username, getPlayerIndex } from "../store";
 
   // Check notes for export functionality in Svelte
   export let faceDown: boolean = false;
@@ -16,6 +16,13 @@
   const dispatch = createEventDispatcher();
 
   function clickAction() {
+    if (!$GameState.players[getPlayerIndex($GameState, $username)].turnToPlay) {
+      return;
+    }
+
+    $GameState.players[getPlayerIndex($GameState, $username)].turnToPlay =
+      false;
+
     dispatch("discard", index);
     if (value === "Draw") {
       $GameState.drawCard = true;

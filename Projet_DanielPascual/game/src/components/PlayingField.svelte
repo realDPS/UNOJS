@@ -52,6 +52,12 @@
     $GameState.topCard = topCard;
   });
 
+  //TODO:UNCHECKED
+  socket.on("nextPlayer", (playerIndex: number) => {
+    //todo:highlight cards with filter
+    $GameState.players[playerIndex].turnToPlay = true;
+  });
+
   //Set top card in discard pile on game launch
   $GameState.topCard = $GameState.drawDeck.shift();
 </script>

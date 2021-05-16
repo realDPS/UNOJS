@@ -1,6 +1,6 @@
 <script lang="ts">
   import { randomize } from "./Game.svelte";
-  import { GameState } from "../store";
+  import { GameState, username, getPlayerIndex } from "../store";
   import { socket } from "../App.svelte";
   import Cards from "./Cards.svelte";
 
@@ -37,6 +37,15 @@
 
       $GameState.topCard = clickedCard;
       socket.emit("topCard", clickedCard);
+
+      //TODO:UNCHECKED
+      let turnIndex = getPlayerIndex($GameState, $username);
+
+      turnIndex++;
+      if (turnIndex === $GameState.numOfPlayers) {
+        turnIndex = 0;
+      }
+      socket.emit("NextPlayerTurn", turnIndex);
     }
   }
 </script>
