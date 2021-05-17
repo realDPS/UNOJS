@@ -30,6 +30,7 @@ export const GameState: Writable<GameState> = writable({
 });
 
 export const username = writable("");
+export const gameStart = writable(false);
 
 export const getPlayerIndex = (state: GameState, name: string) => {
   return state.players.findIndex((playerData) => {

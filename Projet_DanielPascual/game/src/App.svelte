@@ -14,7 +14,6 @@
   import Modal from "./components/Modal.svelte";
   import { onMount } from "svelte";
   import TextInput from "./components/TextInput.svelte";
-  import { UsernameSetup, GameSetup } from "./components/modals";
   let numOfPlayer;
   $: console.log($GameState.currentPlayer);
 
@@ -41,6 +40,15 @@
 </script>
 
 <style>
+  :global(body) {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    margin: 0;
+  }
+
   .LobbyModal {
     position: absolute;
     z-index: 3;
@@ -57,6 +65,6 @@
 <!-- <div class="LobbyModal">
   <Modal />
 </div> -->
-<!-- <Game /> -->
-<GameSetup />
-<!-- <UsernameSetup /> -->
+
+<Modal />
+<Game />

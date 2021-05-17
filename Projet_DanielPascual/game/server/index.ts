@@ -3,6 +3,13 @@ import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
 import { Server } from "socket.io";
 import { GameState } from "../src/store";
+import {
+  getRandomCard,
+  getRandomValue,
+  randomize,
+  getRandomColor,
+  generateDeck
+} from "./DeckLogic";
 
 const app = express();
 const httpServer = require("http").createServer(app);
@@ -12,6 +19,7 @@ const io = new Server(httpServer, {
     methods: "*"
   }
 });
+const deck = generateDeck();
 
 const PORT = 3000;
 
@@ -57,6 +65,11 @@ io.on("connection", (socket) => {
     rooms.get(id).players.push(player);
     console.log(username, " joined ", rooms.get(id));
     socket.emit("joined", rooms.get(id));
+  });
+
+  socket.on("gameStart", (id) => {
+    rooms.get(id).drawDeck = randomize(deck);
+    socket.emit("gameStarted", rooms.get(id));
   });
 
   socket.on("newHand", (hand) => {
