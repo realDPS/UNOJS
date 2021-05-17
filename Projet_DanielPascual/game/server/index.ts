@@ -57,7 +57,6 @@ io.on("connection", (socket) => {
     rooms.get(id).players.push(player);
     console.log(username, " joined ", rooms.get(id));
     socket.emit("joined", rooms.get(id));
-    //todo: add an joined emit
   });
 
   socket.on("newHand", (hand) => {

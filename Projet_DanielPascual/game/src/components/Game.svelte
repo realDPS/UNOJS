@@ -83,16 +83,14 @@
 
 <script lang="ts">
   import { GameState, username, getPlayerIndex } from "../store";
-  import Cards from "./Cards.svelte";
   import Player from "./Player.svelte";
   import PlayingField from "./PlayingField.svelte";
-  import { socket } from "../App.svelte";
 
   const enemies_position = { right: null, top: null, left: null };
 
-  socket.on("gameStart", () => {
+  $: if ($GameState.numOfPlayers === $GameState.players.length) {
     displaySetup();
-  });
+  }
 
   //Will check numbers of players and organize each client's enemies' position
   function displaySetup() {

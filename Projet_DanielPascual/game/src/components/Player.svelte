@@ -36,6 +36,7 @@
 
       //Unchecked
       if ($GameState.players[player].cardArray.length == 0) {
+        //destroy room on playerWin and on "playerWin", create a modal with Winner + show all cards
         socket.emit("playerWin", player);
       }
       //TODO:UNCHECKED
