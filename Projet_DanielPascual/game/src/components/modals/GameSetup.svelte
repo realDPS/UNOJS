@@ -145,7 +145,7 @@
   }
 
   .URL {
-    width: 400px;
+    width: min-content;
   }
 
   option[value=""][disabled] {
