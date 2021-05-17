@@ -1,132 +1,118 @@
 <script>
-  export let label = "Select";
-  export let value;
-  export let options = [{ id: 0, value: "1", text: "Option 1" }];
+	export let label = "Select";
+	export let value;
+	export let options = [{ id: 0, value: "1", text: "Option 1" }];
 </script>
 
 <style>
-  .select {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    position: relative;
-  }
+	.select {
+		font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+		position: relative;
+	}
 
-  .select-text {
-    position: relative;
-    font-family: inherit;
-    background-color: transparent;
-    width: 300px;
-    padding: 10px 10px 10px 0;
-    font-size: 18px;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  }
+	.select-text {
+		position: relative;
+		background-color: transparent;
+		width: 100%;
+		padding: 10px 10px 10px 0;
+		font-size: 18px;
+		border-radius: 0;
+		border: none;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+	}
 
-  /* Remove focus */
-  .select-text:focus {
-    outline: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0);
-  }
+	/* Remove focus */
+	.select-text:focus {
+		outline: none;
+	}
 
-  /* Use custom arrow */
-  .select .select-text {
-    appearance: none;
-    -webkit-appearance: none;
-  }
+	/* Use custom arrow */
+	.select .select-text {
+		height: 100%;
+		appearance: none;
+	}
 
-  .select:after {
-    position: absolute;
-    top: 18px;
-    right: 10px;
-    /* Styling the down arrow */
-    width: 0;
-    height: 0;
-    padding: 0;
-    content: "";
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid rgba(0, 0, 0, 0.12);
-    pointer-events: none;
-  }
+	.select:after {
+		position: absolute;
+		top: 18px;
+		right: 10px;
+		/* Styling the down arrow */
+		width: 0;
+		height: 0;
+		padding: 0;
+		content: "";
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-top: 6px solid rgba(0, 0, 0, 0.12);
+		pointer-events: none;
+	}
 
-  /* LABEL ======================================= */
-  .select-label {
-    color: #999;
-    font-size: 18px;
-    font-weight: normal;
-    position: absolute;
-    pointer-events: none;
-    left: 0;
-    top: 10px;
-    transition: 0.2s ease all;
-  }
+	/* LABEL ======================================= */
+	.select-label {
+		color: #999;
+		font-size: 18px;
+		font-weight: normal;
+		position: absolute;
+		pointer-events: none;
+		top: 10px;
+		transition: 0.2s ease all;
+	}
 
-  /* active state */
-  .select-text:focus ~ .select-label,
-  .select-text:valid ~ .select-label {
-    color: #326dbf;
-    top: -20px;
-    transition: 0.2s ease all;
-    font-size: 14px;
-  }
+	/* active state */
+	.select-text:focus ~ .select-label,
+	.select-text:valid ~ .select-label {
+		color: #326dbf;
+		top: -20px;
+		transition: 0.2s ease all;
+		font-size: 14px;
+	}
 
-  /* BOTTOM BARS ================================= */
-  .select-bar {
-    position: relative;
-    display: block;
-    width: 100%;
-  }
+	/* BOTTOM BARS ================================= */
+	.select-bar {
+		position: relative;
+		display: block;
+		width: 100%;
+	}
 
-  .select-bar:before,
-  .select-bar:after {
-    content: "";
-    height: 1px;
-    width: 0;
-    bottom: 1px;
-    position: absolute;
-    background: #326dbf;
-    transition: 0.2s ease all;
-  }
+	.select-bar:before,
+	.select-bar:after {
+		content: "";
+		height: 2px;
+		width: 0;
+		bottom: 1px;
+		position: absolute;
+		background: #326dbf;
+		transition: 0.2s ease all;
+	}
 
-  .select-bar:before {
-    left: 50%;
-  }
+	.select-bar:before {
+		left: 50%;
+	}
 
-  .select-bar:after {
-    right: 50%;
-  }
+	.select-bar:after {
+		right: 50%;
+	}
 
-  /* active state */
-  .select-text:focus ~ .select-bar:before,
-  .select-text:focus ~ .select-bar:after {
-    width: 50%;
-  }
+	/* active state */
+	.select-text:focus ~ .select-bar:before,
+	.select-text:focus ~ .select-bar:after {
+		width: 50%;
+	}
 
-  /* HIGHLIGHTER ================================== */
-  .select-highlight {
-    position: absolute;
-    height: 60%;
-    width: 100px;
-    top: 25%;
-    left: 0;
-    pointer-events: none;
-    opacity: 0.5;
-  }
-
-  select option:disabled {
-    display: none;
-  }
+	select option:disabled {
+		display: none;
+	}
 </style>
 
 <div class="select">
-  <select class="select-text" required bind:value>
-    <option value="" disabled selected />
-    {#each options as option, _index (option.id)}
-      <option value={option.value}>{option.text}</option>
-    {/each}
-  </select>
-  <span class="select-highlight" />
-  <span class="select-bar" />
-  <!-- svelte-ignore a11y-label-has-associated-control -->
-  <label class="select-label">{label}</label>
+	<select class="select-text" required bind:value autocomplete>
+		<option value="" disabled selected />
+		{#each options as option, _index (option.id)}
+			<option value={option.value}>{option.text}</option>
+		{/each}
+	</select>
+
+	<span class="select-bar" />
+	<!-- svelte-ignore a11y-label-has-associated-control -->
+	<label class="select-label">{label}</label>
 </div>

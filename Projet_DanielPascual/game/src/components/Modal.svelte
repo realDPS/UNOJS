@@ -1,33 +1,31 @@
 <script lang="ts">
-  import { UsernameSetup, GameSetup } from "./modals";
-  import { socket } from "../App.svelte";
-  import { GameState } from "../store";
-  let joinRoomID: string;
-  let isSetupCompleted = false;
+	import { UsernameSetup, GameSetup } from "./modals";
 
-  function createRoom() {
-    isSetupCompleted = !isSetupCompleted;
-    socket.emit("newRoom", $GameState);
-    socket.on("roomIdCreated", (id) => {
-      $GameState.roomId = id;
-    });
-  }
-
-  function setJoinRoom(event) {
-    joinRoomID = event.target.value;
-  }
-  function joinRoom() {
-    const username = $GameState.players[0].username;
-    const id = joinRoomID;
-    socket.emit("join", { id, username });
-
-    socket.on("joined", (state) => {
-      $GameState = state;
-    });
-  }
+	let userSetupDone = false;
 </script>
 
 <style>
+	.Modal {
+		display: grid;
+		place-items: center;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		height: 350px;
+		width: 600px;
+		border-radius: 15px;
+		background-color: #f3f3f7;
+		box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+		overflow: hidden;
+		z-index: 10;
+	}
 </style>
 
-<div class="Modal">if</div>
+<div class="Modal">
+	{#if !userSetupDone}
+		<UsernameSetup bind:userSetupDone />
+	{:else if userSetupDone}
+		<GameSetup />
+	{/if}
+</div>

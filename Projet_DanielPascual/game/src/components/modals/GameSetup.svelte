@@ -1,169 +1,89 @@
 <script lang="ts">
-  import { text } from "svelte/internal";
-  import Button from "../Button.svelte";
-  import TextInput from "../TextInput.svelte";
-  import Select from "../Select.svelte";
+	import Button from "../Button.svelte";
+	import TextInput from "../TextInput.svelte";
+	import Select from "../Select.svelte";
+	import { fly } from "svelte/transition";
+	import { GameState } from "../../store";
+	import { socket } from "../../App.svelte";
 
-  let options = [
-    { id: 1, value: "2", text: "2 Players" },
-    { id: 2, value: "3", text: "3 Players" },
-    { id: 3, value: "4", text: "4 Players" }
-  ];
+	let roomID;
+
+	let numOfPlayers;
+
+	let options = [
+		{ id: 1, value: "2", text: "2 Players" },
+		{ id: 2, value: "3", text: "3 Players" },
+		{ id: 3, value: "4", text: "4 Players" }
+	];
+
+	function validateRoom(link: string) {}
+
+	function createRoom() {
+		socket.emit("newRoom", $GameState);
+		socket.on("roomIdCreated", (id) => {
+			$GameState.roomId = id;
+		});
+
+		console.log(numOfPlayers);
+	}
+
+	function joinRoom() {
+		const username = $GameState.players[0].username;
+		socket.emit("join", { roomID, username });
+
+		socket.on("joined", (state) => {
+			$GameState = state;
+		});
+	}
 </script>
 
 <style>
-  :global(body) {
-    display: grid;
-    place-items: center;
-  }
+	.GameSetup {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		height: 100%;
+		width: 100%;
+		flex-direction: column;
+		justify-content: space-around;
+	}
 
-  .GameSetup {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-  }
+	.Line {
+		border: 1px solid #326dbf;
+	}
 
-  .Line {
-    border: 1px solid black;
-  }
+	.Container {
+		position: relative;
+		margin: auto 0 auto 0;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		height: max-content;
+		padding: 10px;
+	}
 
-  .Container {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    height: max-content;
-    padding: 20px;
-  }
-
-  .select {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    position: relative;
-    width: 350px;
-  }
-
-  .select-text {
-    position: relative;
-    font-family: inherit;
-    background-color: transparent;
-    width: 350px;
-    padding: 10px 10px 10px 0;
-    font-size: 18px;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  }
-
-  /* Remove focus */
-  .select-text:focus {
-    outline: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0);
-  }
-
-  /* Use custom arrow */
-  .select .select-text {
-    appearance: none;
-    -webkit-appearance: none;
-  }
-
-  .select:after {
-    position: absolute;
-    top: 18px;
-    right: 10px;
-    /* Styling the down arrow */
-    width: 0;
-    height: 0;
-    padding: 0;
-    content: "";
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid rgba(0, 0, 0, 0.12);
-    pointer-events: none;
-  }
-
-  /* LABEL ======================================= */
-  .select-label {
-    color: rgba(0, 0, 0, 0.26);
-    font-size: 18px;
-    font-weight: normal;
-    position: absolute;
-    pointer-events: none;
-    left: 0;
-    top: 10px;
-    transition: 0.2s ease all;
-  }
-
-  /* active state */
-  .select-text:focus ~ .select-label,
-  .select-text:valid ~ .select-label {
-    color: #326dbf;
-    top: -20px;
-    transition: 0.2s ease all;
-    font-size: 14px;
-  }
-
-  /* BOTTOM BARS ================================= */
-  .select-bar {
-    position: relative;
-    display: block;
-    width: 350px;
-  }
-
-  .select-bar:before,
-  .select-bar:after {
-    content: "";
-    height: 2px;
-    width: 0;
-    bottom: 1px;
-    position: absolute;
-    background: #326dbf;
-    transition: 0.2s ease all;
-  }
-
-  .select-bar:before {
-    left: 50%;
-  }
-
-  .select-bar:after {
-    right: 50%;
-  }
-
-  /* active state */
-  .select-text:focus ~ .select-bar:before,
-  .select-text:focus ~ .select-bar:after {
-    width: 50%;
-  }
-
-  /* HIGHLIGHTER ================================== */
-  .select-highlight {
-    position: absolute;
-    height: 60%;
-    width: 100px;
-    top: 25%;
-    left: 0;
-    pointer-events: none;
-    opacity: 0.5;
-  }
-
-  .URL {
-    width: min-content;
-  }
-
-  option[value=""][disabled] {
-    display: none;
-  }
+	.form-element {
+		width: 300px;
+	}
 </style>
 
-"
-<div class="GameSetup">
-  <div class="Container">
-    <Select label="Number of Players" {options} />
-    <Button text="Create Game" />
-  </div>
-  <span class="Line" />
-  <div class="Container">
-    <div class="URL">
-      <TextInput label="Game URL" />
-    </div>
-    <Button text="Join" />
-  </div>
+<div
+	class="GameSetup"
+	in:fly={{ x: 200, duration: 250 }}
+	out:fly={{ x: -100, duration: 250 }}>
+	<div class="Container">
+		<div class="form-element">
+			<Select label="Number of Players" {options} bind:value={numOfPlayers} />
+		</div>
+		<Button text="Create" on:click={createRoom} />
+	</div>
+	<span class="Line" />
+	<div class="Container">
+		<div class="form-element">
+			<TextInput label="Game URL" />
+		</div>
+		<Button text="Join" />
+	</div>
 </div>
