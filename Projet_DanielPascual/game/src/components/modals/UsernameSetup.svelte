@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import InputField from "./InputField.svelte";
-  import Button from "./Button.svelte";
-  import { username } from "../store";
+  import TextInput from "../TextInput.svelte";
+  import Button from "../Button.svelte";
+  import { username } from "../../store";
 </script>
 
 <style>
@@ -23,10 +23,9 @@
 
 <div class="center">
   <div class="padding">
-    <InputField text="Username" />
+    <TextInput label="Username" bind:value={$username} />
   </div>
   <div class="btn-container padding">
-    <!-- TODO -->
-    <!-- <Button text="Continue" on:click={}/> -->
+    <Button text="Continue" />
   </div>
 </div>

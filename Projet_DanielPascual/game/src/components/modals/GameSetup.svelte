@@ -1,7 +1,14 @@
 <script lang="ts">
   import { text } from "svelte/internal";
-  import Button from "./Button.svelte";
-  import InputField from "./InputField.svelte";
+  import Button from "../Button.svelte";
+  import TextInput from "../TextInput.svelte";
+  import Select from "../Select.svelte";
+
+  let options = [
+    { id: 1, value: "2", text: "2 Players" },
+    { id: 2, value: "3", text: "3 Players" },
+    { id: 3, value: "4", text: "4 Players" }
+  ];
 </script>
 
 <style>
@@ -146,25 +153,16 @@
   }
 </style>
 
+"
 <div class="GameSetup">
   <div class="Container">
-    <div class="select">
-      <select class="select-text" required>
-        <option value="" disabled selected />
-        <option value="2">2 Players</option>
-        <option value="3">3 Players</option>
-        <option value="4">4 Players</option>
-      </select>
-      <span class="select-highlight" />
-      <span class="select-bar" />
-      <label class="select-label" for="select-text">Number of Players</label>
-    </div>
+    <Select label="Number of Players" {options} />
     <Button text="Create Game" />
   </div>
   <span class="Line" />
   <div class="Container">
     <div class="URL">
-      <InputField text="Game URL" />
+      <TextInput label="Game URL" />
     </div>
     <Button text="Join" />
   </div>
