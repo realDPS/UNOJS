@@ -3,6 +3,7 @@
   import { GameState, username, getPlayerIndex } from "../store";
   import { socket } from "../App.svelte";
   import Cards from "./Cards.svelte";
+  import { each } from "svelte/internal";
 
   export let player: number;
   export let isMyHand: boolean = false;
@@ -67,21 +68,29 @@
 </style>
 
 <div class="Player">
-  {#each PlayerCards as { id, color, value }, index (id)}
-    <div
-      class="CardDiv"
-      style="z-index: {index}; position: relative; right: {15 * index}px;"
-    >
-      <Cards
-        {color}
-        {value}
-        animation="Peek"
-        {index}
-        on:discard={discardCard}
-        hand={true}
-        faceDown={!isMyHand}
-        isHighlighted={$GameState.players[player].turnToPlay}
-      />
-    </div>
-  {/each}
+  <!-- For players' card -->
+  {#if $GameState.players[player].username === $username}
+    {#each PlayerCards as { id, color, value }, index (id)}
+      <div
+        class="CardDiv"
+        style="z-index: {index}; position: relative; right: {15 * index}px;"
+      >
+        <Cards
+          {color}
+          {value}
+          animation="Peek"
+          {index}
+          on:discard={discardCard}
+          hand={true}
+          faceDown={!isMyHand}
+          isHighlighted={$GameState.players[player].turnToPlay}
+        />
+      </div>
+    {/each}
+  {:else}
+    <!-- for opponents' cards -->
+    {#each Array($GameState.players[player].handLength) as _number}
+      <Cards faceDown={true} />
+    {/each}
+  {/if}
 </div>
