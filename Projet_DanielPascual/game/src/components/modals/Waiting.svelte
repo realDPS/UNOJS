@@ -7,12 +7,16 @@
 
   let numOfPlayers = 1;
 
-  socket.on("tempJoined", (name: string) => {
-    socket.emit("numOfPlayers", $GameState.numOfPlayers);
-  });
-
   socket.on("joined", (name: string) => {
     console.log("joined");
+
+    const spaceLeft = $GameState.numOfPlayers - $GameState.players.length;
+    //HERE TO BAN PLAYER
+    if (spaceLeft === 0) {
+      console.log("BYE BYE", name);
+      socket.emit("removePlayer");
+      return;
+    }
 
     numOfPlayers += 1;
 

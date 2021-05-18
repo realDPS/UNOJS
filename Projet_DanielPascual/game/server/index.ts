@@ -46,25 +46,17 @@ io.on("connection", (socket) => {
   });
 
   //When new player join existing room
-  socket.on("tempJoined", (id, username) => {
-    if (io.sockets.adapter.rooms.has(id)) {
-      socket.join(id);
-
-      socket.on("numOfPlayers", (numOfPlayers) => {
-        if (io.sockets.adapter.rooms.get(id).size > numOfPlayers) {
-          socket.disconnect();
-        }
-      });
-    }
-  });
-
-  //When new player join existing room
   socket.on("joinRoom", (id, username) => {
     if (io.sockets.adapter.rooms.has(id)) {
-      if (io.sockets.adapter.rooms.get(id).size < 2) {
+      if (io.sockets.adapter.rooms.get(id).size < 3) {
         socket.join(id);
         console.log(`${username} joined room ID: ${id}`);
         io.in(id).emit("joined", username);
+
+        //REMOVE PLAYER ON EMIT
+        socket.on("removePlayer", () => {
+          //code to kick player
+        });
       } else {
         const msg = "Room size limit reached";
         console.log(username, " refused");
