@@ -9,34 +9,13 @@
   import Player from "./components/Player.svelte";
   import Card from "./components/Cards.svelte";
   import Game from "./components/Game.svelte";
-  import { GameState } from "./store";
+  import { gameStart, GameState } from "./store";
   import PlayingField from "./components/PlayingField.svelte";
   import Modal from "./components/Modal.svelte";
   import { onMount } from "svelte";
   import TextInput from "./components/TextInput.svelte";
-  let numOfPlayer;
+
   $: console.log($GameState.currentPlayer);
-
-  // onMount(async () => {
-  //   try {
-  //     const res = await fetch("http://localhost:3000/gamestate", {
-  //       method: "POST",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json"
-  //       },
-  //       body: JSON.stringify($GameState)
-  //     });
-
-  //     const json = await res.json();
-  //     const result = await JSON.stringify(json);
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // });
-
-  let value;
 </script>
 
 <style>
@@ -62,9 +41,7 @@
   }
 </style>
 
-<!-- <div class="LobbyModal">
+{#if !$gameStart}
   <Modal />
-</div> -->
-
-<Modal />
+{/if}
 <Game />

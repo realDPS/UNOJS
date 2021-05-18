@@ -45,7 +45,7 @@ app.post("/gamestate", (req, res) => {
 
 io.on("connection", (socket) => {
   console.log("Connected");
-
+  console.log(rooms.size);
   //When player create a room
   socket.on("newRoom", (GameState) => {
     const roomID = uuidv4();
@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
     console.log("new room created!", roomID);
     console.log("game's deck:", deck);
 
-    socket.emit("roomIdCreated", roomID, deck);
+    socket.emit("roomCreated", roomID, deck);
   });
 
   //When new player join existing room
@@ -97,6 +97,11 @@ io.on("connection", (socket) => {
   });
   socket.on("updateDeck", (deck) => {
     socket.emit("updateDeck", deck);
+  });
+
+  socket.on("disconnect", (reason) => {
+    console.log(reason);
+    console.log(rooms.size);
   });
 });
 

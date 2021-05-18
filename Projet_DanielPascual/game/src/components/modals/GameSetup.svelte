@@ -3,7 +3,7 @@
   import TextInput from "../TextInput.svelte";
   import Select from "../Select.svelte";
   import { fly } from "svelte/transition";
-  import { GameState, username } from "../../store";
+  import { GameState, username, gameStart } from "../../store";
   import { socket } from "../../App.svelte";
 
   let roomID;
@@ -18,19 +18,21 @@
 
   function validateRoom(link: string) {}
 
+  function gameStarted() {
+    $gameStart = true;
+  }
+
   function createRoom() {
-    console.log("???");
     $GameState.players[0].username = $username;
 
     socket.emit("newRoom", $GameState);
-    socket.on("roomIdCreated", (id, deck) => {
+    socket.on("roomCreated", (id, deck) => {
       $GameState.roomId = id;
       $GameState.drawDeck = deck;
     });
 
-    const t = $GameState;
-
-    console.log("state:", t);
+    gameStarted();
+    console.log("state:", $GameState);
   }
 
   function joinRoom() {
