@@ -38,7 +38,7 @@ type Position = "Top" | "Right" | "Left" | "User";
 type Order = "clockwise" | "anti-clockwise";
 
 interface GameState {
-  roomId: string;
+  roomID: string;
   currentPlayer: PlayerType;
   order: Order;
   uno: boolean;
