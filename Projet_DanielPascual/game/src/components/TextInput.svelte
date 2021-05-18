@@ -2,6 +2,7 @@
 	export let value = "";
 	export let label = "TextInput";
 	export let autofocus = false;
+	export let maxlength;
 </script>
 
 <style>
@@ -75,7 +76,7 @@
 
 <div class="group">
 	<!-- svelte-ignore a11y-autofocus -->
-	<input type="text" required bind:value {autofocus} />
+	<input type="text" required bind:value {autofocus} on:blur {maxlength} />
 	<span class="bar" />
 	<label for="">{label}</label>
 </div>

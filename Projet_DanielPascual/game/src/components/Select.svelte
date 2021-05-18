@@ -1,7 +1,9 @@
-<script>
+<script lang="ts">
 	export let label = "Select";
 	export let value;
 	export let options = [{ id: 0, value: "1", text: "Option 1" }];
+
+	let autocomplete = "";
 </script>
 
 <style>
@@ -105,7 +107,7 @@
 </style>
 
 <div class="select">
-	<select class="select-text" required bind:value autocomplete>
+	<select class="select-text" required bind:value {autocomplete}>
 		<option value="" disabled selected />
 		{#each options as option, _index (option.id)}
 			<option value={option.value}>{option.text}</option>
