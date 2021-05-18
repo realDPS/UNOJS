@@ -7,6 +7,10 @@
 
   let numOfPlayers = 1;
 
+  socket.on("tempJoined", (name: string) => {
+    socket.emit("numOfPlayers", $GameState.numOfPlayers);
+  });
+
   socket.on("joined", (name: string) => {
     console.log("joined");
 
