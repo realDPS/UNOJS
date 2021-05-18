@@ -76,5 +76,5 @@ export function generateDeck() {
     }
   }
 
-  return Deck;
+  return randomize(Deck);
 }

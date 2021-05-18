@@ -1,10 +1,8 @@
-<script context="module" lang="ts">
-</script>
-
 <script lang="ts">
   import { GameState, username, getPlayerIndex, gameStart } from "../store";
   import Player from "./Player.svelte";
   import PlayingField from "./PlayingField.svelte";
+  import { socket } from "../App.svelte";
 
   const enemies_position = { right: null, top: null, left: null };
 
@@ -89,7 +87,10 @@
   }
   //end of positionning display
 
-  $GameState.drawDeck = generateDeck();
+  socket.on("gameStarted", (state: GameState) => {
+    $GameState = state;
+  });
+
   $: console.log($GameState.drawDeck);
 
   //Initial hand for each player
@@ -139,7 +140,9 @@
         <Player player={getPlayerIndex($GameState, enemies_position.left)} />
       {/if}
     </div>
-    <PlayingField />
+    {#if $gameStart}
+      <PlayingField />
+    {/if}
     <div class="right">
       {#if enemies_position.right}
         <Player player={getPlayerIndex($GameState, enemies_position.right)} />
@@ -156,6 +159,6 @@
         />
       {/if}
     </div>
-    <div>3</div>
+    <div />
   </div>
 </div>

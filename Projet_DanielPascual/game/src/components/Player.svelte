@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { randomize } from "./Game.svelte";
   import { GameState, username, getPlayerIndex } from "../store";
   import { socket } from "../App.svelte";
   import Cards from "./Cards.svelte";
-  import { each } from "svelte/internal";
 
   export let player: number;
   export let isMyHand: boolean = false;
@@ -24,7 +22,7 @@
         ...$GameState.players[player].cardArray
       ];
       $GameState.drawDeck.push($GameState.topCard);
-      $GameState.drawDeck = randomize($GameState.drawDeck);
+      // $GameState.drawDeck = randomize($GameState.drawDeck);
 
       const numOfCards = $GameState.players[player].cardArray.length;
       socket.emit("newHand", { player, numOfCards });

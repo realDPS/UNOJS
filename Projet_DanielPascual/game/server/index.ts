@@ -1,5 +1,5 @@
 import express from "express";
-import { v4 as uuidv4 } from "uuid";
+import { stringify, v4 as uuidv4 } from "uuid";
 import cors from "cors";
 import { Server } from "socket.io";
 import { GameState } from "../src/store";
@@ -19,7 +19,6 @@ const io = new Server(httpServer, {
     methods: "*"
   }
 });
-const deck = generateDeck();
 
 const PORT = 3000;
 
@@ -47,15 +46,22 @@ app.post("/gamestate", (req, res) => {
 io.on("connection", (socket) => {
   console.log("Connected");
 
+  //When player create a room
   socket.on("newRoom", (GameState) => {
     const roomID = uuidv4();
+    const deck = generateDeck();
+
     socket.join(roomID);
     rooms.set(roomID, GameState);
-    console.log("new room created!", roomID);
+    rooms.get(roomID).drawDeck = deck;
 
-    socket.emit("roomIdCreated", roomID);
+    console.log("new room created!", roomID);
+    console.log("game's deck:", deck);
+
+    socket.emit("roomIdCreated", roomID, deck);
   });
 
+  //When new player join existing room
   socket.on("join", ({ id, username }) => {
     socket.join(id);
 
@@ -67,14 +73,23 @@ io.on("connection", (socket) => {
     socket.emit("joined", rooms.get(id));
   });
 
-  socket.on("gameStart", (id) => {
-    rooms.get(id).drawDeck = randomize(deck);
-    socket.emit("gameStarted", rooms.get(id));
+  //Create initial GameState's deck
+  socket.on("createDeck", (id) => {
+    console.log("wtf bitch");
+    // rooms.get(id).drawDeck = generateDeck();
+    // console.log(rooms.get(id).drawDeck);
+    // socket.emit("deckCreated", rooms.get(id));
   });
 
   socket.on("newHand", (hand) => {
     socket.emit("enemyHandSize", hand);
     console.log(socket.rooms);
+  });
+
+  socket.on("endTurn", (id) => {
+    //TODO: change yourTurn of players
+    randomize(rooms.get(id).drawDeck);
+    socket.emit("nextTurn", rooms.get(id).drawDeck);
   });
 
   socket.on("topCard", (card) => {
