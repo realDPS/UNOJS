@@ -5,7 +5,7 @@
   import { fly } from "svelte/transition";
   import { GameState, username, gameStart } from "../../store";
   import { socket } from "../../App.svelte";
-
+  import { stringify, v4 as uuidv4 } from "uuid";
   let roomID;
 
   let numOfPlayers;
@@ -23,11 +23,13 @@
   }
 
   function createRoom() {
-    $GameState.players[0].username = $username;
+    console.log(socket.id);
 
-    socket.emit("newRoom", $GameState);
-    socket.on("roomCreated", (id, deck) => {
-      $GameState.roomId = id;
+    $GameState.players[0].username = $username;
+    // $GameState.roomId = roomID;
+
+    socket.emit("newRoom");
+    socket.on("initialDeck", (deck) => {
       $GameState.drawDeck = deck;
     });
 
@@ -37,7 +39,8 @@
 
   function joinRoom() {
     const username = $GameState.players[0].username;
-    socket.emit("join", { roomID, username });
+    socket.id = roomID;
+    socket.emit("join", { username });
 
     socket.on("joined", (state) => {
       $GameState = state;
