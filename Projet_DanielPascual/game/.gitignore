@@ -1,5 +1,5 @@
 /node_modules/
 /public/build/
 /public/assets/
-
+/server/*.js
 .DS_Store
