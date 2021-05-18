@@ -50,10 +50,13 @@ io.on("connection", (socket) => {
     if (io.sockets.adapter.rooms.has(id)) {
       socket.join(id);
       console.log(`${username} joined room ID: ${id}`);
-    }
 
-    let player = {} as PlayerData;
-    player.username = username;
+      io.in(id).emit("joined", username);
+    }
+  });
+
+  socket.on("update", (state: GameState) => {
+    io.in(state.roomID).emit("update", state);
   });
 
   socket.on("newHand", (hand) => {

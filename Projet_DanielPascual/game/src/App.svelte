@@ -1,28 +1,28 @@
 <script context="module">
-	import { io } from "socket.io-client";
+  import { io } from "socket.io-client";
 
-	export const socket = io("http://localhost:3000");
+  export const socket = io("http://localhost:3000");
 </script>
 
 <script lang="ts">
-	import Game from "./components/Game.svelte";
-	import { gameStart, GameState } from "@store";
+  import Game from "./components/Game.svelte";
+  import { gameStart, GameState } from "@store";
 
-	import Modal from "./components/Modal.svelte";
+  import Modal from "./components/Modal.svelte";
 
-	$: console.log($GameState.currentPlayer);
+  $: console.log($GameState.currentPlayer);
 </script>
 
 <style>
-	:global(body) {
-		font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-		display: grid;
-		place-items: center;
-		height: 100vh;
-		width: 100vw;
-		overflow: hidden;
-		margin: 0;
-	}
+  :global(body) {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    margin: 0;
+  }
 </style>
 
 <!-- {#if !$gameStart}

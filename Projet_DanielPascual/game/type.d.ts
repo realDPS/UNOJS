@@ -25,7 +25,7 @@ interface CardType {
 type PlayerType = 0 | 1 | 2 | 3;
 
 interface PlayerData {
-  username: String;
+  username: string;
   cardArray: Array<CardType>;
   handLength: number;
   turnToPlay: boolean;
