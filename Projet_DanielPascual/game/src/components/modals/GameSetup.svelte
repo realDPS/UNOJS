@@ -23,7 +23,7 @@
       $GameState.numOfPlayers = numOfPlayers;
       $GameState.roomID = uuidv4();
 
-      socket.emit("createRoom", uuidv4());
+      socket.emit("createRoom", $GameState.roomID);
 
       console.log("state:", $GameState);
       $step++;
