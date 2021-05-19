@@ -53,9 +53,10 @@ io.on("connection", (socket) => {
         console.log(`${username} joined room ID: ${id}`);
         io.in(id).emit("joined", username);
 
-        //REMOVE PLAYER ON EMIT
+        //REMOVE PLAYER FROM ROOM
         socket.on("removePlayer", () => {
-          //code to kick player
+          console.log("Room full,", username, " removed");
+          socket.leave(id);
         });
       } else {
         const msg = "Room size limit reached";
@@ -64,6 +65,14 @@ io.on("connection", (socket) => {
         io.in(id).emit("refused", msg);
       }
     }
+  });
+
+  socket.on("exceedingPlayer", (name: string, id) => {
+    io.in(id).emit("removePlayer", name);
+  });
+  socket.on("removePlayer", (name: string, id) => {
+    console.log("removed ", name);
+    socket.leave(id);
   });
 
   socket.on("update", (state: GameState) => {

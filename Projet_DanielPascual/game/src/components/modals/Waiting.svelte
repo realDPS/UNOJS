@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
-  import { GameState, username } from "@store";
+  import { GameState, username, step } from "@store";
   import Spinner from "../Spinner.svelte";
   import { socket } from "../../App.svelte";
   import Player from "../Player.svelte";
@@ -8,26 +8,31 @@
   let numOfPlayers = 1;
 
   socket.on("joined", (name: string) => {
-    console.log("joined");
+    console.log("joined_");
 
-    const spaceLeft = $GameState.numOfPlayers - $GameState.players.length;
-    //HERE TO BAN PLAYER
-    if (spaceLeft === 0) {
-      console.log("BYE BYE", name);
-      socket.emit("removePlayer");
-      return;
+    //Remove player from room
+    if (numOfPlayers < $GameState.numOfPlayers) {
+      numOfPlayers++;
+
+      $GameState.players[$GameState.players.length] = {
+        ...$GameState.players[0],
+        username: name,
+        turnToPlay: false
+      };
+
+      if ($GameState.players[0].username === $username) {
+        socket.emit("update", $GameState);
+      }
+    } else {
+      socket.emit("exceedingPlayer", name, $GameState.roomID);
     }
+  });
 
-    numOfPlayers += 1;
-
-    $GameState.players[$GameState.players.length] = {
-      ...$GameState.players[0],
-      username: name,
-      turnToPlay: false
-    };
-
-    if ($GameState.players[0].username === $username) {
-      socket.emit("update", $GameState);
+  socket.on("removePlayer", (name: string) => {
+    if (name === $username) {
+      $step--;
+      console.log("You're out buddy");
+      socket.emit("removePlayer", name, $GameState.roomID);
     }
   });
 
