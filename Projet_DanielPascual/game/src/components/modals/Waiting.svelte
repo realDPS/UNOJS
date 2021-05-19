@@ -10,14 +10,15 @@
   socket.on("joined", (name: string) => {
     console.log("joined");
 
-    numOfPlayers += 1;
-
-    //Remove player if room limit exceeded
-    if (numOfPlayers > $GameState.numOfPlayers) {
+    const spaceLeft = $GameState.numOfPlayers - $GameState.players.length;
+    //HERE TO BAN PLAYER
+    if (spaceLeft === 0) {
       console.log("BYE BYE", name);
       socket.emit("removePlayer");
       return;
     }
+
+    numOfPlayers += 1;
 
     $GameState.players[$GameState.players.length] = {
       ...$GameState.players[0],

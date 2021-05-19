@@ -53,10 +53,9 @@ io.on("connection", (socket) => {
         console.log(`${username} joined room ID: ${id}`);
         io.in(id).emit("joined", username);
 
-        //REMOVE PLAYER IF ROOM LIMIT EXCEEDED
+        //REMOVE PLAYER ON EMIT
         socket.on("removePlayer", () => {
-          console.log("Room full,", username, " removed");
-          socket.leave(id);
+          //code to kick player
         });
       } else {
         const msg = "Room size limit reached";
