@@ -48,22 +48,10 @@ io.on("connection", (socket) => {
   //When new player join existing room
   socket.on("joinRoom", (id, username) => {
     if (io.sockets.adapter.rooms.has(id)) {
-      if (io.sockets.adapter.rooms.get(id).size < 3) {
-        socket.join(id);
-        console.log(`${username} joined room ID: ${id}`);
-        io.in(id).emit("joined", username);
-
-        //REMOVE PLAYER FROM ROOM
-        socket.on("removePlayer", () => {
-          console.log("Room full,", username, " removed");
-          socket.leave(id);
-        });
-      } else {
-        const msg = "Room size limit reached";
-        console.log(username, " refused");
-
-        io.in(id).emit("refused", msg);
-      }
+      //io.sockets.adapter.rooms.get(id).size
+      socket.join(id);
+      console.log(`${username} joined room ID: ${id}`);
+      io.in(id).emit("joined", username);
     }
   });
 

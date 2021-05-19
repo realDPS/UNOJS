@@ -37,10 +37,6 @@
 
       socket.emit("joinRoom", gameID.trim(), $username);
       $step++;
-
-      socket.on("refused", (msg) => {
-        console.log(msg);
-      });
     }
   }
 </script>
