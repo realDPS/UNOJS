@@ -19,12 +19,15 @@
         username: name,
         turnToPlay: false
       };
-
+      //Host send message only
       if ($GameState.players[0].username === $username) {
         socket.emit("update", $GameState);
       }
     } else {
-      socket.emit("exceedingPlayer", name, $GameState.roomID);
+      //Host send message only
+      if ($GameState.players[0].username === $username) {
+        socket.emit("exceedingPlayer", name, $GameState.roomID);
+      }
     }
   });
 
@@ -32,6 +35,7 @@
     if (name === $username) {
       $step--;
       console.log("You're out buddy");
+      alert("Room full");
       socket.emit("removePlayer", name, $GameState.roomID);
     }
   });
