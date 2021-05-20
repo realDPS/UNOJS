@@ -16,12 +16,16 @@
     { id: 2, value: "3", text: "3 Players" },
     { id: 3, value: "4", text: "4 Players" }
   ];
+  console.log(socket.id);
 
   function createRoom() {
     if (numOfPlayers) {
       $GameState.players[0].username = $username;
       $GameState.numOfPlayers = numOfPlayers;
-      $GameState.roomID = uuidv4();
+      // $GameState.roomID = uuidv4();
+      console.log(socket.id);
+      $GameState.roomID = socket.id;
+      $GameState.players[0].socketID = socket.id;
 
       socket.emit("createRoom", $GameState.roomID, numOfPlayers);
 
@@ -31,13 +35,25 @@
   }
 
   function joinRoom() {
-    if (validate(gameID)) {
-      $GameState.roomID = gameID.trim();
-      console.log(gameID.trim());
+    $GameState.roomID = gameID.trim();
 
-      socket.emit("joinRoom", gameID.trim(), $username);
-      $step++;
-    }
+    socket.emit("joinRoom", gameID.trim(), socket.id, $username); //socket.id,
+    socket.once("accepted", (status) => {
+      if (status) {
+        console.log(status);
+
+        $step = 2;
+      } else {
+        alert("The Room is Full");
+      }
+    });
+    socket.once("noroom", (message) => {
+      alert(message);
+      console.log($step);
+
+      socket.disconnect();
+      socket.connect();
+    });
   }
 </script>
 

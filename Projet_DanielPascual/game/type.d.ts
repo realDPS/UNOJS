@@ -25,6 +25,7 @@ interface CardType {
 type PlayerType = 0 | 1 | 2 | 3;
 
 interface PlayerData {
+  socketID: string;
   username: string;
   cardArray: Array<CardType>;
   handLength: number;

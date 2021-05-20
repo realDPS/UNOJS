@@ -1,42 +1,27 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
-  import { GameState, username, step } from "@store";
+  import { GameState, username, step, getPlayerIndex } from "@store";
   import Spinner from "../Spinner.svelte";
   import { socket } from "../../App.svelte";
-  import Player from "../Player.svelte";
 
-  let numOfPlayers = 1;
+  console.log("waiting?");
 
   socket.on("joined", (name: string) => {
-    console.log("joined_");
-
-    //Remove player from room
-    if (numOfPlayers < $GameState.numOfPlayers) {
-      numOfPlayers++;
-
-      $GameState.players[$GameState.players.length] = {
-        ...$GameState.players[0],
-        username: name,
-        turnToPlay: false
-      };
-      //Host send message only
-      if ($GameState.players[0].username === $username) {
+    //ID: string,
+    //Only gameMaster can continue operation
+    if ($GameState.players[0].username === $username) {
+      if ($GameState.players.length < $GameState.numOfPlayers) {
+        // socketID: ID,
+        $GameState.players[$GameState.players.length] = {
+          ...$GameState.players[0],
+          username: name,
+          turnToPlay: false
+        };
+        socket.emit("accept", $GameState.roomID, name, true);
         socket.emit("update", $GameState);
+      } else {
+        socket.emit("accept", $GameState.roomID, name, false);
       }
-    } else {
-      //Host send message only
-      if ($GameState.players[0].username === $username) {
-        socket.emit("exceedingPlayer", name, $GameState.roomID);
-      }
-    }
-  });
-
-  socket.on("removePlayer", (name: string) => {
-    if (name === $username) {
-      $step--;
-      console.log("You're out buddy");
-      alert("Room full");
-      socket.emit("removePlayer", name, $GameState.roomID);
     }
   });
 
@@ -44,6 +29,22 @@
     $GameState = state;
     console.log($GameState);
   });
+  socket.on("disconnect", (ID: string) => {
+    console.log("player left room");
+
+    if ($GameState.players[0].username === $username) {
+      for (let index = 0; index < $GameState.players.length; index++) {
+        const element = $GameState.players[index];
+        if (element.socketID == ID) {
+          $GameState.players.splice(index, 1);
+          socket.emit("update", $GameState);
+          return;
+        }
+      }
+    }
+  });
+
+  //disconnect() > ID > EMIT.LEAVE > (CLIENT) ON.LEAVE(ID) >
 </script>
 
 <style>
@@ -73,6 +74,6 @@
   <h1>Waiting for Other Players...</h1>
   <h3>{$GameState.roomID}</h3>
   <h5>Copy this ID to invite other players...</h5>
-  <h6>Waiting {numOfPlayers}/{$GameState.numOfPlayers} players</h6>
+  <h6>Waiting {$GameState.players.length}/{$GameState.numOfPlayers} players</h6>
   <Spinner />
 </div>

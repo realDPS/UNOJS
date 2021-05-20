@@ -38,29 +38,41 @@ app.post("/gamestate", (req, res) => {
 
 io.on("connection", (socket) => {
   console.log(`Socket Connection Established for Client ${socket.id}`);
+  console.log(io.sockets.adapter.rooms);
+
   //When player create a room
   socket.on("createRoom", (id: string) => {
     console.log(`ID of room: ${id}`);
     console.log("new room created!");
     socket.join(id);
+    console.log(io.sockets.adapter.rooms);
   });
 
   //When new player join existing room
-  socket.on("joinRoom", (id, username) => {
-    if (io.sockets.adapter.rooms.has(id)) {
-      //io.sockets.adapter.rooms.get(id).size
-      socket.join(id);
-      console.log(`${username} joined room ID: ${id}`);
-      io.in(id).emit("joined", username);
+  socket.on("joinRoom", (roomID, username) => {
+    //ID,
+    if (io.sockets.adapter.rooms.has(roomID)) {
+      socket.join(roomID);
+      console.log(io.sockets.adapter.rooms);
+      console.log(io.sockets.adapter.rooms.get(roomID).size);
+      console.log(`${username} joined room roomID: ${roomID}`);
+      io.in(roomID).emit("joined", username); //ID,
+    } else {
+      console.log("room doesn't exist");
+      socket.emit("noroom", "This room doesn't exist");
     }
   });
 
-  socket.on("exceedingPlayer", (name: string, id) => {
-    io.in(id).emit("removePlayer", name);
-  });
-  socket.on("removePlayer", (name: string, id) => {
-    console.log("removed ", name);
-    socket.leave(id);
+  socket.on("accept", (id, name, status) => {
+    io.in(id).emit("accepted", status);
+    if (!status) {
+      console.log("Player number exceeded");
+      io.in(id).emit("denied", name);
+      socket.leave(id);
+      console.log("removed ", name);
+      console.log(io.sockets.adapter.rooms.get(id).size);
+      console.log(io.sockets.adapter.rooms);
+    }
   });
 
   socket.on("update", (state: GameState) => {
@@ -82,8 +94,9 @@ io.on("connection", (socket) => {
     socket.emit("updateDeck", deck);
   });
 
-  socket.on("disconnect", (reason) => {
-    console.log(reason);
+  socket.on("disconnect", (ID) => {
+    console.log(ID);
+    socket.emit("disconnect", ID);
   });
 });
 
