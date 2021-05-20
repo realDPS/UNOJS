@@ -1,10 +1,14 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
-  import { GameState, username, step, getPlayerIndex } from "@store";
+  import { GameState, username } from "@store";
   import Spinner from "../Spinner.svelte";
   import { socket } from "../../App.svelte";
 
-  console.log("waiting?");
+  $: $GameState.players.length === $GameState.numOfPlayers
+    ? ($GameState.gameStarted = true)
+    : null;
+
+  $: console.log($GameState.gameStarted);
 
   socket.on("joined", (name: string, ID: string) => {
     //Only gameMaster can continue operation
@@ -26,8 +30,10 @@
   });
 
   socket.on("update", (state: GameState) => {
-    $GameState = state;
-    console.log($GameState);
+    if ($GameState.players[0].username !== $username) {
+      $GameState = state;
+      console.log($GameState);
+    }
   });
 
   socket.on("playerLeft", (ID) => {
