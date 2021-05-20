@@ -3,3 +3,4 @@
 /public/assets/
 /server/*.js
 .DS_Store
+build

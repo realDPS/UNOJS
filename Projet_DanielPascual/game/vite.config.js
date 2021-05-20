@@ -7,5 +7,8 @@ export default defineConfig({
   plugins: [svelte(), tsconfigPaths()],
   build: {
     outDir: "build"
+  },
+  server: {
+    port: 5000
   }
 });
