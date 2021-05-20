@@ -4,11 +4,11 @@
   import Spinner from "../Spinner.svelte";
   import { socket } from "../../App.svelte";
 
-  $: $GameState.players.length === $GameState.numOfPlayers
+  $: $GameState.players.length == $GameState.numOfPlayers
     ? ($GameState.gameStarted = true)
     : null;
 
-  $: console.log($GameState.gameStarted);
+  $: console.log("???", $GameState.gameStarted);
 
   socket.on("joined", (name: string, ID: string) => {
     //Only gameMaster can continue operation
@@ -34,6 +34,8 @@
       $GameState = state;
       console.log($GameState);
     }
+    console.log("lenght:", $GameState.players.length);
+    console.log($GameState.numOfPlayers);
   });
 
   socket.on("playerLeft", (ID) => {
