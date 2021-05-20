@@ -5,7 +5,6 @@
   import { fly } from "svelte/transition";
   import { GameState, username, step } from "@store";
   import { socket } from "../../App.svelte";
-  import { v4 as uuidv4, validate } from "uuid";
 
   let gameID: string;
 
@@ -22,7 +21,7 @@
     if (numOfPlayers) {
       $GameState.players[0].username = $username;
       $GameState.numOfPlayers = numOfPlayers;
-      // $GameState.roomID = uuidv4();
+      
       console.log(socket.id);
       $GameState.roomID = socket.id;
       $GameState.players[0].socketID = socket.id;

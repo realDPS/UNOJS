@@ -39,6 +39,7 @@
 		"src/**/*.ts",
 		"src/**/*.js",
 		"src/**/*.svelte",
-		"./type.d.ts"
+		"./type.d.ts",
+		"server/*.ts"
 	]
 }

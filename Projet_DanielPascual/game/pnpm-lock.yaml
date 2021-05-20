@@ -9,7 +9,6 @@ specifiers:
   svelte: ^3.38.2
   svelte-preprocess: ^4.7.3
   typescript: ^4.2.4
-  uuid: ^8.3.2
   vite: ^2.3.3
   vite-tsconfig-paths: ^3.3.11
 
@@ -18,7 +17,6 @@ dependencies:
   express: 4.17.1
   socket.io: 4.1.2
   socket.io-client: 4.1.2
-  uuid: 8.3.2
 
 devDependencies:
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.10_svelte@3.38.2+vite@2.3.3
@@ -880,11 +878,6 @@ packages:
   /utils-merge/1.0.1:
     resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
-    dev: false
-
-  /uuid/8.3.2:
-    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
     dev: false
 
   /vary/1.1.2:
