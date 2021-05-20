@@ -56,7 +56,7 @@ io.on("connection", (socket) => {
       console.log(io.sockets.adapter.rooms);
       console.log(io.sockets.adapter.rooms.get(roomID).size);
       console.log(`${username} joined room roomID: ${roomID}`);
-      io.in(roomID).emit("joined", username); //ID,
+      io.in(roomID).emit("joined", username, socket.id); //ID,
     } else {
       console.log("room doesn't exist");
       socket.emit("noroom", "This room doesn't exist");
@@ -94,13 +94,10 @@ io.on("connection", (socket) => {
     socket.emit("updateDeck", deck);
   });
 
-  socket.on("disconnect", (ID) => {
-    console.log(ID, " LEFT");
-
-    socket.emit("test");
-    console.log(socket.id, " LEFT");
+  socket.on("disconnect", (reason) => {
     console.log(io.sockets.adapter.rooms);
-    socket.emit("playerLeft", ID);
+    console.log(socket.id, " LEFT");
+    io.sockets.emit("playerLeft", socket.id);
   });
 });
 

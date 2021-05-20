@@ -37,7 +37,7 @@
   function joinRoom() {
     $GameState.roomID = gameID.trim();
 
-    socket.emit("joinRoom", gameID.trim(), socket.id, $username); //socket.id,
+    socket.emit("joinRoom", gameID.trim(), $username); //socket.id,
     socket.once("accepted", (status) => {
       if (status) {
         console.log(status);

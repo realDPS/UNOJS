@@ -6,14 +6,14 @@
 
   console.log("waiting?");
 
-  socket.on("joined", (name: string) => {
+  socket.on("joined", (name: string, ID: string) => {
     //ID: string,
     //Only gameMaster can continue operation
     if ($GameState.players[0].username === $username) {
       if ($GameState.players.length < $GameState.numOfPlayers) {
-        // socketID: ID,
         $GameState.players[$GameState.players.length] = {
           ...$GameState.players[0],
+          socketID: ID,
           username: name,
           turnToPlay: false
         };
@@ -30,22 +30,20 @@
     console.log($GameState);
   });
 
-  socket.on("test", () => {
-    console.log("wtf");
-  });
-
   socket.on("playerLeft", (ID) => {
-    console.log("player left room");
+    console.log("player left room:", ID);
 
     for (let index = 0; index < $GameState.players.length; index++) {
-      const element = $GameState.players[index];
-      console.log(element.socketID);
-      // if (element.socketID == ID) {
-      //   $GameState.players.splice(index, 1);
-      //   console.log($GameState);
-      //   socket.emit("update", $GameState);
-      //   return;
-      // }
+      const player = $GameState.players[index];
+
+      console.log(player.socketID);
+
+      if (player.socketID == ID) {
+        $GameState.players.splice(index, 1);
+        console.log("updated:", $GameState);
+        socket.emit("update", $GameState);
+        return;
+      }
     }
   });
 </script>
