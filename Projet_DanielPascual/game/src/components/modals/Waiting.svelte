@@ -29,22 +29,25 @@
     $GameState = state;
     console.log($GameState);
   });
-  socket.on("disconnect", (ID: string) => {
-    console.log("player left room");
 
-    if ($GameState.players[0].username === $username) {
-      for (let index = 0; index < $GameState.players.length; index++) {
-        const element = $GameState.players[index];
-        if (element.socketID == ID) {
-          $GameState.players.splice(index, 1);
-          socket.emit("update", $GameState);
-          return;
-        }
-      }
-    }
+  socket.on("test", () => {
+    console.log("wtf");
   });
 
-  //disconnect() > ID > EMIT.LEAVE > (CLIENT) ON.LEAVE(ID) >
+  socket.on("playerLeft", (ID) => {
+    console.log("player left room");
+
+    for (let index = 0; index < $GameState.players.length; index++) {
+      const element = $GameState.players[index];
+      console.log(element.socketID);
+      // if (element.socketID == ID) {
+      //   $GameState.players.splice(index, 1);
+      //   console.log($GameState);
+      //   socket.emit("update", $GameState);
+      //   return;
+      // }
+    }
+  });
 </script>
 
 <style>

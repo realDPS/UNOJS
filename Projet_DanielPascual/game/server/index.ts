@@ -95,8 +95,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", (ID) => {
-    console.log(ID);
-    socket.emit("disconnect", ID);
+    console.log(ID, " LEFT");
+
+    socket.emit("test");
+    console.log(socket.id, " LEFT");
+    console.log(io.sockets.adapter.rooms);
+    socket.emit("playerLeft", ID);
   });
 });
 
