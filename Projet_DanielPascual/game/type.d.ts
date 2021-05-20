@@ -40,6 +40,7 @@ type Order = "clockwise" | "anti-clockwise";
 
 interface GameState {
   roomID: string;
+  gameStarted: boolean;
   currentPlayer: PlayerType;
   order: Order;
   uno: boolean;

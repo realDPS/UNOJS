@@ -37,7 +37,7 @@
       for (let index = 0; index < $GameState.players.length; index++) {
         const player = $GameState.players[index];
 
-        if (player.socketID == ID) {
+        if (player.id == ID) {
           $GameState.players.splice(index, 1);
           console.log("updated:", $GameState);
           socket.emit("update", $GameState);

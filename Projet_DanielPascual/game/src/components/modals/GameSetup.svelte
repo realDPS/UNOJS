@@ -21,10 +21,10 @@
     if (numOfPlayers) {
       $GameState.players[0].username = $username;
       $GameState.numOfPlayers = numOfPlayers;
-      
+
       console.log(socket.id);
       $GameState.roomID = socket.id;
-      $GameState.players[0].socketID = socket.id;
+      $GameState.players[0].id = socket.id;
 
       socket.emit("createRoom", $GameState.roomID, numOfPlayers);
 
