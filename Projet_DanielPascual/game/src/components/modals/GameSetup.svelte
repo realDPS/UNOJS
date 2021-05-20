@@ -8,7 +8,7 @@
 
   let gameID: string;
 
-  let numOfPlayers: number;
+  let numOfPlayers: string;
 
   let options = [
     { id: 1, value: "2", text: "2 Players" },
@@ -20,7 +20,7 @@
   function createRoom() {
     if (numOfPlayers) {
       $GameState.players[0].username = $username;
-      $GameState.numOfPlayers = numOfPlayers;
+      $GameState.numOfPlayers = parseInt(numOfPlayers);
 
       console.log(socket.id);
       $GameState.roomID = socket.id;
