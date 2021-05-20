@@ -12,7 +12,7 @@
       if ($GameState.players.length < $GameState.numOfPlayers) {
         $GameState.players[$GameState.players.length] = {
           ...$GameState.players[0],
-          socketID: ID,
+          id: ID,
           username: name,
           turnToPlay: false
         };
