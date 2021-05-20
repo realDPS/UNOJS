@@ -44,6 +44,7 @@
 
         $step = 2;
       } else {
+        socket.emit("leave", gameID.trim());
         alert("The Room is Full");
       }
     });

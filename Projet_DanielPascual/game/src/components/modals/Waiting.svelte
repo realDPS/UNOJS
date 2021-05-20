@@ -7,7 +7,6 @@
   console.log("waiting?");
 
   socket.on("joined", (name: string, ID: string) => {
-    //ID: string,
     //Only gameMaster can continue operation
     if ($GameState.players[0].username === $username) {
       if ($GameState.players.length < $GameState.numOfPlayers) {
@@ -17,10 +16,11 @@
           username: name,
           turnToPlay: false
         };
+        console.log(name, " joined");
         socket.emit("accept", $GameState.roomID, name, true);
         socket.emit("update", $GameState);
       } else {
-        socket.emit("accept", $GameState.roomID, name, false);
+        socket.emit("accept", ID, name, false);
       }
     }
   });
@@ -33,18 +33,17 @@
   socket.on("playerLeft", (ID) => {
     console.log("player left room:", ID);
 
-    for (let index = 0; index < $GameState.players.length; index++) {
-      const player = $GameState.players[index];
+    if ($GameState.players[0].username === $username)
+      for (let index = 0; index < $GameState.players.length; index++) {
+        const player = $GameState.players[index];
 
-      console.log(player.socketID);
-
-      if (player.socketID == ID) {
-        $GameState.players.splice(index, 1);
-        console.log("updated:", $GameState);
-        socket.emit("update", $GameState);
-        return;
+        if (player.socketID == ID) {
+          $GameState.players.splice(index, 1);
+          console.log("updated:", $GameState);
+          socket.emit("update", $GameState);
+          return;
+        }
       }
-    }
   });
 </script>
 

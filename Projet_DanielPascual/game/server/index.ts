@@ -64,17 +64,23 @@ io.on("connection", (socket) => {
   });
 
   socket.on("accept", (id, name, status) => {
-    io.in(id).emit("accepted", status);
-    if (!status) {
-      console.log("Player number exceeded");
-      io.in(id).emit("denied", name);
-      socket.leave(id);
-      console.log("removed ", name);
-      console.log(io.sockets.adapter.rooms.get(id).size);
-      console.log(io.sockets.adapter.rooms);
+    if (status) {
+      console.log("accepted ", id);
+
+      io.in(id).emit("accepted", status);
+    } else {
+      console.log("Player number exceeded, ", name, " removed");
+      console.log(name, " ID: ", id);
+
+      io.in(id).emit("accepted", status);
     }
   });
 
+  socket.on("leave", (ID: string) => {
+    socket.leave(ID);
+    console.log(io.sockets.adapter.rooms.get(ID).size);
+    console.log(io.sockets.adapter.rooms);
+  });
   socket.on("update", (state: GameState) => {
     io.in(state.roomID).emit("update", state);
   });
