@@ -1,6 +1,6 @@
 <script lang="ts">
   import { socket } from "../App.svelte";
-  import { GameState } from "@store";
+  import { GameState, username, getPlayerIndex } from "@store";
   import Cards from "./Cards.svelte";
 
   //Draw +4 or +2 on next player
@@ -25,16 +25,42 @@
   }
 
   function drawCard() {
+    const playerIndex = getPlayerIndex($GameState, $username);
+    //refuse drawCard if not player's turn
+    if ($GameState.players[playerIndex].turnToPlay === false) {
+      return;
+    }
+
     const Card = $GameState.drawDeck.shift();
 
-    $GameState.players[$GameState.currentPlayer].cardArray[
-      $GameState.players[$GameState.currentPlayer].cardArray.length
+    $GameState.players[playerIndex].cardArray[
+      $GameState.players[playerIndex].cardArray.length
     ] = Card;
 
-    const player = $GameState.currentPlayer;
-    const numOfCards = $GameState.players[player].cardArray;
+    // if (
+    //   Card.color === "Wild" ||
+    //   Card.color === $GameState.topCard.color ||
+    //   Card.value === $GameState.topCard.value
+    // ) {
+    // }
 
-    socket.emit("newHand", { player, numOfCards });
+    let turnIndex: number = playerIndex + 1;
+    if (turnIndex === $GameState.numOfPlayers) {
+      turnIndex = 0;
+    }
+    $GameState.currentPlayer = turnIndex;
+    $GameState.players[turnIndex].turnToPlay = true;
+    $GameState.players[playerIndex].turnToPlay = false;
+
+    console.log($username);
+
+    console.log("turn", turnIndex);
+    console.log("playedIndex", playerIndex);
+    console.log($GameState);
+
+    socket.emit("update", $GameState);
+    console.log($GameState);
+    // socket.emit("newHand", { player, numOfCards });
   }
 
   //Server call functions:

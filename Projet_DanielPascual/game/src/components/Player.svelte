@@ -40,14 +40,14 @@
         socket.emit("playerWin", player);
       }
 
-      $GameState.players[player].turnToPlay = false;
-
       let turnIndex = player + 1;
       if (turnIndex === $GameState.numOfPlayers) {
         turnIndex = 0;
       }
-
+      
+      $GameState.currentPlayer = turnIndex;
       $GameState.players[turnIndex].turnToPlay = true;
+      $GameState.players[player].turnToPlay = false;
 
       socket.emit("updateState", $GameState);
     }
