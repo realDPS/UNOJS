@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
     console.log("new room created!");
     socket.join(id);
     console.log(io.sockets.adapter.rooms);
-    socket.emit("deck", generateDeck());
+    socket.emit("initialDeck", generateDeck());
   });
 
   //When new player join existing room
@@ -97,7 +97,7 @@ io.on("connection", (socket) => {
   socket.on("topCard", (card) => {
     socket.emit("topCard", card);
   });
-  socket.on("updateDeck", (deck) => {
+  socket.on("updateDeck", (deck: CardType[]) => {
     socket.emit("updateDeck", deck);
   });
 

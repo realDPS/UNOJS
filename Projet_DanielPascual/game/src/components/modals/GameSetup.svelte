@@ -27,6 +27,9 @@
       $GameState.players[0].id = socket.id;
 
       socket.emit("createRoom", $GameState.roomID, numOfPlayers);
+      socket.on("initialDeck", (deck: CardType[]) => {
+        $GameState.drawDeck = deck;
+      });
 
       console.log("state:", $GameState);
       $step++;
@@ -36,7 +39,7 @@
   function joinRoom() {
     $GameState.roomID = gameID.trim();
 
-    socket.emit("joinRoom", gameID.trim(), $username); //socket.id,
+    socket.emit("joinRoom", gameID.trim(), $username);
     socket.once("accepted", (status) => {
       if (status) {
         console.log(status);

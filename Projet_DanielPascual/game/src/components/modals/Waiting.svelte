@@ -4,19 +4,38 @@
   import Spinner from "../Spinner.svelte";
   import { socket } from "../../App.svelte";
 
-  $: $GameState.players.length === $GameState.numOfPlayers
+  $: $GameState.players[$GameState.numOfPlayers - 1].handLength === 7
     ? ($GameState.gameStarted = true)
     : null;
 
+  $: if ($GameState.gameStarted == true) {
+    socket.emit("gameStart");
+  }
+  socket.on("gameStart", () => {
+    //forloop playerTurn === true;
+    //+7 cartes.
+    //return deck
+  });
   $: console.log("GameStart: ", $GameState.gameStarted);
 
   socket.on("joined", (name: string, ID: string) => {
     //Only gameMaster can continue operation
     if ($GameState.players[0].username === $username) {
       if ($GameState.players.length < $GameState.numOfPlayers) {
+        //give hand to new player
+        let hand: CardType[] = [];
+        console.log(">>", $GameState);
+
+        for (let index = 0; index < 7; index++) {
+          hand.push($GameState.drawDeck.pop());
+        }
+        socket.emit("updateDeck", $GameState.drawDeck);
+
         $GameState.players[$GameState.players.length] = {
           ...$GameState.players[0],
           id: ID,
+          cardArray: hand,
+          handLength: hand.length,
           username: name,
           turnToPlay: false
         };
@@ -35,12 +54,11 @@
       console.log($GameState);
     }
   });
-  socket.on("deck", (deck: CardType[]) => {
-    if ($GameState.players[0].username === $username) {
-      $GameState.drawDeck = deck;
-      console.log($GameState);
-    }
+
+  socket.on("updateDeck", (deck: CardType[]) => {
+    $GameState.drawDeck = deck;
   });
+
   socket.on("playerLeft", (ID) => {
     console.log("player left room:", ID);
 
