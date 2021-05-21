@@ -22,8 +22,6 @@ interface CardType {
   color?: Color;
 }
 
-type PlayerType = 0 | 1 | 2 | 3;
-
 interface PlayerData {
   id: string;
   username: string;
@@ -41,7 +39,7 @@ type Order = "clockwise" | "anti-clockwise";
 interface GameState {
   roomID: string;
   gameStarted: boolean;
-  currentPlayer: PlayerType;
+  currentPlayer: number;
   order: Order;
   uno: boolean;
   numOfPlayers: number;
