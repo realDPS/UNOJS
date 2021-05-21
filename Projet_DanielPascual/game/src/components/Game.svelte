@@ -99,8 +99,8 @@
 
 <style>
   .Table {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: #75737b;
     display: grid;
     grid-template-rows: repeat(3, 1fr);
@@ -126,17 +126,17 @@
     <div />
   </div>
   <div class="Row">
-    <div class="left">
+    <div class="right">
       {#if enemies_position.left}
-        <Player player={getPlayerIndex($GameState, enemies_position.left)} />
+        <Player player={getPlayerIndex($GameState, enemies_position.right)} />
       {/if}
     </div>
 
     <PlayingField />
 
-    <div class="right">
+    <div class="left">
       {#if enemies_position.right}
-        <Player player={getPlayerIndex($GameState, enemies_position.right)} />
+        <Player player={getPlayerIndex($GameState, enemies_position.left)} />
       {/if}
     </div>
   </div>
