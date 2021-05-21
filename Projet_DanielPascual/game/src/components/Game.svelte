@@ -3,8 +3,11 @@
   import Player from "./Player.svelte";
   import PlayingField from "./PlayingField.svelte";
   import { socket } from "../App.svelte";
+  import GameSetup from "./modals/GameSetup.svelte";
 
   const enemies_position = { right: null, top: null, left: null };
+
+  $: console.log($GameState);
 
   $: if ($GameState.numOfPlayers === $GameState.players.length) {
     displaySetup();
@@ -25,7 +28,6 @@
         mode4players($username, players);
         break;
     }
-    console.log(enemies_position);
   }
 
   function mode2players(username: string, playerArray: Array<PlayerData>) {
@@ -84,17 +86,12 @@
 
   socket.on("gameStarted", (state: GameState) => {
     $GameState = state;
+    socket.emit("update", state);
   });
 
-  $: console.log($GameState.drawDeck);
-
-  //Initial hand for each player
-  //TODO:SEND TO SERVER
-  // for (let i = 0; i < $GameState.numOfPlayers; ++i) {
-  //   for (let j = 0; j < 7; ++j) {
-  //     $GameState.players[i].cardArray[j] = $GameState.drawDeck.shift();
-  //   }
-  // }
+  socket.on("updateState", (state: GameState) => {
+    $GameState = state;
+  });
 </script>
 
 <style>

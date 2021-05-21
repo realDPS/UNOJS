@@ -42,10 +42,8 @@ io.on("connection", (socket) => {
 
   //When player create a room
   socket.on("createRoom", (id: string) => {
-    console.log(`ID of room: ${id}`);
-    console.log("new room created!");
     socket.join(id);
-    console.log(io.sockets.adapter.rooms);
+    //console.log(io.sockets.adapter.rooms);
     socket.emit("initialDeck", generateDeck());
   });
 
@@ -54,9 +52,9 @@ io.on("connection", (socket) => {
     //ID,
     if (io.sockets.adapter.rooms.has(roomID)) {
       socket.join(roomID);
-      console.log(io.sockets.adapter.rooms);
-      console.log(io.sockets.adapter.rooms.get(roomID).size);
-      console.log(`${username} joined room roomID: ${roomID}`);
+      //console.log(io.sockets.adapter.rooms);
+      //console.log(io.sockets.adapter.rooms.get(roomID).size);
+      //console.log(`${username} joined room roomID: ${roomID}`);
       io.in(roomID).emit("joined", username, socket.id); //ID,
     } else {
       console.log("room doesn't exist");
@@ -70,8 +68,7 @@ io.on("connection", (socket) => {
 
       io.in(id).emit("accepted", status);
     } else {
-      console.log("Player number exceeded, ", name, " removed");
-      console.log(name, " ID: ", id);
+      console.log("Room exceeded, ", name, "(", id, ") removed");
 
       io.in(id).emit("accepted", status);
     }
@@ -79,26 +76,20 @@ io.on("connection", (socket) => {
 
   socket.on("leave", (ID: string) => {
     socket.leave(ID);
-    console.log(io.sockets.adapter.rooms.get(ID).size);
-    console.log(io.sockets.adapter.rooms);
   });
+
   socket.on("update", (state: GameState) => {
+    console.log("emited update");
+
     io.in(state.roomID).emit("update", state);
+  });
+  socket.on("updateState", (state: GameState) => {
+    state.drawDeck = randomize(state.drawDeck);
+    io.in(state.roomID).emit("updateState", state);
   });
 
   socket.on("newHand", (hand) => {
     socket.emit("enemyHandSize", hand);
-  });
-
-  socket.on("endTurn", (id) => {
-    //TODO: change yourTurn of players
-  });
-
-  socket.on("topCard", (card) => {
-    socket.emit("topCard", card);
-  });
-  socket.on("updateDeck", (deck: CardType[]) => {
-    socket.emit("updateDeck", deck);
   });
 
   socket.on("disconnect", (reason) => {

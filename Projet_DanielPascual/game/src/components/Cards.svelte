@@ -24,9 +24,6 @@
       return;
     }
 
-    $GameState.players[getPlayerIndex($GameState, $username)].turnToPlay =
-      false;
-
     dispatch("discard", index);
     if (value === "Draw") {
       $GameState.drawCard = true;

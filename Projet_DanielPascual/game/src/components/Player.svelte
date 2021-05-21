@@ -27,30 +27,29 @@
         ...$GameState.players[player].cardArray
       ];
       $GameState.drawDeck.push($GameState.topCard);
-      // $GameState.drawDeck = randomize($GameState.drawDeck);
+      //$GameState.drawDeck = randomize($GameState.drawDeck);
 
-      const numOfCards = $GameState.players[player].cardArray.length;
-      socket.emit("newHand", { player, numOfCards });
-
-      const sendDeck = $GameState.drawDeck;
-      socket.emit("updateDeck", sendDeck);
+      //const numOfCards = $GameState.players[player].cardArray.length;
+      //socket.emit("newHand", { player, numOfCards });
 
       $GameState.topCard = clickedCard;
-      socket.emit("topCard", clickedCard);
 
       //Unchecked
       if ($GameState.players[player].cardArray.length == 0) {
         //destroy room on playerWin and on "playerWin", create a modal with Winner + show all cards
         socket.emit("playerWin", player);
       }
-      //TODO:UNCHECKED
-      let turnIndex = getPlayerIndex($GameState, $username);
 
-      turnIndex++;
+      $GameState.players[player].turnToPlay = false;
+
+      let turnIndex = player + 1;
       if (turnIndex === $GameState.numOfPlayers) {
         turnIndex = 0;
       }
-      socket.emit("NextPlayerTurn", turnIndex);
+
+      $GameState.players[turnIndex].turnToPlay = true;
+
+      socket.emit("updateState", $GameState);
     }
   }
 </script>
