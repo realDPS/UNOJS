@@ -1,92 +1,99 @@
 <script lang="ts">
-	import { GameState, username, getPlayerIndex } from "@store";
-	import { socket } from "../App.svelte";
-	import Cards from "./Cards.svelte";
+  import { GameState, username, getPlayerIndex } from "@store";
+  import { onMount } from "svelte";
+  import { socket } from "../App.svelte";
+  import Cards from "./Cards.svelte";
 
-	export let player: number;
-	export let isMyHand: boolean = false;
-	$: PlayerCards = $GameState.players[player].cardArray;
+  export let player: number;
 
-	function discardCard({ detail: index }: { detail: number }) {
-		const clickedCard = $GameState.players[player].cardArray[index];
-		const { color, value } = clickedCard;
+  $: PlayerCards = $GameState.players[player].cardArray;
 
-		if (
-			color === "Wild" ||
-			$GameState.topCard.color === "Wild" ||
-			color === $GameState.topCard.color ||
-			value === $GameState.topCard.value
-		) {
-			$GameState.players[player].cardArray.splice(index, 1);
-			$GameState.players[player].cardArray = [
-				...$GameState.players[player].cardArray
-			];
-			$GameState.drawDeck.push($GameState.topCard);
-			// $GameState.drawDeck = randomize($GameState.drawDeck);
+  onMount(() => {
+    console.log(player);
+  });
 
-			const numOfCards = $GameState.players[player].cardArray.length;
-			socket.emit("newHand", { player, numOfCards });
+  function discardCard({ detail: index }: { detail: number }) {
+    const clickedCard = $GameState.players[player].cardArray[index];
+    const { color, value } = clickedCard;
 
-			const sendDeck = $GameState.drawDeck;
-			socket.emit("updateDeck", sendDeck);
+    if (
+      color === "Wild" ||
+      $GameState.topCard.color === "Wild" ||
+      color === $GameState.topCard.color ||
+      value === $GameState.topCard.value
+    ) {
+      $GameState.players[player].cardArray.splice(index, 1);
+      $GameState.players[player].cardArray = [
+        ...$GameState.players[player].cardArray
+      ];
+      $GameState.drawDeck.push($GameState.topCard);
+      // $GameState.drawDeck = randomize($GameState.drawDeck);
 
-			$GameState.topCard = clickedCard;
-			socket.emit("topCard", clickedCard);
+      const numOfCards = $GameState.players[player].cardArray.length;
+      socket.emit("newHand", { player, numOfCards });
 
-			//Unchecked
-			if ($GameState.players[player].cardArray.length == 0) {
-				//destroy room on playerWin and on "playerWin", create a modal with Winner + show all cards
-				socket.emit("playerWin", player);
-			}
-			//TODO:UNCHECKED
-			let turnIndex = getPlayerIndex($GameState, $username);
+      const sendDeck = $GameState.drawDeck;
+      socket.emit("updateDeck", sendDeck);
 
-			turnIndex++;
-			if (turnIndex === $GameState.numOfPlayers) {
-				turnIndex = 0;
-			}
-			socket.emit("NextPlayerTurn", turnIndex);
-		}
-	}
+      $GameState.topCard = clickedCard;
+      socket.emit("topCard", clickedCard);
+
+      //Unchecked
+      if ($GameState.players[player].cardArray.length == 0) {
+        //destroy room on playerWin and on "playerWin", create a modal with Winner + show all cards
+        socket.emit("playerWin", player);
+      }
+      //TODO:UNCHECKED
+      let turnIndex = getPlayerIndex($GameState, $username);
+
+      turnIndex++;
+      if (turnIndex === $GameState.numOfPlayers) {
+        turnIndex = 0;
+      }
+      socket.emit("NextPlayerTurn", turnIndex);
+    }
+  }
 </script>
 
 <style>
-	.Player {
-		display: flex;
-		z-index: 2;
-		padding-left: 50px;
-		justify-content: center;
-		align-items: center;
-	}
+  .Player {
+    display: flex;
+    z-index: 2;
+    padding-left: 50px;
+    justify-content: center;
+    align-items: center;
+  }
 
-	.CardDiv {
-		width: min-content;
-		height: min-content;
-	}
+  .CardDiv {
+    width: min-content;
+    height: min-content;
+  }
 </style>
 
 <div class="Player">
-	<!-- For players' card -->
-	{#if $GameState.players[player].username === $username}
-		{#each PlayerCards as { id, color, value }, index (id)}
-			<div
-				class="CardDiv"
-				style="z-index: {index}; position: relative; right: {15 * index}px;">
-				<Cards
-					{color}
-					{value}
-					animation="Peek"
-					{index}
-					on:discard={discardCard}
-					hand={true}
-					faceDown={!isMyHand}
-					isHighlighted={$GameState.players[player].turnToPlay} />
-			</div>
-		{/each}
-	{:else}
-		<!-- for opponents' cards -->
-		{#each Array($GameState.players[player].handLength) as _number}
-			<Cards faceDown={true} />
-		{/each}
-	{/if}
+  <!-- For players' card -->
+  <!-- {#if $GameState.players[player].username === $username} -->
+  {#each PlayerCards as { id, color, value }, index (id)}
+    <div
+      class="CardDiv"
+      style="z-index: {index}; position: relative; right: {15 * index}px;"
+    >
+      <Cards
+        {color}
+        {value}
+        animation="Peek"
+        {index}
+        on:discard={discardCard}
+        hand={true}
+        faceDown={false}
+        isHighlighted={$GameState.players[player].turnToPlay}
+      />
+    </div>
+  {/each}
+  <!-- {:else}
+
+    {#each Array($GameState.players[player].handLength) as _number}
+      <Cards faceDown={false} />
+    {/each} -->
+  <!-- {/if} -->
 </div>

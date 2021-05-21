@@ -25,21 +25,18 @@
         mode4players($username, players);
         break;
     }
+    console.log(enemies_position);
   }
 
   function mode2players(username: string, playerArray: Array<PlayerData>) {
-    let index = playerArray.findIndex((playerData) => {
-      return playerData.username === username;
-    });
+    let index = getPlayerIndex($GameState, username);
 
     enemies_position.top =
       index === 0 ? playerArray[1].username : playerArray[0].username;
   }
 
   function mode3players(username: string, playerArray: Array<PlayerData>) {
-    let index = playerArray.findIndex((playerData) => {
-      return playerData.username === username;
-    });
+    let index = getPlayerIndex($GameState, username);
 
     switch (index) {
       case 0:
@@ -58,9 +55,7 @@
   }
 
   function mode4players(username: string, playerArray: Array<PlayerData>) {
-    let index = playerArray.findIndex((playerData) => {
-      return playerData.username === username;
-    });
+    let index = getPlayerIndex($GameState, username);
 
     switch (index) {
       case 0:
@@ -100,10 +95,6 @@
   //     $GameState.players[i].cardArray[j] = $GameState.drawDeck.shift();
   //   }
   // }
-
-  //test player 2
-  $GameState.players[1].username = "testy";
-  enemies_position.top = "testy";
 </script>
 
 <style>
@@ -152,7 +143,7 @@
   <div class="Row">
     <div />
     <div class="down">
-      <Player isMyHand={true} player={getPlayerIndex($GameState, $username)} />
+      <Player player={getPlayerIndex($GameState, $username)} />
     </div>
     <div />
   </div>
