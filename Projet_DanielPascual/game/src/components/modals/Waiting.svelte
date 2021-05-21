@@ -35,7 +35,12 @@
       console.log($GameState);
     }
   });
-
+  socket.on("deck", (deck: CardType[]) => {
+    if ($GameState.players[0].username === $username) {
+      $GameState.drawDeck = deck;
+      console.log($GameState);
+    }
+  });
   socket.on("playerLeft", (ID) => {
     console.log("player left room:", ID);
 

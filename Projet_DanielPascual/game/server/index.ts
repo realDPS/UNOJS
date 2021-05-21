@@ -46,6 +46,7 @@ io.on("connection", (socket) => {
     console.log("new room created!");
     socket.join(id);
     console.log(io.sockets.adapter.rooms);
+    socket.emit("deck", generateDeck());
   });
 
   //When new player join existing room
