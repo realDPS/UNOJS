@@ -3,7 +3,7 @@ import { writable, Writable } from "svelte/store";
 export const GameState: Writable<GameState> = writable({
   roomID: "",
   gameStarted: false,
-  order: "clockwise",
+  isClockwise: true,
   currentPlayer: 0,
   uno: false,
   numOfPlayers: 2,

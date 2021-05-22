@@ -34,13 +34,11 @@ interface PlayerData {
 
 type Position = "Top" | "Right" | "Left" | "User";
 
-type Order = "clockwise" | "anti-clockwise";
-
 interface GameState {
   roomID: string;
   gameStarted: boolean;
   currentPlayer: number;
-  order: Order;
+  isClockwise: boolean;
   uno: boolean;
   numOfPlayers: number;
   players: Array<PlayerData>;

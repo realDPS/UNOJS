@@ -9,7 +9,7 @@
 
   $: PlayerCards = $GameState.players[player].cardArray;
 
-  const NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
+  let NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
 
   function discardCard({ detail: index }: { detail: number }) {
     const clickedCard = $GameState.players[player].cardArray[index];
@@ -30,12 +30,28 @@
         $GameState.players[NEXTPLAYER].drewCard = true;
       }
 
+      if (value === "Reverse") {
+        $GameState.isClockwise = !$GameState.isClockwise;
+      }
+      if ($GameState.isClockwise) {
+        NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
+      } else {
+        NEXTPLAYER = player - 1 == 0 ? $GameState.numOfPlayers - 1 : player - 1;
+      }
+      if ($GameState.numOfPlayers === 2) {
+        if (value === "Reverse" || value === "Skip") {
+          NEXTPLAYER = $GameState.currentPlayer;
+        }
+      }
+
       if (color === "Wild") {
         //MAKE A SYNCHRONOUS CALL OF WILDSELECTION...
       }
+
       $GameState.topCard = clickedCard;
       $GameState.currentColor = color;
 
+      //next player
       $GameState.players[player].turnToPlay = false;
       $GameState.players[NEXTPLAYER].turnToPlay = true;
       $GameState.currentPlayer = NEXTPLAYER;
