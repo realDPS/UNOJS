@@ -4,7 +4,7 @@
   import Spinner from "../elements/Spinner.svelte";
   import { socket } from "../../App.svelte";
 
-  const HANDSIZE: number = 1;
+  const HANDSIZE: number = 20;
   $: if (
     $GameState.players[$GameState.numOfPlayers - 1] !== undefined &&
     $GameState.players[$GameState.numOfPlayers - 1].cardArray.length ===
@@ -60,10 +60,6 @@
       $GameState = state;
       console.log($GameState);
     }
-  });
-
-  socket.on("updateDeck", (deck: CardType[]) => {
-    $GameState.drawDeck = deck;
   });
 
   socket.on("playerLeft", (ID) => {

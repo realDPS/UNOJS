@@ -47,6 +47,7 @@ interface GameState {
   drawDeck: Array<CardType>;
   topCard: CardType;
   winner: string;
+  currentColor: Color;
 }
 
 type AnimationType = "Pulse" | "Peek" | "None";

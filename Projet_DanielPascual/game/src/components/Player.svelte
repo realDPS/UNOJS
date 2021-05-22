@@ -1,16 +1,15 @@
 <script lang="ts">
-  import { GameState, username, getPlayerIndex } from "@store";
+  import { GameState, username } from "@store";
   import { onMount } from "svelte";
   import { socket } from "../App.svelte";
   import Cards from "./Cards.svelte";
+  import WildSelection from "./modals/WildSelection.svelte";
 
   export let player: number;
 
   $: PlayerCards = $GameState.players[player].cardArray;
 
-  onMount(() => {
-    console.log(player);
-  });
+  const NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
 
   function discardCard({ detail: index }: { detail: number }) {
     const clickedCard = $GameState.players[player].cardArray[index];
@@ -18,8 +17,7 @@
 
     if (
       color === "Wild" ||
-      $GameState.topCard.color === "Wild" ||
-      color === $GameState.topCard.color ||
+      color === $GameState.currentColor ||
       value === $GameState.topCard.value
     ) {
       $GameState.players[player].cardArray.splice(index, 1);
@@ -29,34 +27,28 @@
       $GameState.drawDeck.push($GameState.topCard);
 
       if (value === "Draw") {
-        let nextPlayer = $GameState.currentPlayer + 1;
-        if (nextPlayer === $GameState.numOfPlayers) {
-          nextPlayer = 0;
-        }
-        $GameState.players[nextPlayer].drewCard = true;
+        $GameState.players[NEXTPLAYER].drewCard = true;
       }
 
+      if (color === "Wild") {
+        //MAKE A SYNCHRONOUS CALL OF WILDSELECTION...
+      }
       $GameState.topCard = clickedCard;
+      $GameState.currentColor = color;
 
-      //Unchecked
-
-      let turnIndex = player + 1;
-      if (turnIndex === $GameState.numOfPlayers) {
-        turnIndex = 0;
-      }
-
-      $GameState.currentPlayer = turnIndex;
-      $GameState.players[turnIndex].turnToPlay = true;
       $GameState.players[player].turnToPlay = false;
+      $GameState.players[NEXTPLAYER].turnToPlay = true;
+      $GameState.currentPlayer = NEXTPLAYER;
 
+      //winner
       if ($GameState.players[player].cardArray.length == 0) {
-        //destroy room on playerWin and on "playerWin", create a modal with Winner + show all cards
-        $GameState.winner = $GameState.players[player].username;
+        $GameState.winner = $username;
       }
 
       socket.emit("updateState", $GameState);
     }
   }
+  $: console.log("Player:", player, " ", $GameState.players[player].turnToPlay);
 </script>
 
 <style>
@@ -72,7 +64,28 @@
     width: min-content;
     height: min-content;
   }
+  /* ///// */
+
+  #wild {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 350px;
+    width: 600px;
+    border-radius: 15px;
+    background-color: #cfcfcf;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+    z-index: 200;
+  }
 </style>
+
+{#if $GameState.currentColor === "Wild" && $GameState.players[player].turnToPlay}
+  <div id="wild"><WildSelection /></div>
+{/if}
 
 <div class="Player">
   <!-- For players' card -->
