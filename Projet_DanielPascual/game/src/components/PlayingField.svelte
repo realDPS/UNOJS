@@ -39,7 +39,7 @@
     }
     console.log("MULTIPLE DRAW, UPDATE PLZ");
 
-    socket.emit("update", $GameState);
+    socket.emit("updateState", $GameState);
   }
   function drawCard() {
     //refuse drawCard if not player's turn
@@ -63,34 +63,19 @@
 
     console.log($username);
 
-    socket.emit("update", $GameState);
+    socket.emit("updateState", $GameState);
 
+    //todo
     // socket.emit("newHand", { player, numOfCards });
   }
 
-  //Server call functions:
+  //todo:
   socket.on("enemyHandSize", ({ numOfCards, player }: DataPlayer) => {
     console.log("enemyHandSize ", { numOfCards, player });
     $GameState.players[player].handLength = numOfCards;
   });
-  socket.on("gameStart", ({ numOfCards, player }: DataPlayer) => {
-    console.log("enemyHandSize ", { numOfCards, player });
-    $GameState.players[player].handLength = numOfCards;
-  });
-
-  socket.on("updateDeck", (deck: DataDeck) => {
-    console.log(deck);
-    $GameState.drawDeck = deck;
-  });
-
-  socket.on("topCard", (topCard: CardType) => {
-    $GameState.topCard = topCard;
-  });
-
-  //TODO:UNCHECKED
-  socket.on("nextPlayer", (playerIndex: number) => {
-    //todo:highlight cards with filter
-    $GameState.players[playerIndex].turnToPlay = true;
+  socket.on("updateState", (state: GameState) => {
+    $GameState = state;
   });
 
   //Set top card in discard pile on game launch

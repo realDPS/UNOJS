@@ -86,7 +86,7 @@
 
   socket.on("gameStarted", (state: GameState) => {
     $GameState = state;
-    socket.emit("update", state);
+    socket.emit("updateState", state);
   });
 
   socket.on("updateState", (state: GameState) => {
