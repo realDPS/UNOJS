@@ -8,7 +8,7 @@
   import Game from "./components/Game.svelte";
   import { GameState } from "@store";
 
-  import Modal from "./components/Modal.svelte";
+  import Modal from "./components/modals/Modal.svelte";
 </script>
 
 <style>

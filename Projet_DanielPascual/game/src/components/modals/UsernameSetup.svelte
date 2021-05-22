@@ -1,6 +1,6 @@
 <script lang="ts">
-  import TextInput from "../TextInput.svelte";
-  import Button from "../Button.svelte";
+  import TextInput from "../elements/TextInput.svelte";
+  import Button from "../elements/Button.svelte";
   import { step, username } from "@store";
   import { fly } from "svelte/transition";
 

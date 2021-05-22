@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
   import { GameState, username } from "@store";
-  import Spinner from "../Spinner.svelte";
+  import Spinner from "../elements/Spinner.svelte";
   import { socket } from "../../App.svelte";
 
   $: if (
