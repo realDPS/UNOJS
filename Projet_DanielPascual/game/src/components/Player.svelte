@@ -9,8 +9,9 @@
 
   $: PlayerCards = $GameState.players[player].cardArray;
 
-  let NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
-
+  let NEXTPLAYER: number =
+    player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
+  let jump: number = 1;
   function discardCard({ detail: index }: { detail: number }) {
     const clickedCard = $GameState.players[player].cardArray[index];
     const { color, value } = clickedCard;
@@ -26,18 +27,29 @@
       ];
       $GameState.drawDeck.push($GameState.topCard);
 
-      if (value === "Draw") {
-        $GameState.players[NEXTPLAYER].drewCard = true;
+      jump = 1; //todo:needed?
+
+      switch (value) {
+        case "Draw":
+          $GameState.players[NEXTPLAYER].drewCard = true;
+          break;
+        case "Reverse":
+          $GameState.isClockwise = !$GameState.isClockwise;
+          break;
+        case "Skip":
+          jump = 2;
+          break;
       }
 
-      if (value === "Reverse") {
-        $GameState.isClockwise = !$GameState.isClockwise;
-      }
       if ($GameState.isClockwise) {
-        NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
+        NEXTPLAYER =
+          player + jump == $GameState.numOfPlayers ? 0 : player + jump;
       } else {
-        NEXTPLAYER = player - 1 == 0 ? $GameState.numOfPlayers - 1 : player - 1;
+        NEXTPLAYER =
+          player - jump == 0 ? $GameState.numOfPlayers - 1 : player - jump;
       }
+
+      //different actions on 2 players
       if ($GameState.numOfPlayers === 2) {
         if (value === "Reverse" || value === "Skip") {
           NEXTPLAYER = $GameState.currentPlayer;
