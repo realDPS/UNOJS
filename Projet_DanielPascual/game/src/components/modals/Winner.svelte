@@ -1,13 +1,14 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { socket } from "../../App.svelte";
   import { fly } from "svelte/transition";
   import { GameState, step } from "@store";
   import Button from "../elements/Button.svelte";
 
+  let window;
+
   function restart() {
-    socket.disconnect();
-    socket.connect();
-    $step = 1;
+    location.reload();
   }
 </script>
 
@@ -26,6 +27,8 @@
   }
 </style>
 
+<svelte:window this={window} />
+
 <div
   class="Container"
   in:fly={{ x: 200, duration: 250 }}
@@ -36,6 +39,6 @@
     <h1>{$GameState.winner}</h1>
   </div>
   <div>
-    <Button text="Return to setup" on:click={restart} />
+    <Button text="Return to main page" on:click={restart} />
   </div>
 </div>

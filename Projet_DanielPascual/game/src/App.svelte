@@ -23,7 +23,7 @@
   }
 </style>
 
-{#if !$GameState.gameStarted && $GameState.winner === null}
+{#if !$GameState.gameStarted}
   <Modal />
 {:else}
   <Game />
