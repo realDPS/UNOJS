@@ -25,9 +25,7 @@
     }
 
     dispatch("discard", index);
-    if (value === "Draw") {
-      $GameState.drawCard = true;
-    }
+
     console.log(`You clicked the card ${color} ${value}`);
   }
 </script>

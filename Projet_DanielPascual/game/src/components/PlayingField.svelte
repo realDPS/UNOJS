@@ -2,30 +2,46 @@
   import { socket } from "../App.svelte";
   import { GameState, username, getPlayerIndex } from "@store";
   import Cards from "./Cards.svelte";
-
+  const playerIndex = getPlayerIndex($GameState, $username);
+  //
   //Draw +4 or +2 on next player
-  $: if ($GameState.topCard.value === "Draw" && $GameState.drawCard === true) {
+  $: console.log(
+    "DrewCard:",
+    $GameState.players[$GameState.currentPlayer].drewCard
+  );
+  $: console.log("turn:", $GameState.currentPlayer);
+  $: console.log("PlayFieldState:", $GameState);
+
+  $: if ($GameState.players[playerIndex].drewCard) {
+    // $GameState.topCard.value === "Draw" && $GameState.drawCard === true
+    $GameState.players[playerIndex].drewCard = false;
     switch ($GameState.topCard.color) {
       case "Wild":
         console.log("Change Color and Draw 4 Cards");
-        for (let i = 0; i < 4; ++i) {
-          drawCard();
-        }
-        console.log($GameState.players[$GameState.currentPlayer].cardArray);
+        multipleDraw(4);
         break;
       default:
         console.log("Draw 2 Cards");
-        for (let i = 0; i < 2; ++i) {
-          drawCard();
-        }
-        console.log($GameState.players[$GameState.currentPlayer].cardArray);
+        multipleDraw(2);
         break;
     }
-    $GameState.drawCard = false;
+
+    console.log($GameState.players[$GameState.currentPlayer].cardArray);
+    // $GameState.drawCard = false;
   }
 
+  function multipleDraw(drawNb: number) {
+    for (let index = 0; index < drawNb; index++) {
+      const card = $GameState.drawDeck.shift();
+      const last = $GameState.players[playerIndex].cardArray.length;
+
+      $GameState.players[playerIndex].cardArray[last] = card;
+    }
+    console.log("MULTIPLE DRAW, UPDATE PLZ");
+
+    socket.emit("update", $GameState);
+  }
   function drawCard() {
-    const playerIndex = getPlayerIndex($GameState, $username);
     //refuse drawCard if not player's turn
     if ($GameState.players[playerIndex].turnToPlay === false) {
       return;
@@ -37,13 +53,6 @@
       $GameState.players[playerIndex].cardArray.length
     ] = Card;
 
-    // if (
-    //   Card.color === "Wild" ||
-    //   Card.color === $GameState.topCard.color ||
-    //   Card.value === $GameState.topCard.value
-    // ) {
-    // }
-
     let turnIndex: number = playerIndex + 1;
     if (turnIndex === $GameState.numOfPlayers) {
       turnIndex = 0;
@@ -54,12 +63,8 @@
 
     console.log($username);
 
-    console.log("turn", turnIndex);
-    console.log("playedIndex", playerIndex);
-    console.log($GameState);
-
     socket.emit("update", $GameState);
-    console.log($GameState);
+
     // socket.emit("newHand", { player, numOfCards });
   }
 

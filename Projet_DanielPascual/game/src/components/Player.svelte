@@ -27,10 +27,17 @@
         ...$GameState.players[player].cardArray
       ];
       $GameState.drawDeck.push($GameState.topCard);
-      //$GameState.drawDeck = randomize($GameState.drawDeck);
 
       //const numOfCards = $GameState.players[player].cardArray.length;
       //socket.emit("newHand", { player, numOfCards });
+      if (value === "Draw") {
+        let nextPlayer = $GameState.currentPlayer + 1;
+        if (nextPlayer === $GameState.numOfPlayers) {
+          nextPlayer = 0;
+        }
+        $GameState.players[nextPlayer].drewCard = true;
+        // $GameState.drawCard = true;
+      }
 
       $GameState.topCard = clickedCard;
 
@@ -44,7 +51,7 @@
       if (turnIndex === $GameState.numOfPlayers) {
         turnIndex = 0;
       }
-      
+
       $GameState.currentPlayer = turnIndex;
       $GameState.players[turnIndex].turnToPlay = true;
       $GameState.players[player].turnToPlay = false;
