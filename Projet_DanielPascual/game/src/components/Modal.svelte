@@ -1,9 +1,15 @@
 <script lang="ts">
   import { step } from "@store";
-  import { UsernameSetup, GameSetup, Waiting } from "./";
-  import { fly } from "svelte/transition";
+  import { UsernameSetup, GameSetup, Waiting, Winner } from "./modals";
+  import { fade, fly } from "svelte/transition";
 
-  let components = [UsernameSetup, GameSetup, Waiting];
+  export let page: number;
+
+  if (page) {
+    $step = page;
+  }
+
+  let components = [UsernameSetup, GameSetup, Waiting, Winner];
 </script>
 
 <style>
@@ -31,7 +37,11 @@
   }
 </style>
 
-<div class="filter" transition:fly>
+<div
+  class="filter"
+  in:fade={{ duration: 250, delay: 1250 }}
+  out:fly={{ x: -200, duration: 250 }}
+>
   <div class="Modal">
     <svelte:component this={components[$step]} />
   </div>

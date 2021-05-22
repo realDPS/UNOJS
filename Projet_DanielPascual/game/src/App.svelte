@@ -8,7 +8,7 @@
   import Game from "./components/Game.svelte";
   import { GameState } from "@store";
 
-  import Modal from "./components/modals/Modal.svelte";
+  import Modal from "./components/Modal.svelte";
 </script>
 
 <style>
@@ -23,8 +23,11 @@
   }
 </style>
 
-{#if !$GameState.gameStarted}
+{#if !$GameState.gameStarted && $GameState.winner === null}
   <Modal />
 {:else}
   <Game />
+{/if}
+{#if $GameState.winner !== null}
+  <Modal page={3} />
 {/if}
