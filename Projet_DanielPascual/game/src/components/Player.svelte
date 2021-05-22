@@ -36,16 +36,11 @@
           nextPlayer = 0;
         }
         $GameState.players[nextPlayer].drewCard = true;
-        // $GameState.drawCard = true;
       }
 
       $GameState.topCard = clickedCard;
 
       //Unchecked
-      if ($GameState.players[player].cardArray.length == 0) {
-        //destroy room on playerWin and on "playerWin", create a modal with Winner + show all cards
-        socket.emit("playerWin", player);
-      }
 
       let turnIndex = player + 1;
       if (turnIndex === $GameState.numOfPlayers) {
@@ -57,6 +52,12 @@
       $GameState.players[player].turnToPlay = false;
 
       socket.emit("updateState", $GameState);
+
+      if ($GameState.players[player].cardArray.length == 0) {
+        //destroy room on playerWin and on "playerWin", create a modal with Winner + show all cards
+        $GameState.endGame = true;
+        socket.emit("playerWin", $GameState.players[player].username);
+      }
     }
   }
 </script>

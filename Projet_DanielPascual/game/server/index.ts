@@ -92,6 +92,10 @@ io.on("connection", (socket) => {
     socket.emit("enemyHandSize", hand);
   });
 
+  socket.on("playerWin", (player) => {
+    socket.emit("playerWin", player);
+  });
+
   socket.on("disconnect", (reason) => {
     console.log(io.sockets.adapter.rooms);
     console.log(socket.id, " LEFT");

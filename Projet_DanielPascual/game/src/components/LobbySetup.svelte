@@ -7,7 +7,7 @@
   function createRoom() {
     socket.emit("newRoom", $GameState);
     socket.on("roomIdCreated", (id) => {
-      $GameState.roomId = id;
+      $GameState.roomID = id;
     });
   }
 

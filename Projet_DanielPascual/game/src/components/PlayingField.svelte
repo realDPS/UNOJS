@@ -3,17 +3,9 @@
   import { GameState, username, getPlayerIndex } from "@store";
   import Cards from "./Cards.svelte";
   const playerIndex = getPlayerIndex($GameState, $username);
-  //
-  //Draw +4 or +2 on next player
-  $: console.log(
-    "DrewCard:",
-    $GameState.players[$GameState.currentPlayer].drewCard
-  );
-  $: console.log("turn:", $GameState.currentPlayer);
-  $: console.log("PlayFieldState:", $GameState);
 
+  //Draw +4 or +2 on next player
   $: if ($GameState.players[playerIndex].drewCard) {
-    // $GameState.topCard.value === "Draw" && $GameState.drawCard === true
     $GameState.players[playerIndex].drewCard = false;
     switch ($GameState.topCard.color) {
       case "Wild":
@@ -25,9 +17,6 @@
         multipleDraw(2);
         break;
     }
-
-    console.log($GameState.players[$GameState.currentPlayer].cardArray);
-    // $GameState.drawCard = false;
   }
 
   function multipleDraw(drawNb: number) {
@@ -67,6 +56,10 @@
 
   socket.on("updateState", (state: GameState) => {
     $GameState = state;
+  });
+
+  socket.on("playerWin", (player: string) => {
+    console.log(player, " won");
   });
 
   //Set top card in discard pile on game launch
