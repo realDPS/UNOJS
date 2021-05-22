@@ -63,6 +63,7 @@
 
   //Set top card in discard pile on game launch
   $GameState.topCard = $GameState.drawDeck.shift();
+  $GameState.currentColor = $GameState.topCard.color;
 </script>
 
 <style>
