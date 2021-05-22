@@ -37,7 +37,6 @@
 
       $GameState.players[playerIndex].cardArray[last] = card;
     }
-    console.log("MULTIPLE DRAW, UPDATE PLZ");
 
     socket.emit("updateState", $GameState);
   }
@@ -64,16 +63,8 @@
     console.log($username);
 
     socket.emit("updateState", $GameState);
-
-    //todo
-    // socket.emit("newHand", { player, numOfCards });
   }
 
-  //todo:
-  socket.on("enemyHandSize", ({ numOfCards, player }: DataPlayer) => {
-    console.log("enemyHandSize ", { numOfCards, player });
-    $GameState.players[player].handLength = numOfCards;
-  });
   socket.on("updateState", (state: GameState) => {
     $GameState = state;
   });
