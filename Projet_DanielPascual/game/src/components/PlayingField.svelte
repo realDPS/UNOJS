@@ -56,10 +56,9 @@
 
   socket.on("updateState", (state: GameState) => {
     $GameState = state;
-  });
-
-  socket.on("playerWin", (player: string) => {
-    console.log(player, " won");
+    if (state.winner !== null) {
+      //todo:show all cards
+    }
   });
 
   //Set top card in discard pile on game launch

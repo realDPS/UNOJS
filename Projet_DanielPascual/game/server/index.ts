@@ -88,10 +88,6 @@ io.on("connection", (socket) => {
     io.in(state.roomID).emit("updateState", state);
   });
 
-  socket.on("playerWin", (player) => {
-    socket.emit("playerWin", player);
-  });
-
   socket.on("disconnect", (reason) => {
     console.log(io.sockets.adapter.rooms);
     console.log(socket.id, " LEFT");

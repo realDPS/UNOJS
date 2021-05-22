@@ -46,7 +46,7 @@ interface GameState {
   players: Array<PlayerData>;
   drawDeck: Array<CardType>;
   topCard: CardType;
-  endGame: boolean;
+  winner: string;
 }
 
 type AnimationType = "Pulse" | "Peek" | "None";
