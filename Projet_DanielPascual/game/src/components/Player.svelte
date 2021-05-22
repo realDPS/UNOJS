@@ -28,8 +28,6 @@
       ];
       $GameState.drawDeck.push($GameState.topCard);
 
-      //const numOfCards = $GameState.players[player].cardArray.length;
-      //socket.emit("newHand", { player, numOfCards });
       if (value === "Draw") {
         let nextPlayer = $GameState.currentPlayer + 1;
         if (nextPlayer === $GameState.numOfPlayers) {

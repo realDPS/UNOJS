@@ -88,10 +88,6 @@ io.on("connection", (socket) => {
     io.in(state.roomID).emit("updateState", state);
   });
 
-  socket.on("newHand", (hand) => {
-    socket.emit("enemyHandSize", hand);
-  });
-
   socket.on("playerWin", (player) => {
     socket.emit("playerWin", player);
   });
