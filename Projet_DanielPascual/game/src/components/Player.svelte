@@ -26,42 +26,47 @@
       ];
       $GameState.drawDeck.push($GameState.topCard);
 
-      if (value === "Draw") {
-        $GameState.players[NEXTPLAYER].drewCard = true;
+      let jump = 1;
+      switch (value) {
+        case "Draw":
+          $GameState.players[NEXTPLAYER].drewCard = true;
+          jump = 2;
+          break;
+        case "Reverse":
+          $GameState.isClockwise = !$GameState.isClockwise;
+          break;
+        case "Skip":
+          jump = 2;
+          break;
       }
 
-      if (value === "Reverse") {
-        $GameState.isClockwise = !$GameState.isClockwise;
-      }
       if ($GameState.isClockwise) {
-        NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
+        NEXTPLAYER =
+          player + jump == $GameState.numOfPlayers ? 0 : player + jump;
       } else {
-        NEXTPLAYER = player - 1 == 0 ? $GameState.numOfPlayers - 1 : player - 1;
+        NEXTPLAYER =
+          player - jump == 0 ? $GameState.numOfPlayers - 1 : player - jump;
       }
       if ($GameState.numOfPlayers === 2) {
-        if (value === "Reverse" || value === "Skip") {
+        if (value === "Reverse" || value === "Skip" || value === "Draw")
           NEXTPLAYER = $GameState.currentPlayer;
-        }
-      }
-
-      if (color === "Wild") {
-        //MAKE A SYNCHRONOUS CALL OF WILDSELECTION...
       }
 
       $GameState.topCard = clickedCard;
       $GameState.currentColor = color;
-
-      //next player
-      $GameState.players[player].turnToPlay = false;
-      $GameState.players[NEXTPLAYER].turnToPlay = true;
-      $GameState.currentPlayer = NEXTPLAYER;
 
       //winner
       if ($GameState.players[player].cardArray.length == 0) {
         $GameState.winner = $username;
       }
 
-      socket.emit("updateState", $GameState);
+      if (color !== "Wild") {
+        //next player
+        $GameState.players[player].turnToPlay = false;
+        $GameState.players[NEXTPLAYER].turnToPlay = true;
+        $GameState.currentPlayer = NEXTPLAYER;
+        socket.emit("updateState", $GameState);
+      }
     }
   }
   $: console.log("Player:", player, " ", $GameState.players[player].turnToPlay);
@@ -100,7 +105,7 @@
 </style>
 
 {#if $GameState.currentColor === "Wild" && $GameState.players[player].turnToPlay}
-  <div id="wild"><WildSelection /></div>
+  <div id="wild"><WildSelection {player} {NEXTPLAYER} /></div>
 {/if}
 
 <div class="Player">
