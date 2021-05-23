@@ -7,6 +7,7 @@
   //Draw +4 or +2 on next player
   $: if ($GameState.players[playerIndex].drewCard) {
     $GameState.players[playerIndex].drewCard = false;
+
     switch ($GameState.topCard.color) {
       case "Wild":
         console.log("Change Color and Draw 4 Cards");

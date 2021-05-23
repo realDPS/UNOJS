@@ -26,6 +26,8 @@
       ];
       $GameState.drawDeck.push($GameState.topCard);
 
+      NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
+
       let jump = 1;
       switch (value) {
         case "Draw":
@@ -40,13 +42,17 @@
           break;
       }
 
-      if ($GameState.isClockwise) {
-        NEXTPLAYER =
-          player + jump == $GameState.numOfPlayers ? 0 : player + jump;
-      } else {
-        NEXTPLAYER =
-          player - jump == 0 ? $GameState.numOfPlayers - 1 : player - jump;
+      switch ($GameState.isClockwise) {
+        case true:
+          NEXTPLAYER =
+            player + jump == $GameState.numOfPlayers ? 0 : player + jump;
+          break;
+        case false:
+          NEXTPLAYER =
+            player - jump == 0 ? $GameState.numOfPlayers - 1 : player - jump;
+          break;
       }
+
       if ($GameState.numOfPlayers === 2) {
         if (value === "Reverse" || value === "Skip" || value === "Draw")
           NEXTPLAYER = $GameState.currentPlayer;
@@ -89,7 +95,7 @@
   <WildSelection {player} {NEXTPLAYER} />
 {/if}
 
-<div class="Player" style="padding-left : {10 * PlayerCards.length}px">
+<div class="Player" style="padding-left : {5 * PlayerCards.length}px">
   <!-- For players' card -->
   <!-- {#if $GameState.players[player].username === $username} -->
   {#each PlayerCards as { id, color, value }, index (id)}
