@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { GameState, username, getPlayerIndex } from "@store";
+  import { GameState, username, getPlayerIndex, colorModal } from "@store";
   import Player from "./Player.svelte";
   import PlayingField from "./PlayingField.svelte";
   import { socket } from "../App.svelte";
-  import GameSetup from "./modals/GameSetup.svelte";
 
   const enemies_position = { right: null, top: null, left: null };
 

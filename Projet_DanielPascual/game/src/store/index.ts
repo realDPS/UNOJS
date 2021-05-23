@@ -26,6 +26,7 @@ export const GameState: Writable<GameState> = writable({
 
 export const username = writable("");
 export const step = writable(0);
+export const colorModal = writable(false);
 
 export const getPlayerIndex = (state: GameState, name: string) => {
   return state.players.findIndex((playerData) => {

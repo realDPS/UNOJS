@@ -1,19 +1,21 @@
 <script lang="ts">
   import { GameState, username } from "@store";
-  import { onMount } from "svelte";
+
   import { socket } from "../App.svelte";
   import Cards from "./Cards.svelte";
   import WildSelection from "./modals/WildSelection.svelte";
-
+  import { createEventDispatcher } from "svelte";
+  const activateWildSelection = createEventDispatcher();
   export let player: number;
 
   $: PlayerCards = $GameState.players[player].cardArray;
 
   let NEXTPLAYER: number =
     player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
-  let jump: number = 1;
+
   function discardCard({ detail: index }: { detail: number }) {
     const clickedCard = $GameState.players[player].cardArray[index];
+    //destructuring clicked card
     const { color, value } = clickedCard;
 
     if (
@@ -27,10 +29,11 @@
       ];
       $GameState.drawDeck.push($GameState.topCard);
 
-      jump = 1; //todo:needed?
+      let jump: number = 1;
 
       switch (value) {
         case "Draw":
+          jump = 2;
           $GameState.players[NEXTPLAYER].drewCard = true;
           break;
         case "Reverse":
@@ -41,37 +44,34 @@
           break;
       }
 
-      if ($GameState.isClockwise) {
-        NEXTPLAYER =
-          player + jump == $GameState.numOfPlayers ? 0 : player + jump;
-      } else {
-        NEXTPLAYER =
-          player - jump == 0 ? $GameState.numOfPlayers - 1 : player - jump;
-      }
-
-      //different actions on 2 players
-      if ($GameState.numOfPlayers === 2) {
-        if (value === "Reverse" || value === "Skip") {
-          NEXTPLAYER = $GameState.currentPlayer;
-        }
-      }
-
-      if (color === "Wild") {
-        //MAKE A SYNCHRONOUS CALL OF WILDSELECTION...
-      }
-
       $GameState.topCard = clickedCard;
       $GameState.currentColor = color;
-
-      //next player
-      $GameState.players[player].turnToPlay = false;
-      $GameState.players[NEXTPLAYER].turnToPlay = true;
-      $GameState.currentPlayer = NEXTPLAYER;
 
       //winner
       if ($GameState.players[player].cardArray.length == 0) {
         $GameState.winner = $username;
       }
+    
+
+    if ($GameState.isClockwise) {
+      NEXTPLAYER = player + jump == $GameState.numOfPlayers ? 0 : player + jump;
+    } else {
+      NEXTPLAYER =
+        player - jump == 0 ? $GameState.numOfPlayers - 1 : player - jump;
+    }
+
+    //different actions on 2 players
+    if ($GameState.numOfPlayers === 2)
+      if (value === "Reverse" || value === "Skip" || value == "Draw")
+        NEXTPLAYER = $GameState.currentPlayer;
+
+    if ($GameState.currentColor === "Wild") {
+      activateWildSelection("activate", player);
+    } else {
+      //next player
+      $GameState.players[player].turnToPlay = false;
+      $GameState.players[NEXTPLAYER].turnToPlay = true;
+      $GameState.currentPlayer = NEXTPLAYER;
 
       socket.emit("updateState", $GameState);
     }
@@ -112,7 +112,7 @@
 </style>
 
 {#if $GameState.currentColor === "Wild" && $GameState.players[player].turnToPlay}
-  <div id="wild"><WildSelection /></div>
+  <div id="wild"><WildSelection {player} {NEXTPLAYER} /></div>
 {/if}
 
 <div class="Player">
