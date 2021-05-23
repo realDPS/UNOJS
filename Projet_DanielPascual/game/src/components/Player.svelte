@@ -76,9 +76,6 @@
   .Player {
     display: flex;
     z-index: 2;
-    padding-left: 50px;
-    justify-content: center;
-    align-items: center;
   }
 
   .CardDiv {
@@ -92,7 +89,7 @@
   <WildSelection {player} {NEXTPLAYER} />
 {/if}
 
-<div class="Player">
+<div class="Player" style="padding-left : {10 * PlayerCards.length}px">
   <!-- For players' card -->
   <!-- {#if $GameState.players[player].username === $username} -->
   {#each PlayerCards as { id, color, value }, index (id)}
