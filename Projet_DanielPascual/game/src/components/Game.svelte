@@ -4,6 +4,23 @@
   import PlayingField from "./PlayingField.svelte";
   import { socket } from "../App.svelte";
 
+  let bgColor: string;
+
+  $: switch ($GameState.currentColor) {
+    case "Blue":
+      bgColor = "#0098dc";
+      break;
+    case "Green":
+      bgColor = "#33984b";
+      break;
+    case "Red":
+      bgColor = "#ea323c";
+      break;
+    case "Yellow":
+      bgColor = "#ffc825";
+      break;
+  }
+
   const enemies_position = { right: null, top: null, left: null };
 
   $: console.log($GameState);
@@ -97,7 +114,6 @@
   .Table {
     width: 100vw;
     height: 100vh;
-    background-color: #75737b;
     display: grid;
     grid-template-rows: repeat(3, 1fr);
   }
@@ -111,7 +127,7 @@
   }
 </style>
 
-<div class="Table">
+<div class="Table" style="background-color: {bgColor};">
   <div class="Row">
     <div />
     <div class="top">
