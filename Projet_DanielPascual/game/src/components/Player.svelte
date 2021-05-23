@@ -42,15 +42,12 @@
           break;
       }
 
-      switch ($GameState.isClockwise) {
-        case true:
-          NEXTPLAYER =
-            player + jump == $GameState.numOfPlayers ? 0 : player + jump;
-          break;
-        case false:
-          NEXTPLAYER =
-            player - jump == 0 ? $GameState.numOfPlayers - 1 : player - jump;
-          break;
+      if ($GameState.isClockwise) {
+        NEXTPLAYER =
+          player + jump == $GameState.numOfPlayers ? 0 : player + jump;
+      } else {
+        NEXTPLAYER =
+          player - jump == 0 ? $GameState.numOfPlayers - 1 : player - jump;
       }
 
       if ($GameState.numOfPlayers === 2) {
