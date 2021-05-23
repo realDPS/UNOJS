@@ -4,7 +4,7 @@
   import Spinner from "../elements/Spinner.svelte";
   import { socket } from "../../App.svelte";
 
-  const HANDSIZE: number = 20;
+  const HANDSIZE: number = 7;
   $: if (
     $GameState.players[$GameState.numOfPlayers - 1] !== undefined &&
     $GameState.players[$GameState.numOfPlayers - 1].cardArray.length ===

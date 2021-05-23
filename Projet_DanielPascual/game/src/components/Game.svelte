@@ -117,9 +117,6 @@
     display: grid;
     grid-template-rows: repeat(3, 1fr);
   }
-  div {
-    border: 1px solid black;
-  }
 
   .Row {
     display: grid;
