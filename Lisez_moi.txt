@@ -1,8 +1,8 @@
 (Utilisateur régulier)
-Pour jouer à UNO sur le lien suivant:
+Pour jouer à UNO, allez sur le lien suivant:
 https://nameless-mesa-84520.herokuapp.com/
 
 (Utilisateur avancé)
-Pour continuer le développement du projet,
-utiliser les commandes npm install pour installer les dépendances
+Pour tester le code, 
+utiliser la commande npm install pour installer les dépendances
 puis démarrer les npm scripts suivant: "watch", "server" et "dev"
