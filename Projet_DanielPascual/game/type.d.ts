@@ -32,8 +32,6 @@ interface PlayerData {
   drewCard: boolean;
 }
 
-type Position = "Top" | "Right" | "Left" | "User";
-
 interface GameState {
   roomID: string;
   gameStarted: boolean;
@@ -49,8 +47,5 @@ interface GameState {
 }
 
 type AnimationType = "Pulse" | "Peek" | "PeekDown" | "None";
-
-type DataPlayer = { player: PlayerType; numOfCards: number };
-type DataDeck = Array<CardType>;
 
 type Position = "Up" | "Down" | "Left" | "Right";
