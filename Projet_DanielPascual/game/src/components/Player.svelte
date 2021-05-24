@@ -6,6 +6,7 @@
   import WildSelection from "./modals/WildSelection.svelte";
 
   export let player: number;
+  export let position: Position;
 
   $: PlayerCards = $GameState.players[player].cardArray;
 
@@ -79,20 +80,43 @@
   .Player {
     display: flex;
     z-index: 2;
+    position: absolute;
   }
 
   .CardDiv {
     width: min-content;
     height: min-content;
   }
-  /* ///// */
+
+  .Down {
+    bottom: 0;
+    left: auto;
+    right: auto;
+  }
+
+  .Up {
+    transform: rotate(180deg);
+    left: auto;
+    right: auto;
+  }
+
+  .Right {
+    transform: rotate(270deg);
+  }
+
+  .Left {
+    transform: rotate(90deg);
+  }
 </style>
 
 {#if $GameState.currentColor === "Wild" && $GameState.players[player].turnToPlay}
   <WildSelection {player} {NEXTPLAYER} />
 {/if}
 
-<div class="Player" style="padding-left : {5 * PlayerCards.length}px">
+<div
+  class="Player {position}"
+  style="padding-left : {15 * PlayerCards.length}px"
+>
   <!-- For players' card -->
   <!-- {#if $GameState.players[player].username === $username} -->
   {#each PlayerCards as { id, color, value }, index (id)}

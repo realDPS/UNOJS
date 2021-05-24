@@ -65,6 +65,17 @@
     /* padding-bottom: 30px; */
   }
 
+  .PeekDown {
+    position: relative;
+    bottom: 0px;
+  }
+
+  .PeekDown:hover {
+    position: relative;
+    bottom: -40px;
+    /* padding-bottom: 30px; */
+  }
+
   .Hand {
     overflow-x: hidden;
     z-index: 0;
@@ -78,16 +89,16 @@
 
 {#if faceDown}
   <img
-    class="Cards"
-    id={`${noHighlight}`}
+    class="Cards {animation}"
+    id={noHighlight}
     src="/assets/Cards/Deck.png"
     alt="Face Down UNO card"
     draggable={false}
   />
 {:else}
   <img
-    class={`Cards ${animation} ${handClass}`}
-    id={`${noHighlight}`}
+    class="Cards {animation} {handClass}"
+    id={noHighlight}
     src={value === "CC"
       ? "/assets/Cards/Wild.png"
       : `/assets/Cards/${color}_${value}.png`}

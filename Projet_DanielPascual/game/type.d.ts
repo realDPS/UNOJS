@@ -48,7 +48,9 @@ interface GameState {
   currentColor: Color;
 }
 
-type AnimationType = "Pulse" | "Peek" | "None";
+type AnimationType = "Pulse" | "Peek" | "PeekDown" | "None";
 
 type DataPlayer = { player: PlayerType; numOfCards: number };
 type DataDeck = Array<CardType>;
+
+type Position = "Up" | "Down" | "Left" | "Right";

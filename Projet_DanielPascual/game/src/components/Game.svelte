@@ -122,37 +122,58 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .Vertical {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .Horizontal {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
 </style>
 
 <div class="Table" style="background-color: {bgColor};">
   <div class="Row">
     <div />
-    <div class="top">
+    <div class="Vertical">
       {#if enemies_position.top}
-        <Player player={getPlayerIndex($GameState, enemies_position.top)} />
+        <Player
+          player={getPlayerIndex($GameState, enemies_position.top)}
+          position="Up"
+        />
       {/if}
     </div>
     <div />
   </div>
   <div class="Row">
-    <div class="right">
+    <div class="Horizontal">
       {#if enemies_position.left}
-        <Player player={getPlayerIndex($GameState, enemies_position.right)} />
+        <Player
+          player={getPlayerIndex($GameState, enemies_position.right)}
+          position="Left"
+        />
       {/if}
     </div>
 
     <PlayingField />
 
-    <div class="left">
+    <div class="Horizontal">
       {#if enemies_position.right}
-        <Player player={getPlayerIndex($GameState, enemies_position.left)} />
+        <Player
+          player={getPlayerIndex($GameState, enemies_position.left)}
+          position="Right"
+        />
       {/if}
     </div>
   </div>
   <div class="Row">
     <div />
-    <div class="down">
-      <Player player={getPlayerIndex($GameState, $username)} />
+    <div class="Vertical">
+      <Player player={getPlayerIndex($GameState, $username)} position="Down" />
     </div>
     <div />
   </div>

@@ -70,17 +70,34 @@
 <style>
   #playField {
     display: flex;
-    justify-content: space-between;
-    padding: 5% 20%;
+    justify-content: space-around;
+  }
+
+  .drawDeck {
+    position: relative;
+    padding: 0 10px;
+  }
+
+  .Card {
+    position: absolute;
+  }
+
+  .discardPile {
+    padding: 0 10px;
   }
 </style>
 
 <div id="playField">
-  <div id="drawDeck" on:click={drawCard}>
-    <Cards faceDown={true} isHighlighted={true} />
+  <div class="drawDeck" on:click={drawCard}>
+    <div class="Top Card">
+      <Cards faceDown={true} isHighlighted={true} animation="PeekDown" />
+    </div>
+    <div class="Bottom Card">
+      <Cards faceDown={true} isHighlighted={true} animation="PeekDown" />
+    </div>
   </div>
 
-  <div id="discardPile">
+  <div class="discardPile">
     <Cards
       value={$GameState.topCard.value}
       color={$GameState.topCard.color}
