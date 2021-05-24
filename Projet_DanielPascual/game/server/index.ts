@@ -1,6 +1,7 @@
 import express from "express";
 
 import cors from "cors";
+import path from "path";
 import { Server } from "socket.io";
 import {
   getRandomCard,
@@ -28,12 +29,10 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "../build")));
 
-app.post("/gamestate", (req, res) => {
+app.post("/", (req, res) => {
   console.log(req.body);
-  res.send({
-    message: "Received JSON"
-  });
 });
 
 io.on("connection", (socket) => {
