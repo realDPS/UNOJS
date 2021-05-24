@@ -20,7 +20,7 @@ const io = new Server(httpServer, {
   }
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT ? process.env.PORT : 3000;
 
 app.use(
   cors({
@@ -30,10 +30,6 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../build")));
-
-app.post("/", (req, res) => {
-  console.log(req.body);
-});
 
 io.on("connection", (socket) => {
   console.log(`Socket Connection Established for Client ${socket.id}`);

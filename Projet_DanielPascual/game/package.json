@@ -6,7 +6,7 @@
     "watch": "tsc -w --esModuleInterop ./server/index.ts ./type.d.ts",
     "server": "nodemon ./server/index.js",
     "dev": "vite",
-    "build": "vite build && tsc --esModuleInterop --removeComments ./server/*.ts",
+    "build": "vite build && tsc --esModuleInterop --removeComments ./server/index.ts ./type.d.ts",
     "serve": "vite preview"
   },
   "engines": {
