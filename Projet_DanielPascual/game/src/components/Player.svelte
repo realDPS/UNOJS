@@ -10,7 +10,21 @@
 
   $: PlayerCards = $GameState.players[player].cardArray;
 
-  let NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
+  let NEXTPLAYER: number;
+
+  function nextPlayerTurn(jump: number) {
+    let next: number;
+    if ($GameState.isClockwise) {
+      next = player + jump;
+      NEXTPLAYER =
+        next >= $GameState.numOfPlayers ? next - $GameState.numOfPlayers : next;
+    } else {
+      next = player - jump;
+      NEXTPLAYER = next < 0 ? $GameState.numOfPlayers + next : next;
+    }
+  }
+
+  nextPlayerTurn(1);
 
   function discardCard({ detail: index }: { detail: number }) {
     const clickedCard = $GameState.players[player].cardArray[index];
@@ -27,9 +41,9 @@
       ];
       $GameState.drawDeck.push($GameState.topCard);
 
-      NEXTPLAYER = player + 1 == $GameState.numOfPlayers ? 0 : player + 1;
-
       let jump = 1;
+      nextPlayerTurn(jump);
+
       switch (value) {
         case "Draw":
           $GameState.players[NEXTPLAYER].drewCard = true;
@@ -37,24 +51,14 @@
           break;
         case "Reverse":
           $GameState.isClockwise = !$GameState.isClockwise;
+          jump = 2;
           break;
         case "Skip":
           jump = 2;
           break;
       }
 
-      if ($GameState.isClockwise) {
-        NEXTPLAYER =
-          player + jump == $GameState.numOfPlayers ? 0 : player + jump;
-      } else {
-        NEXTPLAYER =
-          player - jump == 0 ? $GameState.numOfPlayers - 1 : player - jump;
-      }
-
-      if ($GameState.numOfPlayers === 2) {
-        if (value === "Reverse" || value === "Skip" || value === "Draw")
-          NEXTPLAYER = $GameState.currentPlayer;
-      }
+      nextPlayerTurn(jump);
 
       $GameState.topCard = clickedCard;
       $GameState.currentColor = color;
@@ -137,7 +141,10 @@
   {:else}
     {#each Array($GameState.players[player].cardArray.length) as _card, index}
       <div class="CardDiv" style="z-index: {index}; right: {30 * index}px;">
-        <Cards faceDown={true} />
+        <Cards
+          faceDown={true}
+          isHighlighted={$GameState.players[player].turnToPlay}
+        />
       </div>
     {/each}
   {/if}
