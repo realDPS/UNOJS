@@ -39,7 +39,7 @@
 
 <div
   class="filter"
-  in:fade={{ duration: 250, delay: 1250 }}
+  in:fade={{ duration: 250, delay: 1050 }}
   out:fly={{ x: -200, duration: 250 }}
 >
   <div class="Modal">
