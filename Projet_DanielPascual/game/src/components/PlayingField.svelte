@@ -62,9 +62,18 @@
     }
   });
 
-  //Set top card in discard pile on game launch
-  $GameState.topCard = $GameState.drawDeck.shift();
-  $GameState.currentColor = $GameState.topCard.color;
+  //Set top card in discard pile on game launch, exclude Wild Draw
+  for (let index = 0; index < 1; ) {
+    let card: CardType = $GameState.drawDeck.shift();
+
+    if (card.value === "Draw" && card.color === "Wild") {
+      $GameState.drawDeck.push(card);
+    } else {
+      $GameState.topCard = $GameState.drawDeck.shift();
+      $GameState.currentColor = $GameState.topCard.color;
+      index = 2;
+    }
+  }
 </script>
 
 <style>
