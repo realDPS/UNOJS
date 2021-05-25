@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GameState, username } from "@store";
+  import { GameState, ID } from "@store";
   import { onMount } from "svelte";
   import { socket } from "../App.svelte";
   import Cards from "./Cards.svelte";
@@ -65,7 +65,7 @@
 
       //winner
       if ($GameState.players[player].cardArray.length == 0) {
-        $GameState.winner = $username;
+        $GameState.winner = $GameState.players[player].username;
       }
 
       if (color !== "Wild") {
@@ -123,7 +123,7 @@
   style="padding-left : {15 * PlayerCards.length}px"
 >
   <!-- For players' card -->
-  {#if $GameState.players[player].username === $username}
+  {#if $GameState.players[player].id === $ID}
     {#each PlayerCards as { id, color, value }, index (id)}
       <div class="CardDiv" style="z-index: {index};  right: {15 * index}px;">
         <Cards

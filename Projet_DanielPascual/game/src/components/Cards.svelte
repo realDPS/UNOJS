@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { slide } from "svelte/transition";
-  import { GameState, username, getPlayerIndex } from "@store";
+  import { GameState, ID, getPlayerIndex } from "@store";
 
   // Check notes for export functionality in Svelte
   export let faceDown: boolean = false;
@@ -20,7 +20,7 @@
 
   function clickAction() {
     //refuse click if not player's turn
-    if (!$GameState.players[getPlayerIndex($GameState, $username)].turnToPlay) {
+    if (!$GameState.players[getPlayerIndex($GameState, $ID)].turnToPlay) {
       return;
     }
 

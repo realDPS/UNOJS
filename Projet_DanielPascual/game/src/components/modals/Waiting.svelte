@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
-  import { GameState, username } from "@store";
+  import { GameState, ID } from "@store";
   import Spinner from "../elements/Spinner.svelte";
   import { socket } from "../../App.svelte";
 
@@ -16,9 +16,9 @@
 
   $: console.log("GameStart: ", $GameState.gameStarted);
 
-  socket.on("joined", (name: string, ID: string) => {
+  socket.on("joined", (name: string, userID: string) => {
     //Only gameMaster can continue operation
-    if ($GameState.players[0].username === $username) {
+    if ($GameState.players[0].id === $ID) {
       if ($GameState.players.length < $GameState.numOfPlayers) {
         //give hand to new player
         const hand: Array<CardType> = [];
@@ -31,7 +31,7 @@
 
         $GameState.players[$GameState.players.length] = {
           ...$GameState.players[0],
-          id: ID,
+          id: userID,
           cardArray: hand,
           handLength: hand.length,
           username: name,
@@ -56,20 +56,20 @@
   });
 
   socket.on("update", (state: GameState) => {
-    if ($GameState.players[0].username !== $username) {
+    if ($GameState.players[0].id !== $ID) {
       $GameState = state;
       console.log($GameState);
     }
   });
 
-  socket.on("playerLeft", (ID) => {
-    console.log("player left room:", ID);
+  socket.on("playerLeft", (userID) => {
+    console.log("player left room:", userID);
 
-    if ($GameState.players[0].username === $username)
+    if ($GameState.players[0].id === $ID)
       for (let index = 0; index < $GameState.players.length; index++) {
         const player = $GameState.players[index];
 
-        if (player.id == ID) {
+        if (player.id == userID) {
           $GameState.players.splice(index, 1);
           console.log("updated:", $GameState);
           socket.emit("update", $GameState);

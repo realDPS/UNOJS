@@ -25,10 +25,11 @@ export const GameState: Writable<GameState> = writable({
 });
 
 export const username = writable("");
+export const ID = writable("");
 export const step = writable(0);
 
-export const getPlayerIndex = (state: GameState, name: string) => {
+export const getPlayerIndex = (state: GameState, id: string) => {
   return state.players.findIndex((playerData) => {
-    return playerData.username === name;
+    return playerData.id === id;
   });
 };

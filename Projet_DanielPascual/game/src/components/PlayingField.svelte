@@ -1,8 +1,8 @@
 <script lang="ts">
   import { socket } from "../App.svelte";
-  import { GameState, username, getPlayerIndex } from "@store";
+  import { GameState, ID, getPlayerIndex } from "@store";
   import Cards from "./Cards.svelte";
-  const playerIndex = getPlayerIndex($GameState, $username);
+  const playerIndex = getPlayerIndex($GameState, $ID);
 
   //Draw +4 or +2 on next player
   $: if ($GameState.players[playerIndex].drewCard) {
@@ -49,8 +49,6 @@
     $GameState.currentPlayer = turnIndex;
     $GameState.players[turnIndex].turnToPlay = true;
     $GameState.players[playerIndex].turnToPlay = false;
-
-    console.log($username);
 
     socket.emit("updateState", $GameState);
   }
