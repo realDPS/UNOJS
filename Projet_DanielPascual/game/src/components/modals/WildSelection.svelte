@@ -20,10 +20,10 @@
 <style>
   .Container {
     background-color: black;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -100%);
+    transform: translate(-50%, -50%);
     height: 400px;
     width: 600px;
     border-radius: 25px;

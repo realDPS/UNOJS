@@ -86,6 +86,7 @@
   .CardDiv {
     width: min-content;
     height: min-content;
+    position: relative;
   }
 
   .Down {
@@ -118,28 +119,26 @@
   style="padding-left : {15 * PlayerCards.length}px"
 >
   <!-- For players' card -->
-  <!-- {#if $GameState.players[player].username === $username} -->
-  {#each PlayerCards as { id, color, value }, index (id)}
-    <div
-      class="CardDiv"
-      style="z-index: {index}; position: relative; right: {15 * index}px;"
-    >
-      <Cards
-        {color}
-        {value}
-        animation="Peek"
-        {index}
-        on:discard={discardCard}
-        hand={true}
-        faceDown={false}
-        isHighlighted={$GameState.players[player].turnToPlay}
-      />
-    </div>
-  {/each}
-  <!-- {:else}
-
-    {#each Array($GameState.players[player].handLength) as _number}
-      <Cards faceDown={false} />
-    {/each} -->
-  <!-- {/if} -->
+  {#if $GameState.players[player].username === $username}
+    {#each PlayerCards as { id, color, value }, index (id)}
+      <div class="CardDiv" style="z-index: {index};  right: {15 * index}px;">
+        <Cards
+          {color}
+          {value}
+          animation="Peek"
+          {index}
+          on:discard={discardCard}
+          hand={true}
+          faceDown={false}
+          isHighlighted={$GameState.players[player].turnToPlay}
+        />
+      </div>
+    {/each}
+  {:else}
+    {#each Array($GameState.players[player].cardArray.length) as _card, index}
+      <div class="CardDiv" style="z-index: {index}; right: {30 * index}px;">
+        <Cards faceDown={true} />
+      </div>
+    {/each}
+  {/if}
 </div>
