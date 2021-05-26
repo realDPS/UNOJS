@@ -5,6 +5,7 @@
   import { socket } from "../App.svelte";
 
   let bgColor: string;
+  let names = [];
 
   $: switch ($GameState.currentColor) {
     case "Blue":
@@ -27,8 +28,19 @@
 
   $: if ($GameState.numOfPlayers === $GameState.players.length) {
     displaySetup();
+    namePanel();
   }
 
+  function namePanel() {
+    let position = ["left", "top", "right"];
+
+    position.forEach((pos) => {
+      if (enemies_position[pos] != null) {
+        const index = getPlayerIndex($GameState, enemies_position[pos]);
+        names.push($GameState.players[index].username);
+      }
+    });
+  }
   //Will check numbers of players and organize each client's enemies' position
   function displaySetup() {
     const players = $GameState.players;
@@ -133,7 +145,27 @@
     justify-content: center;
     position: relative;
   }
+
+  .Panel {
+    display: flex;
+    width: 100vw;
+    background-color: whitesmoke;
+    z-index: 100;
+    justify-content: space-evenly;
+  }
+  .name {
+    margin: 1px 0 2px 0;
+  }
+  .Player {
+    margin-bottom: 5%;
+  }
 </style>
+
+<div class="Panel">
+  {#each names as name}
+    <p class="name">{name}</p>
+  {/each}
+</div>
 
 <div class="Table" style="background-color: {bgColor};">
   <div class="Row">
@@ -171,7 +203,7 @@
   </div>
   <div class="Row">
     <div />
-    <div class="Vertical">
+    <div class="Vertical Player">
       <Player player={getPlayerIndex($GameState, $ID)} position="Down" />
     </div>
     <div />
