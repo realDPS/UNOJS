@@ -32,7 +32,7 @@
   }
 
   function namePanel() {
-    let position = ["left", "top", "right"];
+    let position = ["right", "top", "left"];
 
     position.forEach((pos) => {
       if (enemies_position[pos] != null) {
