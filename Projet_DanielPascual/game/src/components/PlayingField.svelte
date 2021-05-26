@@ -64,7 +64,7 @@
   for (let index = 0; index < 1; ) {
     let card: CardType = $GameState.drawDeck.shift();
 
-    if (card.value === "Draw" && card.color === "Wild") {
+    if (card.color === "Wild") {
       $GameState.drawDeck.push(card);
     } else {
       $GameState.topCard = $GameState.drawDeck.shift();
