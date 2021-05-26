@@ -22,7 +22,7 @@
       break;
   }
 
-  const enemies_position = { right: null, top: null, left: null };
+  const enemies_position = { left: null, top: null, right: null };
 
   $: console.log($GameState);
 
