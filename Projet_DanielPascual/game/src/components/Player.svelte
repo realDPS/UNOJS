@@ -107,10 +107,19 @@
 
   .Right {
     transform: rotate(270deg);
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
   }
 
   .Left {
     transform: rotate(90deg);
+    position: absolute;
+    /* padding-left: 0 !important; */
+    right: 0;
+    bottom: 0;
+    top: 0;
   }
 </style>
 
