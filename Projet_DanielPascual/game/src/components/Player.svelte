@@ -51,13 +51,15 @@
           break;
         case "Reverse":
           $GameState.isClockwise = !$GameState.isClockwise;
-          jump = 2;
           break;
         case "Skip":
           jump = 2;
           break;
       }
 
+      if ($GameState.numOfPlayers === 2) {
+        if (value === "Reverse") jump = 2;
+      }
       nextPlayerTurn(jump);
 
       $GameState.topCard = clickedCard;
