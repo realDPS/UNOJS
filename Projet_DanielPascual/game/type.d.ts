@@ -36,6 +36,7 @@ interface GameState {
   roomID: string;
   gameStarted: boolean;
   currentPlayer: number;
+  previousPlayer: number;
   isClockwise: boolean;
   uno: boolean;
   numOfPlayers: number;
