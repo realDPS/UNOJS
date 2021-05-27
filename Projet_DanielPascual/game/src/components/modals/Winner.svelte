@@ -5,8 +5,6 @@
   import { GameState, step } from "@store";
   import Button from "../elements/Button.svelte";
 
-  let window;
-
   function restart() {
     location.reload();
   }
@@ -26,8 +24,6 @@
     color: #326dbf;
   }
 </style>
-
-<svelte:window this={window} />
 
 <div
   class="Container"

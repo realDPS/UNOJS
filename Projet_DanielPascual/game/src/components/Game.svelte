@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { GameState, ID, getPlayerIndex } from "@store";
+  import { GameState, ID, getPlayerIndex, username } from "@store";
   import Player from "./Player.svelte";
   import Button from "./elements/Button.svelte";
+  import UnoText from "./modals/UnoMessage.svelte";
   import PlayingField from "./PlayingField.svelte";
   import { socket } from "../App.svelte";
 
   let bgColor: string;
   let names = [];
+  let unoPopup: boolean = false;
   const playerIndex = getPlayerIndex($GameState, $ID);
 
   $: switch ($GameState.currentColor) {
@@ -122,6 +124,7 @@
       console.log("UNO!");
       $GameState.players[playerIndex].uno = true;
       socket.emit("updateState", $GameState);
+      unoPopup = true;
     }
 
     const prev = $GameState.previousPlayer;
@@ -186,6 +189,13 @@
     border: 1px solid black;
   }
 </style>
+
+{#if unoPopup === true}
+  <UnoText
+    player={$GameState.players[$GameState.currentPlayer].username}
+    onClose={() => (unoPopup = false)}
+  />
+{/if}
 
 <div class="Panel">
   {#each names as name}
