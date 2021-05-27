@@ -1,11 +1,13 @@
 <script lang="ts">
   import { GameState, ID, getPlayerIndex } from "@store";
   import Player from "./Player.svelte";
+  import Button from "./elements/Button.svelte";
   import PlayingField from "./PlayingField.svelte";
   import { socket } from "../App.svelte";
 
   let bgColor: string;
   let names = [];
+  const playerIndex = getPlayerIndex($GameState, $ID);
 
   $: switch ($GameState.currentColor) {
     case "Blue":
@@ -59,15 +61,12 @@
   }
 
   function mode2players(playerArray: Array<PlayerData>) {
-    let index = getPlayerIndex($GameState, $ID);
-
-    enemies_position.top = index === 0 ? playerArray[1].id : playerArray[0].id;
+    enemies_position.top =
+      playerIndex === 0 ? playerArray[1].id : playerArray[0].id;
   }
 
   function mode3players(playerArray: Array<PlayerData>) {
-    let index = getPlayerIndex($GameState, $ID);
-
-    switch (index) {
+    switch (playerIndex) {
       case 0:
         enemies_position.right = playerArray[1].id;
         enemies_position.left = playerArray[2].id;
@@ -84,9 +83,7 @@
   }
 
   function mode4players(playerArray: Array<PlayerData>) {
-    let index = getPlayerIndex($GameState, $ID);
-
-    switch (index) {
+    switch (playerIndex) {
       case 0:
         enemies_position.right = playerArray[1].id;
         enemies_position.top = playerArray[2].id;
@@ -119,6 +116,28 @@
   socket.on("updateState", (state: GameState) => {
     $GameState = state;
   });
+
+  const uno = () => {
+    if ($GameState.players[playerIndex].cardArray.length === 2) {
+      console.log("UNO!");
+      $GameState.players[playerIndex].uno = true;
+      socket.emit("updateState", $GameState);
+    }
+
+    const prev = $GameState.previousPlayer;
+    if (
+      $GameState.players[prev].cardArray.length === 1 &&
+      $GameState.players[prev].uno === false
+    ) {
+      console.log("OBJECTION!");
+      for (let index = 0; index < 4; index++) {
+        const card: CardType = $GameState.drawDeck.shift();
+        $GameState.players[prev].cardArray.push(card);
+        $GameState.players[prev].uno = false;
+      }
+      socket.emit("updateState", $GameState);
+    }
+  };
 </script>
 
 <style>
@@ -157,7 +176,14 @@
     margin: 1px 0 2px 0;
   }
   .Player {
-    margin-bottom: 5%;
+    margin-bottom: 5em;
+  }
+  .Uno {
+    position: absolute;
+    bottom: 0;
+    z-index: 100;
+    margin-bottom: 1em;
+    border: 1px solid black;
   }
 </style>
 
@@ -208,4 +234,7 @@
     </div>
     <div />
   </div>
+</div>
+<div class="Uno">
+  <Button on:click={uno} text={"UNO"} />
 </div>
