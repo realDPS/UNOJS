@@ -60,16 +60,25 @@
     }
   });
 
-  //Set top card in discard pile on game launch, exclude Wild Draw
-  for (let index = 0; index < 1; ) {
+  //Set top card in discard pile on game launch, exclude special cards
+  let endLoop: Boolean = false;
+  for (let index = 0; endLoop === false; index++) {
     let card: CardType = $GameState.drawDeck.shift();
+    console.log(`Loop ${index} `, card);
 
-    if (card.color === "Wild") {
+    if (
+      card.color === "Wild" ||
+      card.value === "Draw" ||
+      card.value === "Reverse" ||
+      card.value === "Skip"
+    ) {
       $GameState.drawDeck.push(card);
     } else {
-      $GameState.topCard = $GameState.drawDeck.shift();
-      $GameState.currentColor = $GameState.topCard.color;
-      index = 2;
+      $GameState.topCard = card;
+      $GameState.currentColor = card.color;
+      console.log("newState", $GameState);
+
+      endLoop = true;
     }
   }
 </script>
