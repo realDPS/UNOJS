@@ -20,6 +20,23 @@
     }
   }
 
+  function nextPlayerTurn(jump: number) {
+    let next: number;
+    let nextPlayer: number;
+
+    if ($GameState.isClockwise) {
+      next = playerIndex + jump;
+      nextPlayer =
+        next >= $GameState.numOfPlayers ? next - $GameState.numOfPlayers : next;
+    }
+    //Anticlockwise
+    else {
+      next = playerIndex - jump;
+      nextPlayer = next < 0 ? $GameState.numOfPlayers + next : next;
+    }
+    return nextPlayer;
+  }
+
   function multipleDraw(drawNb: number) {
     for (let index = 0; index < drawNb; index++) {
       const card = $GameState.drawDeck.shift();
@@ -42,12 +59,12 @@
       $GameState.players[playerIndex].cardArray.length
     ] = Card;
 
-    let turnIndex: number = playerIndex + 1;
-    if (turnIndex === $GameState.numOfPlayers) {
-      turnIndex = 0;
-    }
-    $GameState.currentPlayer = turnIndex;
-    $GameState.players[turnIndex].turnToPlay = true;
+    let nextTurnIndex = nextPlayerTurn(1);
+
+    $GameState.players[playerIndex].uno = false;
+
+    $GameState.currentPlayer = nextTurnIndex;
+    $GameState.players[nextTurnIndex].turnToPlay = true;
     $GameState.players[playerIndex].turnToPlay = false;
 
     socket.emit("updateState", $GameState);
