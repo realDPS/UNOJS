@@ -62,6 +62,8 @@
       }
       nextPlayerTurn(jump);
 
+      $GameState.previousPlayer = player;
+
       $GameState.topCard = clickedCard;
       $GameState.currentColor = color;
 
