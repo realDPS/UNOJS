@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GameState, ID, getPlayerIndex, username } from "@store";
+  import { GameState, ID, getPlayerIndex } from "@store";
   import Player from "./Player.svelte";
   import Button from "./elements/Button.svelte";
   import UnoText from "./modals/UnoMessage.svelte";

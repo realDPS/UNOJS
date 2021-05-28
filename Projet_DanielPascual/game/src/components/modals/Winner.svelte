@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { socket } from "../../App.svelte";
   import { fly } from "svelte/transition";
-  import { GameState, step } from "@store";
+  import { GameState } from "@store";
   import Button from "../elements/Button.svelte";
 
   function restart() {
