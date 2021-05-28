@@ -79,9 +79,8 @@
 
   //Set top card in discard pile on game launch, exclude special cards
   let endLoop: Boolean = false;
-  for (let index = 0; endLoop === false; index++) {
+  while (endLoop === false) {
     let card: CardType = $GameState.drawDeck.shift();
-    console.log(`Loop ${index} `, card);
 
     if (
       card.color === "Wild" ||
