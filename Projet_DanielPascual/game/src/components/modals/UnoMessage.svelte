@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade, fly } from "svelte/transition";
+  import { fade, fly, slide } from "svelte/transition";
 
   export let player: string;
   export let onClose;
@@ -14,7 +14,7 @@
   .Modal {
     display: grid;
     place-items: center;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -26,21 +26,12 @@
     overflow: hidden;
     z-index: 10;
   }
-
-  .filter {
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
-    /* background-color: rgba(0, 0, 0, 0.5); */
-  }
 </style>
 
 <div
-  class="filter"
-  in:fade={{ duration: 250, delay: 50 }}
-  out:fly={{ x: -200, duration: 250 }}
+  class="Modal"
+  in:fly={{ y: -200, duration: 250 }}
+  out:fly={{ y: -200, duration: 250 }}
 >
-  <div class="Modal">
-    {player} : UNO!
-  </div>
+  {player} : UNO!
 </div>
