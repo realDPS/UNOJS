@@ -141,6 +141,10 @@
       socket.emit("updateState", $GameState);
     }
   };
+
+  $: if ($GameState.players[$GameState.currentPlayer].uno) {
+    unoPopup = true;
+  }
 </script>
 
 <style>
