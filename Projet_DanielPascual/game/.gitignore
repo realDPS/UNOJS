@@ -1,6 +1,5 @@
 /node_modules/
 /public/build/
-/public/assets/
 /server/*.js
 test.js
 .DS_Store
