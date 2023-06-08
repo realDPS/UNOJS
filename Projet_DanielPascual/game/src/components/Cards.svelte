@@ -30,6 +30,28 @@
   }
 </script>
 
+{#if faceDown}
+  <img
+    class="Cards {animation}"
+    id={noHighlight}
+    src="/assets/Cards/Deck.png"
+    alt="Face Down UNO card"
+    draggable={false}
+  />
+{:else}
+  <img
+    class="Cards {animation} {handClass}"
+    id={noHighlight}
+    src={value === "CC"
+      ? "/assets/Cards/Wild.png"
+      : `/assets/Cards/${color}_${value}.png`}
+    alt={`${color} - ${value}`}
+    draggable={false}
+    on:click={clickAction}
+    transition:slide
+  />
+{/if}
+
 <style>
   .Cards {
     height: 150px;
@@ -54,26 +76,21 @@
     }
   }
 
-  .Peek {
+  .Cards {
     position: relative;
+  }
+  .Peek {
     top: 0px;
   }
-
   .Peek:hover {
-    position: relative;
     top: -30px;
-    /* padding-bottom: 30px; */
   }
 
   .PeekDown {
-    position: relative;
     bottom: 0px;
   }
-
   .PeekDown:hover {
-    position: relative;
     bottom: -40px;
-    /* padding-bottom: 30px; */
   }
 
   .Hand {
@@ -86,25 +103,3 @@
     filter: brightness(50%) drop-shadow(-15px 15px 10px rgba(0, 0, 0, 0.5));
   }
 </style>
-
-{#if faceDown}
-  <img
-    class="Cards {animation}"
-    id={noHighlight}
-    src="/assets/Cards/Deck.png"
-    alt="Face Down UNO card"
-    draggable={false}
-  />
-{:else}
-  <img
-    class="Cards {animation} {handClass}"
-    id={noHighlight}
-    src={value === "CC"
-      ? "/assets/Cards/Wild.png"
-      : `/assets/Cards/${color}_${value}.png`}
-    alt={`${color} - ${value}`}
-    draggable={false}
-    on:click={clickAction}
-    transition:slide
-  />
-{/if}
