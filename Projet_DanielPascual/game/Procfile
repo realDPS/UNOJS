@@ -1,3 +1,0 @@
-command: npm install
-command: npm build
-web: node ./server/index.js
