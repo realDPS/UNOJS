@@ -34,4 +34,4 @@ A simple example of the gameplay
 
 ### Disclaimer
 
-This project was originally hosted on Heroku.services for hosting. However, since Heroku has removed its free tier, the app will need to be migrated to another platform.
+This project was originally hosted on Heroku.services. However, since Heroku has removed its free tier, the app will need to be migrated to another platform.
