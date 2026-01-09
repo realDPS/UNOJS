@@ -7,7 +7,8 @@
     "server": "nodemon ./server/index.js",
     "dev": "vite",
     "build": "vite build && tsc --esModuleInterop --removeComments ./server/index.ts ./type.d.ts",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "build_render":"node_modules/.bin/vite build && node_modules/.bin/tsc --esModuleInterop --removeComments ./server/index.ts ./type.d.ts"
   },
   "engines": {
     "node": "16.0.0"
