@@ -9,7 +9,7 @@ import {
   randomize,
   getRandomColor,
   generateDeck
-} from "./deckLogic";
+} from "./deckLogic.js";
 
 const app = express();
 const httpServer = require("http").createServer(app);
