@@ -3,6 +3,7 @@ import http from "http";
 
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
 import { Server } from "socket.io";
 import {
   getRandomCard,
@@ -11,6 +12,10 @@ import {
   getRandomColor,
   generateDeck
 } from "./deckLogic.js";
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const httpServer = http.createServer(app);
