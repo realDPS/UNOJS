@@ -1,4 +1,5 @@
 import express from "express";
+import http from "http";
 
 import cors from "cors";
 import path from "path";
@@ -12,7 +13,7 @@ import {
 } from "./deckLogic.js";
 
 const app = express();
-const httpServer = require("http").createServer(app);
+const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
   cors: {
     origin: "*",
