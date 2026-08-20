@@ -1,33 +1,34 @@
 <script context="module">
-  import { io } from "socket.io-client";
-
-  export const socket = io("http://localhost:3000", { reconnection: true });
+	import { io } from "socket.io-client";
+	export const socket = io({ reconnection: true });
+	//for DEV:
+	// export const socket = io("http://localhost:3000", { reconnection: true });
 </script>
 
 <script lang="ts">
-  import Game from "./components/Game.svelte";
-  import { GameState } from "@store";
+	import Game from "./components/Game.svelte";
+	import { GameState } from "@store";
 
-  import Modal from "./components/Modal.svelte";
+	import Modal from "./components/Modal.svelte";
 </script>
 
-<style>
-  :global(body) {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    display: grid;
-    place-items: center;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    margin: 0;
-  }
-</style>
-
 {#if !$GameState.gameStarted}
-  <Modal />
+	<Modal />
 {:else}
-  <Game />
+	<Game />
 {/if}
 {#if $GameState.winner !== null}
-  <Modal page={3} />
+	<Modal page={3} />
 {/if}
+
+<style>
+	:global(body) {
+		font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+		display: grid;
+		place-items: center;
+		height: 100vh;
+		width: 100vw;
+		overflow: hidden;
+		margin: 0;
+	}
+</style>
