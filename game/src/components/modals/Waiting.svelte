@@ -20,7 +20,7 @@
 	//AI player setup
 	$: if ($GameState.ai) {
 		setTimeout(() => {
-			socket.emit("joined", { name: "John AI", userID: "AI" });
+			socket.emit("joinRoom", $GameState.roomID, "John AI");
 		}, 2000);
 	}
 
