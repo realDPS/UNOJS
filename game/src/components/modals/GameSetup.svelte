@@ -21,7 +21,6 @@
 	function createRoom() {
 		if (numOfPlayers) {
 			$GameState.players[0].username = $username;
-			$GameState.ai = false;
 			$GameState.numOfPlayers = parseInt(numOfPlayers);
 
 			if ($GameState.numOfPlayers === 9) {

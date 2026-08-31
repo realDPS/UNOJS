@@ -22,7 +22,8 @@ export const GameState: Writable<GameState> = writable({
   drawDeck: [],
   topCard: null,
   winner: null,
-  currentColor: null
+  currentColor: null,
+  ai: false
 });
 
 export const username = writable("");
