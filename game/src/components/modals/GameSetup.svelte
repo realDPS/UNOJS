@@ -21,13 +21,13 @@
 	function createRoom() {
 		if (numOfPlayers) {
 			$GameState.players[0].username = $username;
-      $GameState.ai = false;
+			$GameState.ai = false;
 			$GameState.numOfPlayers = parseInt(numOfPlayers);
 
-      if($GameState.numOfPlayers === 9) {
-        $GameState.ai = true;
-        $GameState.numOfPlayers = 2;
-      }
+			if ($GameState.numOfPlayers === 9) {
+				$GameState.ai = true;
+				$GameState.numOfPlayers = 2;
+			}
 
 			console.log(socket.id);
 			$GameState.roomID = socket.id;
@@ -75,7 +75,11 @@
 >
 	<div class="Second-Container">
 		<div class="form-element">
-			<Select label="Number of Players" {textOptions} bind:value={numOfPlayers} />
+			<Select
+				label="Number of Players"
+				{textOptions}
+				bind:value={numOfPlayers}
+			/>
 		</div>
 		<Button text="Create" on:click={createRoom} />
 	</div>
@@ -118,4 +122,4 @@
 	.form-element {
 		width: 300px;
 	}
-</div>
+</style>
