@@ -11,10 +11,10 @@
 	let numOfPlayers: string;
 
 	let textOptions = [
-		{ id: 0, value: "9", text: "AI" },
-		{ id: 1, value: "2", text: "2 Players" },
-		{ id: 2, value: "3", text: "3 Players" },
-		{ id: 3, value: "4", text: "4 Players" },
+		{ id: 1, value: "9", text: "AI" },
+		{ id: 2, value: "2", text: "2 Players" },
+		{ id: 3, value: "3", text: "3 Players" },
+		{ id: 4, value: "4", text: "4 Players" },
 	];
 	console.log(socket.id);
 
