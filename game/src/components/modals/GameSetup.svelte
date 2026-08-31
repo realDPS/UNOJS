@@ -10,7 +10,7 @@
 
 	let numOfPlayers: string;
 
-	let textOptions = [
+	let options = [
 		{ id: 1, value: "9", text: "AI" },
 		{ id: 2, value: "2", text: "2 Players" },
 		{ id: 3, value: "3", text: "3 Players" },
@@ -74,11 +74,7 @@
 >
 	<div class="Second-Container">
 		<div class="form-element">
-			<Select
-				label="Number of Players"
-				{textOptions}
-				bind:value={numOfPlayers}
-			/>
+			<Select label="Number of Players" {options} bind:value={numOfPlayers} />
 		</div>
 		<Button text="Create" on:click={createRoom} />
 	</div>
