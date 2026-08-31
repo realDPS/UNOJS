@@ -19,34 +19,37 @@
 			$GameState.numOfPlayers;
 	}
 	//////////////
-	// function aiPlay()
+	function aiPlay() {
+		const cardArr = [...$GameState.players[player].cardArray];
+		const numbers = Array.from({ length: cardArr.length }, (_, i) => i);
+		const indexShuffled = numbers.sort(() => Math.random() - 0.5);
+
+		for (const index of indexShuffled) {
+			const clickedCard = cardArr[index];
+			const { color, value } = clickedCard;
+
+			if (
+				color === "Wild" ||
+				color === $GameState.currentColor ||
+				value === $GameState.topCard.value
+			) {
+				discardCard({ detail: index });
+				return;
+			}
+		}
+		//click draw pile if no playable card
+		console.log("AI has no playable card, drawing from pile");
+	}
 
 	$: if (
 		$GameState.ai &&
 		$GameState.currentPlayer === 1 &&
-		$GameState.players[1].turnToPlay
+		$GameState.players[1].turnToPlay &&
+		player === 1
 	) {
 		$GameState.players[1].turnToPlay = false;
 		setTimeout(() => {
-			const cardArr = [...$GameState.players[player].cardArray];
-			const numbers = Array.from({ length: cardArr.length }, (_, i) => i);
-			const indexShuffled = numbers.sort(() => Math.random() - 0.5);
-
-			for (const index of indexShuffled) {
-				const clickedCard = cardArr[index];
-				const { color, value } = clickedCard;
-
-				if (
-					color === "Wild" ||
-					color === $GameState.currentColor ||
-					value === $GameState.topCard.value
-				) {
-					discardCard({ detail: index });
-					return;
-				}
-			}
-			//click draw pile if no playable card
-			console.log("AI has no playable card, drawing from pile");
+			aiPlay();
 		}, 950);
 	}
 	//////////////
