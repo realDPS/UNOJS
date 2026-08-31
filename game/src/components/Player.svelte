@@ -19,37 +19,6 @@
 			(player + direction * jump + $GameState.numOfPlayers) %
 			$GameState.numOfPlayers;
 	}
-	//////////////
-	function aiPlay() {
-		const cardArr = [...$GameState.players[player].cardArray];
-		const numbers = Array.from({ length: cardArr.length }, (_, i) => i);
-		const indexShuffled = numbers.sort(() => Math.random() - 0.5);
-
-		for (const index of indexShuffled) {
-			const clickedCard = cardArr[index];
-			const { color, value } = clickedCard;
-
-			if (isMoveValid(clickedCard)) {
-				discardCardAI({ detail: index });
-				return;
-			}
-		}
-		//click draw pile if no playable card
-		console.log("AI has no playable card, drawing from pile");
-	}
-
-	$: if (
-		$GameState.ai &&
-		$GameState.currentPlayer === AI_ID &&
-		$GameState.players[AI_ID].turnToPlay &&
-		player === AI_ID
-	) {
-		$GameState.players[1].turnToPlay = false;
-		setTimeout(() => {
-			aiPlay();
-		}, 950);
-	}
-	//////////////
 
 	function isMoveValid(card: Card) {
 		const { color, value } = card;
@@ -76,34 +45,6 @@
 
 		if ($GameState.numOfPlayers === 2) {
 			if (cardEffect === "Reverse") nextPlayerTurn(2);
-		}
-	}
-
-	function discardCardAI({ detail: index }: { detail: number }) {
-		const clickedCard = $GameState.players[AI_ID].cardArray[index];
-		const { color, value } = clickedCard;
-
-		const playerData = $GameState.players[AI_ID];
-		playerData.cardArray.splice(index, AI_ID);
-		$GameState.drawDeck.push($GameState.topCard);
-
-		applyEffect(value);
-
-		$GameState.previousPlayer = AI_ID;
-		$GameState.topCard = clickedCard;
-		$GameState.currentColor = color;
-
-		//winner
-		if ($GameState.players[AI_ID].cardArray.length == 0) {
-			$GameState.winner = $GameState.players[AI_ID].username;
-		}
-
-		if ($GameState.ai && color === "Wild") {
-			$GameState.currentColor = "Red";
-			$GameState.players[AI_ID].turnToPlay = false;
-			$GameState.players[NEXTPLAYER].turnToPlay = true;
-			$GameState.currentPlayer = NEXTPLAYER;
-			socket.emit("updateState", $GameState);
 		}
 	}
 
