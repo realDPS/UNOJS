@@ -11,6 +11,7 @@
 	$: PlayerCards = $GameState.players[player].cardArray;
 
 	let NEXTPLAYER: number;
+	const AI_ID = 1;
 
 	function nextPlayerTurn(jump: number = 1) {
 		const direction = $GameState.isClockwise ? 1 : -1;
@@ -28,12 +29,8 @@
 			const clickedCard = cardArr[index];
 			const { color, value } = clickedCard;
 
-			if (
-				color === "Wild" ||
-				color === $GameState.currentColor ||
-				value === $GameState.topCard.value
-			) {
-				discardCard({ detail: index });
+			if (isMoveValid(clickedCard)) {
+				discardCardAI({ detail: index });
 				return;
 			}
 		}
@@ -43,9 +40,9 @@
 
 	$: if (
 		$GameState.ai &&
-		$GameState.currentPlayer === 1 &&
-		$GameState.players[1].turnToPlay &&
-		player === 1
+		$GameState.currentPlayer === AI_ID &&
+		$GameState.players[AI_ID].turnToPlay &&
+		player === AI_ID
 	) {
 		$GameState.players[1].turnToPlay = false;
 		setTimeout(() => {
@@ -54,41 +51,74 @@
 	}
 	//////////////
 
+	function isMoveValid(card: Card) {
+		const { color, value } = card;
+		return (
+			color === "Wild" ||
+			color === $GameState.currentColor ||
+			value === $GameState.topCard.value
+		);
+	}
+	function applyEffect(cardEffect: any) {
+		nextPlayerTurn();
+		switch (cardEffect) {
+			case "Draw":
+				$GameState.players[NEXTPLAYER].drewCard = true;
+				// nextPlayerTurn(2);
+				break;
+			case "Reverse":
+				$GameState.isClockwise = !$GameState.isClockwise;
+				break;
+			case "Skip":
+				nextPlayerTurn(2);
+				break;
+		}
+
+		if ($GameState.numOfPlayers === 2) {
+			if (cardEffect === "Reverse") nextPlayerTurn(2);
+		}
+	}
+
+	function discardCardAI({ detail: index }: { detail: number }) {
+		const clickedCard = $GameState.players[AI_ID].cardArray[index];
+		const { color, value } = clickedCard;
+
+		const playerData = $GameState.players[AI_ID];
+		playerData.cardArray.splice(index, AI_ID);
+		$GameState.drawDeck.push($GameState.topCard);
+
+		applyEffect(value);
+
+		$GameState.previousPlayer = AI_ID;
+		$GameState.topCard = clickedCard;
+		$GameState.currentColor = color;
+
+		//winner
+		if ($GameState.players[AI_ID].cardArray.length == 0) {
+			$GameState.winner = $GameState.players[AI_ID].username;
+		}
+
+		if ($GameState.ai && color === "Wild") {
+			$GameState.currentColor = "Red";
+			$GameState.players[AI_ID].turnToPlay = false;
+			$GameState.players[NEXTPLAYER].turnToPlay = true;
+			$GameState.currentPlayer = NEXTPLAYER;
+			socket.emit("updateState", $GameState);
+		}
+	}
+
 	function discardCard({ detail: index }: { detail: number }) {
 		const clickedCard = $GameState.players[player].cardArray[index];
 		const { color, value } = clickedCard;
 
-		if (
-			color === "Wild" ||
-			color === $GameState.currentColor ||
-			value === $GameState.topCard.value
-		) {
+		if (isMoveValid(clickedCard)) {
 			const playerData = $GameState.players[player];
 			playerData.cardArray.splice(index, 1);
-			// playerData.cardArray = [...playerData.cardArray];
 			$GameState.drawDeck.push($GameState.topCard);
 
-			nextPlayerTurn();
-
-			switch (value) {
-				case "Draw":
-					$GameState.players[NEXTPLAYER].drewCard = true;
-					// nextPlayerTurn(2);
-					break;
-				case "Reverse":
-					$GameState.isClockwise = !$GameState.isClockwise;
-					break;
-				case "Skip":
-					nextPlayerTurn(2);
-					break;
-			}
-
-			if ($GameState.numOfPlayers === 2) {
-				if (value === "Reverse") nextPlayerTurn(2);
-			}
+			applyEffect(value);
 
 			$GameState.previousPlayer = player;
-
 			$GameState.topCard = clickedCard;
 			$GameState.currentColor = color;
 
@@ -104,17 +134,9 @@
 				$GameState.currentPlayer = NEXTPLAYER;
 				socket.emit("updateState", $GameState);
 			}
-			/////////
-			if ($GameState.ai && color === "Wild") {
-				$GameState.currentColor = "Red";
-				$GameState.players[player].turnToPlay = false;
-				$GameState.players[NEXTPLAYER].turnToPlay = true;
-				$GameState.currentPlayer = NEXTPLAYER;
-				socket.emit("updateState", $GameState);
-			}
-			/////////
 		}
 	}
+
 	$: console.log("Player:", player, " ", $GameState.players[player].turnToPlay);
 </script>
 
