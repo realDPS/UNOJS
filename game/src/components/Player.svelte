@@ -34,7 +34,7 @@
 				value === $GameState.topCard.value
 			) {
 				console.log("AI played card:", clickedCard);
-				discardCard({ detail: indexShuffled[index] });
+				discardCard({ detail: index });
 				console.log("AI discard successful");
 				return;
 			}
