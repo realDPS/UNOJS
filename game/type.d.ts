@@ -45,6 +45,7 @@ interface GameState {
   topCard: CardType;
   winner: string;
   currentColor: Color;
+  ai: boolean;
 }
 
 type AnimationType = "Pulse" | "Peek" | "PeekDown" | "None";
