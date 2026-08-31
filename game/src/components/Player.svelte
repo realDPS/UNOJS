@@ -18,6 +18,31 @@
 			(player + direction * jump + $GameState.numOfPlayers) %
 			$GameState.numOfPlayers;
 	}
+	//////////////
+	function aiPlay() {
+		const copy = [...$GameState.players[player].cardArray];
+		const hand = [...copy].sort(() => Math.random() - 0.5);
+
+		for (let index = 0; index < hand.length; index++) {
+			const clickedCard = hand[index];
+			const { color, value } = clickedCard;
+
+			if (
+				color === "Wild" ||
+				color === $GameState.currentColor ||
+				value === $GameState.topCard.value
+			) {
+				discardCard({ detail: index });
+				return;
+			}
+		}
+	}
+	$: if ($GameState.players[1].turnToPlay && $GameState.ai) {
+		setTimeout(() => {
+			aiPlay();
+		}, 900);
+	}
+	//////////////
 
 	function discardCard({ detail: index }: { detail: number }) {
 		const clickedCard = $GameState.players[player].cardArray[index];
@@ -70,6 +95,19 @@
 				$GameState.currentPlayer = NEXTPLAYER;
 				socket.emit("updateState", $GameState);
 			}
+			/////////
+			if (
+				color === "Wild" &&
+				$GameState.players[1].turnToPlay &&
+				$GameState.ai
+			) {
+				$GameState.currentColor = "Red";
+				$GameState.players[player].turnToPlay = false;
+				$GameState.players[NEXTPLAYER].turnToPlay = true;
+				$GameState.currentPlayer = NEXTPLAYER;
+				socket.emit("updateState", $GameState);
+			}
+			/////////
 		}
 	}
 	$: console.log("Player:", player, " ", $GameState.players[player].turnToPlay);
