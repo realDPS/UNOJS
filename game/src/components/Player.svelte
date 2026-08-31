@@ -32,15 +32,13 @@
 				color === $GameState.currentColor ||
 				value === $GameState.topCard.value
 			) {
-				if ($GameState.players[player].turnToPlay) {
-					discardCard({ detail: index });
-				}
+				discardCard({ detail: index });
 			}
 		}
 	}
 	$: if ($GameState.players[1].turnToPlay && $GameState.ai) {
+		$GameState.players[1].turnToPlay = false;
 		setTimeout(() => {
-			$GameState.players[1].turnToPlay = false;
 			aiPlay();
 		}, 900);
 	}
