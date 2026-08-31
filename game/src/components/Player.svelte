@@ -19,37 +19,35 @@
 			$GameState.numOfPlayers;
 	}
 	//////////////
-	function aiPlay() {
-		const cardArr = [...$GameState.players[player].cardArray];
-		const numbers = Array.from({ length: cardArr.length }, (_, i) => i);
-		const indexShuffled = numbers.sort(() => Math.random() - 0.5);
+	// function aiPlay()
 
-		for (const index of indexShuffled) {
-			const clickedCard = cardArr[index];
-			const { color, value } = clickedCard;
-
-			if (
-				color === "Wild" ||
-				color === $GameState.currentColor ||
-				value === $GameState.topCard.value
-			) {
-				console.log("AI played card:", clickedCard);
-				discardCard({ detail: index });
-				console.log("AI discard successful");
-				return;
-			}
-		}
-		//click draw pile if no playable card
-		console.log("AI has no playable card, drawing from pile");
-	}
-	let aiThinking = false;
-	$: if ($GameState.ai && $GameState.currentPlayer === 1 && !aiThinking) {
+	$: if (
+		$GameState.ai &&
+		$GameState.currentPlayer === 1 &&
+		$GameState.players[1].turnToPlay
+	) {
 		$GameState.players[1].turnToPlay = false;
-		aiThinking = true;
 		setTimeout(() => {
-			aiPlay();
-			aiThinking = false;
-		}, 900);
+			const cardArr = [...$GameState.players[player].cardArray];
+			const numbers = Array.from({ length: cardArr.length }, (_, i) => i);
+			const indexShuffled = numbers.sort(() => Math.random() - 0.5);
+
+			for (const index of indexShuffled) {
+				const clickedCard = cardArr[index];
+				const { color, value } = clickedCard;
+
+				if (
+					color === "Wild" ||
+					color === $GameState.currentColor ||
+					value === $GameState.topCard.value
+				) {
+					discardCard({ detail: index });
+					return;
+				}
+			}
+			//click draw pile if no playable card
+			console.log("AI has no playable card, drawing from pile");
+		}, 950);
 	}
 	//////////////
 
