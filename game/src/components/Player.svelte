@@ -98,11 +98,7 @@
 				socket.emit("updateState", $GameState);
 			}
 			/////////
-			if (
-				color === "Wild" &&
-				$GameState.players[1].turnToPlay &&
-				$GameState.ai
-			) {
+			if (color === "Wild" && $GameState.ai) {
 				$GameState.currentColor = "Red";
 				$GameState.players[player].turnToPlay = false;
 				$GameState.players[NEXTPLAYER].turnToPlay = true;
