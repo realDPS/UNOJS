@@ -33,11 +33,14 @@
 				color === $GameState.currentColor ||
 				value === $GameState.topCard.value
 			) {
+				console.log("AI played card:", clickedCard);
 				discardCard({ detail: indexShuffled[index] });
+				console.log("AI discard successful");
 				return;
 			}
 		}
 		//click draw pile if no playable card
+		console.log("AI has no playable card, drawing from pile");
 	}
 	$: if ($GameState.players[1].turnToPlay && $GameState.ai) {
 		$GameState.players[1].turnToPlay = false;
@@ -58,7 +61,7 @@
 		) {
 			const playerData = $GameState.players[player];
 			playerData.cardArray.splice(index, 1);
-			playerData.cardArray = [...playerData.cardArray];
+			// playerData.cardArray = [...playerData.cardArray];
 			$GameState.drawDeck.push($GameState.topCard);
 
 			nextPlayerTurn();
