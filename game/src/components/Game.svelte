@@ -171,7 +171,7 @@
 					position="Up"
 				/>
 			{:else}
-				<Player player={1} position="Up" />
+				<PlayerAI player={1} position="Up" />
 			{/if}
 		</div>
 		<div />
