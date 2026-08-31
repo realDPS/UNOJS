@@ -39,6 +39,7 @@
 		}
 	}
 	$: if ($GameState.players[1].turnToPlay && $GameState.ai) {
+		$GameState.players[1].turnToPlay = false;
 		setTimeout(() => {
 			aiPlay();
 		}, 900);
