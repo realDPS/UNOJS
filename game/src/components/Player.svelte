@@ -20,11 +20,12 @@
 	}
 	//////////////
 	function aiPlay() {
-		const copy = [...$GameState.players[player].cardArray];
-		const hand = [...copy].sort(() => Math.random() - 0.5);
+		const cardArr = [...$GameState.players[player].cardArray];
+		const numbers = Array.from({ length: cardArr.length }, (_, i) => i);
+		const indexShuffled = numbers.sort(() => Math.random() - 0.5);
 
-		for (let index = 0; index < hand.length; index++) {
-			const clickedCard = hand[index];
+		for (const index of indexShuffled) {
+			const clickedCard = cardArr[index];
 			const { color, value } = clickedCard;
 
 			if (
@@ -32,9 +33,11 @@
 				color === $GameState.currentColor ||
 				value === $GameState.topCard.value
 			) {
-				discardCard({ detail: index });
+				discardCard({ detail: indexShuffled[index] });
+				return;
 			}
 		}
+		//click draw pile if no playable card
 	}
 	$: if ($GameState.players[1].turnToPlay && $GameState.ai) {
 		$GameState.players[1].turnToPlay = false;
@@ -53,10 +56,9 @@
 			color === $GameState.currentColor ||
 			value === $GameState.topCard.value
 		) {
-			$GameState.players[player].cardArray.splice(index, 1);
-			$GameState.players[player].cardArray = [
-				...$GameState.players[player].cardArray,
-			];
+			const playerData = $GameState.players[player];
+			playerData.cardArray.splice(index, 1);
+			playerData.cardArray = [...playerData.cardArray];
 			$GameState.drawDeck.push($GameState.topCard);
 
 			nextPlayerTurn();
