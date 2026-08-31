@@ -44,6 +44,7 @@
 	}
 	let aiThinking = false;
 	$: if ($GameState.ai && $GameState.currentPlayer === 1 && !aiThinking) {
+		$GameState.players[1].turnToPlay = false;
 		aiThinking = true;
 		setTimeout(() => {
 			aiPlay();
