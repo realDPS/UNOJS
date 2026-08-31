@@ -42,10 +42,12 @@
 		//click draw pile if no playable card
 		console.log("AI has no playable card, drawing from pile");
 	}
-	$: if ($GameState.players[1].turnToPlay && $GameState.ai) {
-		$GameState.players[1].turnToPlay = false;
+	let aiThinking = false;
+	$: if ($GameState.ai && $GameState.currentPlayer === 1 && !aiThinking) {
+		aiThinking = true;
 		setTimeout(() => {
 			aiPlay();
+			aiThinking = false;
 		}, 900);
 	}
 	//////////////
@@ -101,7 +103,7 @@
 				socket.emit("updateState", $GameState);
 			}
 			/////////
-			if (color === "Wild" && $GameState.ai) {
+			if ($GameState.ai && color === "Wild") {
 				$GameState.currentColor = "Red";
 				$GameState.players[player].turnToPlay = false;
 				$GameState.players[NEXTPLAYER].turnToPlay = true;
