@@ -17,6 +17,13 @@
 
 	$: console.log("GameStart: ", $GameState.gameStarted);
 
+	//AI player setup
+	$: if ($GameState.ai) {
+		setTimeout(() => {
+			socket.emit("joined", { name: "John AI", userID: "AI" });
+		}, 2000);
+	}
+
 	socket.on("joined", (name: string, userID: string) => {
 		//Only gameMaster can continue operation
 		if ($GameState.players[0].id === $ID) {
@@ -41,12 +48,6 @@
 				console.log(name, " joined");
 				socket.emit("accept", $GameState.roomID, name, true);
 				socket.emit("update", $GameState);
-				//AI player setup
-				if ($GameState.ai) {
-					setTimeout(() => {
-						socket.emit("joined", { name: "John AI", userID: "AI" });
-					}, 2000);
-				}
 			} else {
 				socket.emit("accept", ID, name, false);
 			}
