@@ -170,8 +170,6 @@
 					player={getPlayerIndex($GameState, enemies_position.top)}
 					position="Up"
 				/>
-			{:else}
-				<PlayerAI player={1} position="Up" />
 			{/if}
 		</div>
 		<div />

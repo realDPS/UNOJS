@@ -11,7 +11,6 @@
 	$: PlayerCards = $GameState.players[player].cardArray;
 
 	let NEXTPLAYER: number;
-	const AI_ID = 1;
 
 	function nextPlayerTurn(jump: number = 1) {
 		const direction = $GameState.isClockwise ? 1 : -1;
