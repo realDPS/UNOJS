@@ -32,8 +32,9 @@
 				color === $GameState.currentColor ||
 				value === $GameState.topCard.value
 			) {
-				discardCard({ detail: index });
-				return;
+				if ($GameState.players[player].turnToPlay) {
+					discardCard({ detail: index });
+				}
 			}
 		}
 	}
